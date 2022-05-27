@@ -1,8 +1,9 @@
+import AppRouter from "./Router";
 
 function App() {
   return (
     <div className="App">
-      <h1>My Home Manager</h1>
+      <AppRouter />
     </div>
   );
 }
