@@ -15,7 +15,7 @@ function WishList({ wListColumns, wListData }) {
           <tr key={item.id}>
             <td>{item.name}</td>
             <td>{item.categ}</td>
-            <td>{item.price}</td>
+            <td>{item.price.toLocaleString('ko-KR')}</td>
             <td>{item.desc}</td>
           </tr>
         ))}

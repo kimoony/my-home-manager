@@ -20,21 +20,17 @@ export const ThemeMode = styled.input`
   
 `;
 
-export const BtnWrapper = styled.div`
+export const BtnBox = styled.div`
   width: 100%;
-  display: flex;
-  justify-content: flex-end;
   margin-bottom: 20px;
 `;
 
 export const SignBtn = styled.button`
-  margin-right: 5px;
-  &:last-child {
-    margin-right: 50px;
-  }
+  margin-right: 30px;
+  float: right;
 `;
 
-export const ListWrapper = styled.div`
+export const ListBox = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;

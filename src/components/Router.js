@@ -3,6 +3,7 @@ import { HashRouter, Routes, Route, } from 'react-router-dom'
 import Home from '../routes/Home'
 import Profile from '../routes/Profile'
 import EditProfile from '../routes/EditProfile'
+// import Sign from './modals/Sign';
 
 function AppRouter() {
   return (

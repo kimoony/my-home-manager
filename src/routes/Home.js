@@ -1,21 +1,23 @@
-import AlarmList from '../components/AlarmList';
-import WishList from '../components/WishList';
-import React, { useEffect } from 'react';
-import ItemList from '../components/ItemList';
+import AlarmList from '../components/list/AlarmList';
+import WishList from '../components/list/WishList';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import ItemList from '../components/list/ItemList';
 import {
   Wrapper,
   Header,
   Title,
   ThemeMode,
-  BtnWrapper,
+  BtnBox,
   SignBtn,
-  ListWrapper,
+  ListBox,
   LeftBox,
   AllList,
   RightBox,
   TopList,
   BottomList
 } from '../styles/Home.style';
+import Sign from 'components/modals/Sign';
 
 
 
@@ -86,14 +88,14 @@ const wListData = [
     name: "카밈 울트라 엔진 에디티브",
     categ: "차량용품",
     price: 39900,
-    desc: "1+1+1 특가중"
+    desc: "블스원샷 같은거 1+1+1 특가중"
   },
   {
     id: 2,
     name: "스테인리스 316 양면 도마",
     categ: "주방용품",
     price: 33800,
-    desc: "스테인리스 SUS-316으로 제작된 프리엄 우생 도마"
+    desc: "스테인리스 SUS-316으로 제작된 프리엄 위생 도마"
   },
 ];
 
@@ -101,17 +103,29 @@ const wListData = [
 
 function Home() {
 
+  const [isLogIn, setIsLogIn] = useState(false);
+  const [onModal, setOnModal] = useState(false);
+
+  const navigate = useNavigate();
+
+  const openModal = () => {
+    setOnModal(true);
+  }
+  const closeModal = () => {
+    setOnModal(false);
+  }
+
   return (
     <Wrapper>
       <Header>
         <Title>Home Manager</Title>
         {/* <ThemeMode type="checkbox" text="a" /> */}
       </Header>
-      <BtnWrapper>
-        <SignBtn>Sign Up</SignBtn>
-        <SignBtn>Sign In</SignBtn>
-      </BtnWrapper>
-      <ListWrapper>
+      <BtnBox>
+        <SignBtn onClick={openModal}>Sign Up</SignBtn>
+        <Sign onModal={onModal} closeModal={closeModal} />
+      </BtnBox>
+      <ListBox>
         <LeftBox>
           <h3>전체리스트</h3>
           <AllList>
@@ -130,7 +144,7 @@ function Home() {
           </BottomList>
           <button>등록하기</button>
         </RightBox>
-      </ListWrapper>
+      </ListBox>
     </Wrapper>
   )
 }
