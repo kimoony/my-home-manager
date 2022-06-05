@@ -1,7 +1,7 @@
 import AlarmList from '../components/list/AlarmList';
 import WishList from '../components/list/WishList';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import ItemList from '../components/list/ItemList';
 import {
   Wrapper,
@@ -17,7 +17,7 @@ import {
   TopList,
   BottomList
 } from '../styles/Home.style';
-import Sign from 'components/modals/Sign';
+import SignForm from 'components/modals/SignForm';
 
 
 
@@ -123,7 +123,7 @@ function Home() {
       </Header>
       <BtnBox>
         <SignBtn onClick={openModal}>Sign Up</SignBtn>
-        <Sign onModal={onModal} closeModal={closeModal} />
+        <SignForm onModal={onModal} closeModal={closeModal} />
       </BtnBox>
       <ListBox>
         <LeftBox>

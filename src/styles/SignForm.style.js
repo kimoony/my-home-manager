@@ -43,11 +43,26 @@ export const CloseBtn = styled.button`
   margin-bottom: 20px;
 `;
 
+export const Title = styled.h1`
+  color: #fff;
+`;
+
 export const InputBox = styled.div`
   display: flex;
   flex-direction: column;
+  span {
+    align-self: flex-start;
+    color: red;
+    margin: 5px 0px;
+  }
 `;
+
+export const Input = styled.input`
+`;
+
 
 export const ToggleBtn = styled.span`
   color: #fff;
+  display: inline-block;
+  margin-top: 10px;
 `;
