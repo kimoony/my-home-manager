@@ -1,8 +1,9 @@
 import React from 'react';
-import { authService } from '../../firebase';
+import { authService } from '../../../firebase';
 import {
   FacebookAuthProvider,
   GoogleAuthProvider,
+  signInWithPopup
 } from "firebase/auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -22,7 +23,7 @@ function Auth() {
     } else if (name === "facebook") {
       provider = new FacebookAuthProvider();
     }
-    await authService.signInWithPopup(provider);
+    let user = await signInWithPopup(authService, provider);
   }
 
   return (
@@ -31,7 +32,7 @@ function Auth() {
         <button className='btn google-btn' name="google" onClick={onSocialClicik}>
           <FontAwesomeIcon icon={["fab", "google"]} /> Google 로그인
         </button>
-        <button className='btn github-btn' name="facebook" onClick={onSocialClicik}>
+        <button className='btn facebook-btn' name="facebook" onClick={onSocialClicik}>
           <FontAwesomeIcon icon={["fab", "facebook"]} /> Facebook 로그인
         </button>
       </div>

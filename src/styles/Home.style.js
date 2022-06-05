@@ -28,6 +28,7 @@ export const BtnBox = styled.div`
 export const SignBtn = styled.button`
   margin-right: 30px;
   float: right;
+  cursor: pointer;
 `;
 
 export const ListBox = styled.div`
@@ -47,7 +48,7 @@ export const LeftBox = styled.div`
   }
 `;
 
-export const AllList = styled.table`
+export const AllList = styled.div`
   width: 100%;
   height: 100%;
   border: 1px solid red;
@@ -68,16 +69,25 @@ export const RightBox = styled.div`
 `;
 
 
-export const TopList = styled.table`
+export const TopList = styled.div`
   width: 100%;
   height: 55%;
   padding: 10px;
   border: 1px solid blue;
 `;
 
-export const BottomList = styled.table`
+export const BottomList = styled.div`
   width: 100%;
   height: 56%;
   padding: 10px;
   border: 1px solid green;
+`;
+
+export const PostBtn = styled.button`
+  border: none;
+  border-radius: 5px;
+  background-color: #2986F5;
+  color: #fff;
+  padding: 5px 10px;
+  cursor: pointer;
 `;

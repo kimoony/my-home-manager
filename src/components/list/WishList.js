@@ -2,13 +2,11 @@ import React from 'react'
 
 function WishList({ wListColumns, wListData }) {
   return (
-    <>
+    <table>
       <thead>
-        <tr>
-          {wListColumns.map((colum) => (
-            <th key={colum}>{colum}</th>
-          ))}
-        </tr>
+        {wListColumns.map((colum) => (
+          <th key={colum}>{colum}</th>
+        ))}
       </thead>
       <tbody>
         {wListData.map((item) => (
@@ -20,7 +18,7 @@ function WishList({ wListColumns, wListData }) {
           </tr>
         ))}
       </tbody>
-    </>
+    </table>
   )
 }
 

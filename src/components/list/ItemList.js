@@ -4,13 +4,11 @@ function List({ aListColumns, aListData }) {
 
 
   return (
-    <>
+    <table>
       <thead>
-        <tr>
-          {aListColumns.map((colum) => (
-            <th key={colum}>{colum}</th>
-          ))}
-        </tr>
+        {aListColumns.map((colum) => (
+          <th key={colum}>{colum}</th>
+        ))}
       </thead>
       <tbody>
         {aListData.map((item) => (
@@ -26,7 +24,7 @@ function List({ aListColumns, aListData }) {
           </tr>
         ))}
       </tbody>
-    </>
+    </table>
   )
 }
 

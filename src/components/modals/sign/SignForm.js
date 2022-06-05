@@ -1,6 +1,11 @@
 import React, { useState, useRef } from 'react'
 import { useForm } from 'react-hook-form';
-import { authService } from '../../firebase';
+import { authService } from '../../../firebase';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { useNavigate } from 'react-router-dom';
 import {
   Wrapper,
   FormBox,
@@ -10,14 +15,19 @@ import {
   InputBox,
   Input,
   ToggleBtn
-} from '../../styles/SignForm.style';
+} from 'styles/SignForm.style';
 import Auth from './Auth';
 
-function SignForm({ closeModal, onModal }) {
+console.log(authService)
+
+function SignForm({ closeModal, onModal, setIsLogIn }) {
+  const navigate = useNavigate();
 
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
 
   const [newAccount, setNewAccount] = useState(true); // 전역관리
+
+
   const [errorFromSubmit, setErrorFromSubmit] = useState("");
   const password = useRef();
   password.current = watch("password");
@@ -27,21 +37,21 @@ function SignForm({ closeModal, onModal }) {
 
   const onSubmit = async (data) => {
     console.log(data)
+    let user;
     try {
       if (newAccount) {
-        await authService
-          .auth()
-          .createUserWithEmailAndPassword(
-            data.email, data.password
-          )
+        user = await createUserWithEmailAndPassword(
+          authService, data.email, data.password
+        )
+        setNewAccount(false)
       } else {
-        await authService
-          .auth()
-          .signInWithEmailAndPassword(
-            data.email, data.password
-          )
+        user = await signInWithEmailAndPassword(
+          authService, data.email, data.password
+        )
+        setIsLogIn(true)
+        navigate('/');
       }
-
+      console.log(user)
     } catch (error) {
       setErrorFromSubmit(error.message)
       console.error(error.message);
@@ -68,7 +78,7 @@ function SignForm({ closeModal, onModal }) {
                   name="email"
                   type="email"
                   placeholder='이메일'
-                  {...register({ required: true, pattern: /^\S+@\S+$/i })}
+                  {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
                 />
                 {errors.email && errors.email.type === "required" && (
                   <p>이메일은 반드시 입력해야합니다.</p>
@@ -79,7 +89,7 @@ function SignForm({ closeModal, onModal }) {
                 <Input
                   name="password"
                   type="password"
-                  {...register({ required: true, minLength: 8 })}
+                  {...register("password", { required: true, minLength: 8 })}
                   minLength={8}
                   placeholder='비밀번호 8자리 이상' />
                 {errors.password && errors.password.type === "required" && (
@@ -90,20 +100,20 @@ function SignForm({ closeModal, onModal }) {
                 )}
                 {newAccount ?
                   (<Input
-                    name="password"
+                    name="passwordConfirm"
                     type="password"
-                    {...register({
+                    {...register("passwordConfirm", {
                       required: true,
                       validate: (value) => value === password.current,
                     })}
                     placeholder='비밀번호를 재입력' />) : null}
-                {errors.password_confirm &&
-                  errors.password_confirm.type === "required" && (
+                {errors.passwordConfirm &&
+                  errors.passwordConfirm.type === "required" && (
                     <p>비밀번호 확인은 반드시 입력해야합니다.</p>
                   )}
-                {errors.password_confirm &&
-                  errors.password_confirm.type === "validate" && (
-                    <p>비밀번호와 비밀번호 확인이 일치하지 않습니다.</p>
+                {errors.passwordConfirm &&
+                  errors.passwordConfirm.type === "validate" && (
+                    <p>비밀번호가 일치하지 않습니다.</p>
                   )}
 
                 {errorFromSubmit && <p>{errorFromSubmit}</p>}

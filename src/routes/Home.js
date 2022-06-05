@@ -1,8 +1,5 @@
-import AlarmList from '../components/list/AlarmList';
-import WishList from '../components/list/WishList';
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import ItemList from '../components/list/ItemList';
 import {
   Wrapper,
   Header,
@@ -15,9 +12,15 @@ import {
   AllList,
   RightBox,
   TopList,
-  BottomList
+  BottomList,
+  PostBtn
 } from '../styles/Home.style';
-import SignForm from 'components/modals/SignForm';
+import SignForm from 'components/modals/sign/SignForm';
+import AlarmList from 'components/list/AlarmList';
+import WishList from 'components/list/WishList';
+import ItemList from 'components/list/ItemList';
+import ItemPost from 'components/modals/itemPost/ItemPost';
+import WishPost from 'components/modals/itemPost/WishPost';
 
 
 
@@ -104,15 +107,23 @@ const wListData = [
 function Home() {
 
   const [isLogIn, setIsLogIn] = useState(false);
-  const [onModal, setOnModal] = useState(false);
+  const [onModal, setOnModal] = useState(false); // 전역관리
+
 
   const navigate = useNavigate();
 
   const openModal = () => {
     setOnModal(true);
+    // console.log('open')
   }
   const closeModal = () => {
     setOnModal(false);
+  }
+
+  const SignOut = () => {
+    setIsLogIn(false);
+    navigate('/')
+    // user 정보 지우기
   }
 
   return (
@@ -122,8 +133,16 @@ function Home() {
         {/* <ThemeMode type="checkbox" text="a" /> */}
       </Header>
       <BtnBox>
-        <SignBtn onClick={openModal}>Sign Up</SignBtn>
-        <SignForm onModal={onModal} closeModal={closeModal} />
+        {isLogIn ? (
+          <>
+            <SignBtn onClick={SignOut}>로그아웃</SignBtn>
+            <SignBtn>마이페이지</SignBtn>
+          </>
+        ) : (
+          <SignBtn onClick={openModal}>회원가입</SignBtn>
+        )
+        }
+        <SignForm onModal={onModal} closeModal={closeModal} setIsLogIn={setIsLogIn} />
       </BtnBox>
       <ListBox>
         <LeftBox>
@@ -131,7 +150,10 @@ function Home() {
           <AllList>
             <ItemList aListColumns={aListColumns} aListData={aListData} />
           </AllList>
-          <button>등록하기</button>
+          <div>
+            <PostBtn onClick={openModal}>등록하기</PostBtn>
+            {/* <ItemPost onModal={onModal} closeModal={closeModal} /> */}
+          </div>
         </LeftBox>
         <RightBox>
           <h3>알림리스트</h3>
@@ -142,7 +164,10 @@ function Home() {
           <BottomList>
             <WishList wListColumns={wListColumns} wListData={wListData} />
           </BottomList>
-          <button>등록하기</button>
+          <div>
+            <PostBtn onClick={openModal}>등록하기</PostBtn>
+            {/* <WishPost onModal={onModal} closeModal={closeModal} /> */}
+          </div>
         </RightBox>
       </ListBox>
     </Wrapper>
