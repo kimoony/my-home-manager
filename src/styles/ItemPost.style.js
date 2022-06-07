@@ -19,6 +19,8 @@ export const Form = styled.form`
   align-items: center;
 `;
 
+
+
 export const Header = styled.div`
   width: 100%;
   display: flex;
@@ -26,28 +28,36 @@ export const Header = styled.div`
   align-items: center;
 `;
 
-export const BtnBox = styled.div`
+
+
+export const Main = styled.div`
   display: flex;
-  justify-content: flex-start;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Footer = styled.div`
+  display: flex;
+`;
+
+
+export const PostBtn = styled.button`
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #2986F5;
+  color: #fff;
+  cursor: pointer;
 `;
 
 export const GoBack = styled.button`
-  padding: 5px;
+  padding: 5px 10px;
   border: none;
   border-radius: 5px;
   background-color: #F9567A;
   color: #fff;
-`;
-
-export const Title = styled.h1`
-  
-`;
-
-export const Footer = styled.div`
-
-`;
-
-export const PostBtn = styled.button`
-
+  margin-right: 20px;
+  cursor: pointer;
 `;
 
