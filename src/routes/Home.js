@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { authService } from '../firebase';
 import {
   Wrapper,
   Header,
@@ -19,8 +20,9 @@ import SignForm from 'components/modals/sign/SignForm';
 import AlarmList from 'components/list/AlarmList';
 import WishList from 'components/list/WishList';
 import ItemList from 'components/list/ItemList';
-import ItemPost from 'components/modals/itemPost/ItemPost';
-import WishPost from 'components/modals/itemPost/WishPost';
+import ItemPost from 'routes/ItemPost';
+import WishPost from 'routes/WishPost';
+import { onAuthStateChanged } from 'firebase/auth';
 
 
 
@@ -109,12 +111,18 @@ function Home() {
   const [isLogIn, setIsLogIn] = useState(false);
   const [onModal, setOnModal] = useState(false); // 전역관리
 
-
   const navigate = useNavigate();
+
+  useEffect(() => {
+    onAuthStateChanged(authService, (user) => {
+      if (user) {
+        console.log(user)
+      }
+    })
+  }, [])
 
   const openModal = () => {
     setOnModal(true);
-    // console.log('open')
   }
   const closeModal = () => {
     setOnModal(false);
@@ -150,10 +158,9 @@ function Home() {
           <AllList>
             <ItemList aListColumns={aListColumns} aListData={aListData} />
           </AllList>
-          <div>
-            <PostBtn onClick={openModal}>등록하기</PostBtn>
-            {/* <ItemPost onModal={onModal} closeModal={closeModal} /> */}
-          </div>
+          <Link to='item-post'>
+            <PostBtn>등록하기</PostBtn>
+          </Link>
         </LeftBox>
         <RightBox>
           <h3>알림리스트</h3>
@@ -164,10 +171,9 @@ function Home() {
           <BottomList>
             <WishList wListColumns={wListColumns} wListData={wListData} />
           </BottomList>
-          <div>
-            <PostBtn onClick={openModal}>등록하기</PostBtn>
-            {/* <WishPost onModal={onModal} closeModal={closeModal} /> */}
-          </div>
+          <Link to='wish-post'>
+            <PostBtn>등록하기</PostBtn>
+          </Link>
         </RightBox>
       </ListBox>
     </Wrapper>

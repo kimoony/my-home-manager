@@ -48,8 +48,7 @@ function SignForm({ closeModal, onModal, setIsLogIn }) {
         user = await signInWithEmailAndPassword(
           authService, data.email, data.password
         )
-        setIsLogIn(true)
-        navigate('/');
+        closeModal();
       }
       console.log(user)
     } catch (error) {

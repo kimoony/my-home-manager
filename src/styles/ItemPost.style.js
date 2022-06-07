@@ -1,44 +1,53 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-  position: absolute;
   width: 100%;
   height: 100%;
-  z-index: 100;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, .3);
-`;
-
-export const FormBox = styled.div`
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  max-height: 80%;
-  width: 20rem;
-  height: 80%;
-  padding: 16px;
-  background: rgb(25, 31, 44);
-  border-radius: 10px;
-  text-align: center;
 `;
 
 export const Form = styled.form`
+  width: 90vw;
+  height: 90vh;
+  margin-top: 20px;
+  border: 1px solid blue;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
-export const CloseBtn = styled.button`
+export const Header = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const BtnBox = styled.div`
+  display: flex;
+  justify-content: flex-start;
+`;
+
+export const GoBack = styled.button`
+  padding: 5px;
   border: none;
   border-radius: 5px;
+  background-color: #F9567A;
   color: #fff;
-  background-color: rgb(25, 31, 44);
-  float: right;
-  margin-bottom: 20px;
 `;
+
+export const Title = styled.h1`
+  
+`;
+
+export const Footer = styled.div`
+
+`;
+
+export const PostBtn = styled.button`
+
+`;
+

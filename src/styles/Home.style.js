@@ -45,17 +45,15 @@ export const LeftBox = styled.div`
   button {
     margin-top: 5px;
     float: right;
+    margin-right: 10px;
   }
 `;
 
 export const AllList = styled.div`
-  width: 100%;
+  width: 95%;
   height: 100%;
   border: 1px solid red;
   padding: 10px 15px;
-  th {
-    border-bottom: 1px solid black;
-  }
 `;
 
 export const RightBox = styled.div`
@@ -65,20 +63,21 @@ export const RightBox = styled.div`
   button {
     margin-top: 5px;
     float: right;
+    margin-right: -15px;
   }
 `;
 
 
 export const TopList = styled.div`
   width: 100%;
-  height: 55%;
+  height: 50%;
   padding: 10px;
   border: 1px solid blue;
 `;
 
 export const BottomList = styled.div`
   width: 100%;
-  height: 56%;
+  height: 55.7%;
   padding: 10px;
   border: 1px solid green;
 `;
