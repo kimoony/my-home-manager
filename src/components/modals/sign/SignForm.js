@@ -49,6 +49,7 @@ function SignForm({ closeModal, onModal, setIsLogIn }) {
           authService, data.email, data.password
         )
         closeModal();
+        setIsLogIn(true);
       }
       console.log(user)
     } catch (error) {

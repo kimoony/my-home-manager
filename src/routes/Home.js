@@ -111,13 +111,13 @@ function Home() {
   const [isLogIn, setIsLogIn] = useState(false);
   const [onModal, setOnModal] = useState(false); // 전역관리
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     onAuthStateChanged(authService, (user) => {
       if (user) {
-        console.log(user)
-      }
+        setIsLogIn(true);
+      } console.log(user)
     })
   }, [])
 
@@ -130,8 +130,8 @@ function Home() {
 
   const SignOut = () => {
     setIsLogIn(false);
-    navigate('/')
-    // user 정보 지우기
+    // user sign out
+    authService.signOut();
   }
 
   return (
