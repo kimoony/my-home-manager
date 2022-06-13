@@ -9,7 +9,7 @@ import {
   StorageLocation,
   Purchase,
   Description
-} from 'styles/ItemInputList.style';
+} from 'styles/ItemInputForm.style';
 
 function ItemInputList() {
   const [quantity, setQuntity] = useState(0);

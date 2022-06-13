@@ -1,7 +1,7 @@
 import React from 'react'
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import ItemInputList from 'components/ItemInputList';
+import ItemInputForm from 'components/ItemInputForm';
 import {
   Wrapper,
   Form,
@@ -29,7 +29,7 @@ function ItemPost() {
           </h1>
         </Header>
         <Main>
-          <ItemInputList />
+          <ItemInputForm />
         </Main>
         <Footer>
           <Link to='/'>
