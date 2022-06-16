@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { authService } from '../firebase';
+import { authService, database } from '../firebase';
+import { doc, getDoc } from "firebase/firestore";
 import {
   Wrapper,
   Header,
@@ -110,6 +111,7 @@ function Home() {
 
   const [isLogIn, setIsLogIn] = useState(false);
   const [onModal, setOnModal] = useState(false); // 전역관리
+  const [wishItems, setWishItems] = useState("");
 
   // const navigate = useNavigate();
 
@@ -117,8 +119,12 @@ function Home() {
     onAuthStateChanged(authService, (user) => {
       if (user) {
         setIsLogIn(true);
-      } console.log(user)
+      }
     })
+  }, [])
+
+  useEffect(() => {
+
   }, [])
 
   const openModal = () => {

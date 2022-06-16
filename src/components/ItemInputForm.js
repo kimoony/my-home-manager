@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { quantityState } from '../atoms';
 import {
   Container,
   Image,
@@ -11,9 +13,18 @@ import {
   Description
 } from 'styles/ItemInputForm.style';
 
-function ItemInputList() {
-  const [quantity, setQuntity] = useState(0);
+function ItemInputList({ write }) {
+  const [quantity, setQuntity] = useRecoilState(quantityState);
   const [attachment, setAttachment] = useState("");
+  const [viewInput, setViewInput] = useState(false);
+
+  const onClickAdd = () => {
+    setViewInput(true)
+  }
+
+  const addOption = () => {
+
+  }
 
   const onFileChange = (e) => {
     const {
@@ -45,13 +56,27 @@ function ItemInputList() {
     <Container>
       <Image>
         <label>이미지 </label>
-        <img src={attachment} alt="" onChange={onFileChange} />
-        {/* <input type="image" accept="image/*" src={attachment}  /> */}
+        <input type="file" accept="image/*" src={attachment} />
       </Image>
       <Ctag>
-        <label>카테고리 </label>
-        <select name="" id="">
-          <option value=""></option>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <label>카테고리 </label>
+          {viewInput ?
+            null :
+            <input type="button" value="+" onClick={onClickAdd} />
+          }
+          {
+            viewInput ?
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <input type="text" />
+                <input type="button" value="추가" onClick={onClickAdd} />
+                <input type="button" value="취소" onClick={() => setViewInput(false)} />
+              </div>
+              : null
+          }
+        </div>
+        <select name="category">
+          <option value="default">선택</option>
         </select>
       </Ctag>
       <ItemName>

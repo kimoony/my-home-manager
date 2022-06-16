@@ -36,7 +36,7 @@ function SignForm({ closeModal, onModal, setIsLogIn }) {
   const toggleAccount = () => setNewAccount(prev => !prev);
 
   const onSubmit = async (data) => {
-    console.log(data)
+    // console.log(data)
     let user;
     try {
       if (newAccount) {
@@ -54,7 +54,7 @@ function SignForm({ closeModal, onModal, setIsLogIn }) {
       console.log(user)
     } catch (error) {
       setErrorFromSubmit(error.message)
-      console.error(error.message);
+      // console.error(error.message);
     }
   }
 

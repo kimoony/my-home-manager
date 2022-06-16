@@ -42,7 +42,7 @@ export const Footer = styled.div`
 `;
 
 
-export const PostBtn = styled.button`
+export const PostBtn = styled.input`
   padding: 5px 10px;
   border: none;
   border-radius: 5px;
