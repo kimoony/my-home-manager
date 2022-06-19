@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { authService, database } from '../firebase';
-import { doc, getDoc } from "firebase/firestore";
+import { authService } from '../firebase';
+import { useRecoilState } from 'recoil';
+import { loginState } from '../atoms';
 import {
   Wrapper,
   Header,
@@ -109,7 +110,7 @@ const wListData = [
 
 function Home() {
 
-  const [isLogIn, setIsLogIn] = useState(false);
+  const [isLogIn, setIsLogIn] = useRecoilState(loginState);
   const [onModal, setOnModal] = useState(false); // 전역관리
   const [wishItems, setWishItems] = useState("");
 
@@ -138,6 +139,7 @@ function Home() {
     setIsLogIn(false);
     // user sign out
     authService.signOut();
+    alert("로그아웃 되었습니다!")
   }
 
   return (

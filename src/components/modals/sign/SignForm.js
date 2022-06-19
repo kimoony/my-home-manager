@@ -50,6 +50,7 @@ function SignForm({ closeModal, onModal, setIsLogIn }) {
         )
         closeModal();
         setIsLogIn(true);
+        alert("로그인 완료!")
       }
       console.log(user)
     } catch (error) {

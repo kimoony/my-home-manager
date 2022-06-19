@@ -1,9 +1,14 @@
 import React from 'react'
+import { useRecoilState } from 'recoil';
+import { loginState } from '../../atoms';
+
 
 function AlarmList({ aListData }) {
+  const [isLogIn, setIsLogIn] = useRecoilState(loginState);
+
   return (
     <>
-      {
+      {isLogIn ? (
         aListData.map((it) => (
           <div key={it.id}>
             {
@@ -13,6 +18,7 @@ function AlarmList({ aListData }) {
             }
           </div>
         ))
+      ) : null
       }
     </>
   )

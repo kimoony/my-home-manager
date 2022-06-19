@@ -16,14 +16,15 @@ import {
 function ItemInputList({ write }) {
   const [quantity, setQuntity] = useRecoilState(quantityState);
   const [attachment, setAttachment] = useState("");
+  const [newCateg, setNewCateg] = useState([])
   const [viewInput, setViewInput] = useState(false);
 
   const onClickAdd = () => {
     setViewInput(true)
   }
 
-  const addOption = () => {
-
+  const addCateg = (e) => {
+    setNewCateg(e.target.value)
   }
 
   const onFileChange = (e) => {
@@ -68,8 +69,8 @@ function ItemInputList({ write }) {
           {
             viewInput ?
               <div style={{ display: "flex", alignItems: "center" }}>
-                <input type="text" />
-                <input type="button" value="추가" onClick={onClickAdd} />
+                <input type="text" onChange={addCateg} />
+                <input type="button" value="추가" />
                 <input type="button" value="취소" onClick={() => setViewInput(false)} />
               </div>
               : null
@@ -77,6 +78,7 @@ function ItemInputList({ write }) {
         </div>
         <select name="category">
           <option value="default">선택</option>
+          <option value="">{newCateg}</option>
         </select>
       </Ctag>
       <ItemName>
