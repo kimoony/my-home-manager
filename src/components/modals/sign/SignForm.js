@@ -51,6 +51,7 @@ function SignForm({ closeModal, onModal, setIsLogIn }) {
         closeModal();
         setIsLogIn(true);
         alert("로그인 완료!")
+        navigate('edit-profile')
       }
       console.log(user)
     } catch (error) {

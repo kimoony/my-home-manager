@@ -1,8 +1,16 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 function EditProfile() {
+
+
   return (
-    <div>EditProfile</div>
+    <div>
+      <div>EditProfile</div>
+      <Link to='/'>
+        <button>Home</button>
+      </Link>
+    </div>
   )
 }
 

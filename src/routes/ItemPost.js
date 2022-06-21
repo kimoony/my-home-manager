@@ -14,20 +14,6 @@ import {
 } from 'styles/ItemPost.style';
 
 function ItemPost() {
-  const dataId = useRef(1);
-
-  const [quantity, setQuntity] = useState(0);
-
-  const [write, setWrite] = useState({
-    id: dataId,
-    catag: [],
-    name: "",
-    quantity: quantity,
-    storageLocation: "",
-    purchase: "",
-    method: [],
-    desc: ""
-  })
 
   const navigate = useNavigate();
 
@@ -55,7 +41,7 @@ function ItemPost() {
           </h1>
         </Header>
         <Main>
-          <ItemInputForm write={write} quantity={setQuntity} />
+          <ItemInputForm />
         </Main>
         <Footer>
           <Link to='/'>

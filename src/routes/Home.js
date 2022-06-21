@@ -114,7 +114,7 @@ function Home() {
   const [onModal, setOnModal] = useState(false); // 전역관리
   const [wishItems, setWishItems] = useState("");
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     onAuthStateChanged(authService, (user) => {
@@ -142,6 +142,22 @@ function Home() {
     alert("로그아웃 되었습니다!")
   }
 
+  const isLogedInPost = () => {
+    if (isLogIn) {
+      navigate('item-post')
+    } else {
+      openModal()
+    }
+  }
+
+  const isLogedInWish = () => {
+    if (isLogIn) {
+      navigate('wish-post')
+    } else {
+      openModal()
+    }
+  }
+
   return (
     <Wrapper>
       <Header>
@@ -152,7 +168,9 @@ function Home() {
         {isLogIn ? (
           <>
             <SignBtn onClick={SignOut}>로그아웃</SignBtn>
-            <SignBtn>마이페이지</SignBtn>
+            <Link to='profile'>
+              <SignBtn>마이페이지</SignBtn>
+            </Link>
           </>
         ) : (
           <SignBtn onClick={openModal}>회원가입</SignBtn>
@@ -166,9 +184,7 @@ function Home() {
           <AllList>
             <ItemList aListColumns={aListColumns} aListData={aListData} />
           </AllList>
-          <Link to='item-post'>
-            <PostBtn>등록하기</PostBtn>
-          </Link>
+          <PostBtn onClick={isLogedInPost}>등록하기</PostBtn>
         </LeftBox>
         <RightBox>
           <h3>알림리스트</h3>
@@ -179,9 +195,7 @@ function Home() {
           <BottomList>
             <WishList wListColumns={wListColumns} wListData={wListData} />
           </BottomList>
-          <Link to='wish-post'>
-            <PostBtn>등록하기</PostBtn>
-          </Link>
+          <PostBtn onClick={isLogedInWish}>등록하기</PostBtn>
         </RightBox>
       </ListBox>
     </Wrapper>
