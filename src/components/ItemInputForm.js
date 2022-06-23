@@ -13,11 +13,12 @@ import {
 
 function ItemInputList({
   register,
+  errors,
   selectCateg,
   setSelectCateg,
   setNewName,
   quantity,
-  setQuntity,
+  setQuantity,
   setsLocation,
   setPurchase,
   setPMethod,
@@ -51,7 +52,7 @@ function ItemInputList({
   }
   optionKey.current += 1;
 
-  const addSelectCateg = (e) => {
+  const selectCategory = (e) => {
     setSelectCateg(e.target.value)
   }
   console.log(COptions)
@@ -75,14 +76,15 @@ function ItemInputList({
     setNewName(e.target.value)
   }
 
+  const quantityChange = (e) => {
+    setQuantity(e.target.value)
+  }
   const addQuantity = (e) => {
-    e.preventDefault();
-    setQuntity((prev) => prev + 1)
+    setQuantity((prev) => Number(prev) + 1)
   }
   const minusQuantity = (e) => {
-    e.preventDefault();
     if (quantity > 0) {
-      setQuntity((prev) => prev - 1)
+      setQuantity((prev) => Number(prev) - 1)
     }
   }
 
@@ -133,7 +135,7 @@ function ItemInputList({
         <select
           name="category"
           value={selectCateg}
-          onChange={addSelectCateg}
+          onChange={selectCategory}
         >
           {
             COptions.map((cOption) => (
@@ -149,9 +151,13 @@ function ItemInputList({
       <Quantity>
         <label>수량 </label>
         <NumInput>
-          <button onClick={minusQuantity}>-</button>
-          <input type="number" name="quantity" value={quantity} />
-          <button onClick={addQuantity}>+</button>
+          <button type="button" onClick={minusQuantity}>-</button>
+          <input
+            type="number"
+            value={quantity}
+            onChange={quantityChange}
+          />
+          <button type="button" onClick={addQuantity}>+</button>
         </NumInput>
       </Quantity>
       <StorageLocation>
@@ -164,7 +170,9 @@ function ItemInputList({
         <select onChange={purchaseMethod}>
           {
             POptions.map((pOption) => (
-              <option key={pOption.key} value={pOption.value}>{pOption.value}</option>
+              <option key={pOption.key} value={pOption.value}>
+                {pOption.value}
+              </option>
             ))
           }
         </select>

@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { db } from '../firebase';
-import { collection, doc, addDoc } from 'firebase/firestore'
+import { collection, addDoc } from 'firebase/firestore'
 import ItemInputForm from 'components/ItemInputForm';
 import {
   Wrapper,
@@ -13,15 +13,13 @@ import {
   Footer,
   PostBtn,
 } from 'styles/ItemPost.style';
-import { useRecoilState } from 'recoil';
-import { quantityState } from 'atoms';
 
 function ItemPost() {
-  const [selectCateg, setSelectCateg] = useState()
+  const [selectCateg, setSelectCateg] = useState();
   // 물품명
   const [newName, setNewName] = useState("");
   // 수량
-  const [quantity, setQuntity] = useRecoilState(quantityState);
+  const [quantity, setQuantity] = useState(0);
   // 보관 위치
   const [sLocation, setsLocation] = useState("");
   // 구매처
@@ -31,10 +29,10 @@ function ItemPost() {
   // 설명
   const [descript, setDescript] = useState("");
 
+  const { register, handleSubmit, watch, formState: { errors } } = useForm();
 
   const navigate = useNavigate();
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
-  const dataId = useRef(0)
+  const dataId = useRef(1)
 
   const onSubmit = async () => {
     try {
@@ -68,11 +66,12 @@ function ItemPost() {
         <Main>
           <ItemInputForm
             register={register}
+            errors={errors}
             selectCateg={selectCateg}
             setSelectCateg={setSelectCateg}
             setNewName={setNewName}
             quantity={quantity}
-            setQuntity={setQuntity}
+            setQuantity={setQuantity}
             setsLocation={setsLocation}
             setPurchase={setPurchase}
             setPMethod={setPMethod}
@@ -83,7 +82,7 @@ function ItemPost() {
           <Link to='/'>
             <GoBack>뒤로가기</GoBack>
           </Link>
-          <PostBtn type="submit" value="등록하기" />
+          <PostBtn type="button" value="등록하기" />
         </Footer>
       </Form>
     </Wrapper >
