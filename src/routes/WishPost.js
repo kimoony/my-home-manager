@@ -1,6 +1,8 @@
-import React from 'react';
-import { Link } from 'react-router-dom'
+import React, { useRef, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
+import { db } from '../firebase';
+import { collection, addDoc } from 'firebase/firestore'
 import WishInputForm from 'components/WishInputForm'
 import {
   Wrapper,
@@ -13,10 +15,32 @@ import {
 } from 'styles/WishPost.style';
 
 function WishPost() {
+  const [wCateg, setWCateg] = useState();
+  const [wItemName, setWItemName] = useState("");
+  const [price, setPrice] = useState(0);
+  const [wDesc, setWDesc] = useState("")
+
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
 
-  const onSubmit = () => {
+  const wDataId = useRef(1)
+  const navigate = useNavigate();
 
+  const onSubmit = async () => {
+    try {
+      const docRef = await addDoc(collection(db, "wishItems"), {
+        id: wDataId,
+        catag: wCateg,
+        name: wItemName,
+        price: price,
+        descript: wDesc
+      })
+      wDataId.current += 1
+      console.log("Document written with ID: ", docRef.id);
+      navigate('/');
+      alert("등록이 완료되었습니다.")
+    } catch (error) {
+      console.error(error.message);
+    }
   }
 
   return (
@@ -28,7 +52,16 @@ function WishPost() {
           </h1>
         </Header>
         <Main>
-          <WishInputForm />
+          <WishInputForm
+            register={register}
+            errors={errors}
+            wCateg={wCateg}
+            setWCateg={setWCateg}
+            setWItemName={setWItemName}
+            price={price}
+            setPrice={setPrice}
+            setWDesc={setWDesc}
+          />
         </Main>
         <Footer>
           <Link to='/'>
