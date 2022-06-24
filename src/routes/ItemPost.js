@@ -4,6 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { db } from '../firebase';
 import { collection, addDoc } from 'firebase/firestore'
 import ItemInputForm from 'components/ItemInputForm';
+import { useRecoilState } from 'recoil';
+import { nowTime } from '../atoms';
 import {
   Wrapper,
   Form,
@@ -13,6 +15,8 @@ import {
   Footer,
   PostBtn,
 } from 'styles/ItemPost.style';
+
+
 
 function ItemPost() {
   const [selectCateg, setSelectCateg] = useState();
@@ -28,6 +32,8 @@ function ItemPost() {
   const [pMethod, setPMethod] = useState()
   // 설명
   const [descript, setDescript] = useState("");
+  // 작성시간
+  const [writeTime, setWriteTime] = useRecoilState(nowTime);
 
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
 
@@ -44,7 +50,8 @@ function ItemPost() {
         storageLocation: sLocation,
         purchase: purchase,
         pMethod: pMethod,
-        descript: descript
+        descript: descript,
+        createDate: writeTime,
       })
       dataId.current += 1
       console.log("Document written with ID: ", docRef.id);
@@ -82,7 +89,7 @@ function ItemPost() {
           <Link to='/'>
             <GoBack>뒤로가기</GoBack>
           </Link>
-          <PostBtn type="button" value="등록하기" />
+          <PostBtn type='submit' value="등록하기" />
         </Footer>
       </Form>
     </Wrapper >
