@@ -1,15 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil';
 import { loginState } from '../../atoms';
+import { db } from '../../firebase';
+import { collection, getDocs } from "firebase/firestore";
 
 
-function AlarmList({ aListData }) {
+function AlarmList() {
   const [isLogIn, setIsLogIn] = useRecoilState(loginState);
+  const [getItems, setGetItems] = useState([])
+
+  useEffect(() => {
+    const getData = async () => {
+      const data = await getDocs(collection(db, "items"));
+      setGetItems(data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id
+      })))
+    }
+    getData()
+  }, [])
 
   return (
     <>
       {isLogIn ? (
-        aListData.map((it) => (
+        getItems.map((it) => (
           <div key={it.id}>
             {
               it.quantity <= 3 ?

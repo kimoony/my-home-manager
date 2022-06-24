@@ -1,29 +1,40 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil';
 import { loginState } from '../../atoms';
+import { db } from '../../firebase';
+import { collection, getDocs } from "firebase/firestore";
 
 
-function WishList({ wListColumns, wListData }) {
+function WishList() {
   const [isLogIn, setIsLogIn] = useRecoilState(loginState);
+  const [getWish, setGetWish] = useState([])
+
+
+  useEffect(() => {
+    const getData = async () => {
+      const data = await getDocs(collection(db, "wishItems"));
+      setGetWish(data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id
+      })))
+    }
+    getData()
+  }, [])
 
   return (
-    <table style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%", height: "100%" }}>
-      <thead style={{ display: "flex", justifyContent: "space-around", alignItems: "center", width: "100%" }}>
-        {wListColumns.map((colum) => (
-          <th key={colum}>{colum}</th>
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%", height: "100%" }}>
+      {isLogIn ? (<div>
+        {getWish.map((item) => (
+          <div key={item.id}>
+            <div>{item.name}</div>
+            <div>{item.categ}</div>
+            <div>{item.price}</div>
+            <div>{item.descript}</div>
+            <div>{item.createDate}</div>
+          </div>
         ))}
-      </thead>
-      {isLogIn ? (<tbody>
-        {wListData.map((item) => (
-          <tr key={item.id}>
-            <td>{item.name}</td>
-            <td>{item.categ}</td>
-            <td>{item.price.toLocaleString('ko-KR')}</td>
-            <td>{item.desc}</td>
-          </tr>
-        ))}
-      </tbody>) : null}
-    </table>
+      </div>) : null}
+    </div>
   )
 }
 
