@@ -4,6 +4,9 @@ import { useRecoilState } from 'recoil';
 import { loginState, nowTime } from '../../atoms';
 import { db } from '../../firebase';
 import { collection, getDocs } from "firebase/firestore";
+import {
+  ListContainer
+} from '../../styles/list/ItemList.style';
 
 function List() {
   const [isLogIn, setIsLogIn] = useRecoilState(loginState);
@@ -21,9 +24,7 @@ function List() {
   }, [])
 
   return (
-    <div
-    // style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%", height: "100%" }}
-    >
+    <ListContainer>
       {
         isLogIn ? (
           <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-around", alignItems: "center", width: "100%", height: "100%" }}>
@@ -43,7 +44,7 @@ function List() {
           </div>
         )
       }
-    </div >
+    </ListContainer >
 
   )
 }

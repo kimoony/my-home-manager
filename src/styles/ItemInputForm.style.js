@@ -1,12 +1,18 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  width: 375px;
+  width: 50vw;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 30px 0px;
+  align-items: center;
+  justify-content: space-around;
+  margin: 10px 0px;
 `;
+
+export const LeftContainer = styled.div`
+  
+`
+export const RightContainer = styled.div`
+`
 
 export const Image = styled.div`
   display: flex;
