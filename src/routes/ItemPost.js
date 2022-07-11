@@ -6,6 +6,7 @@ import { collection, addDoc } from 'firebase/firestore'
 import ItemInputForm from 'components/ItemInputForm';
 import { useRecoilState } from 'recoil';
 import { nowTime } from '../atoms';
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import {
   Wrapper,
   Form,
@@ -19,8 +20,10 @@ import {
 
 
 function ItemPost() {
-
-
+  // 이미지
+  const [file, setFile] = useState("");
+  const [percent, setPercent] = useState(0);
+  // 카테고리
   const [selectCateg, setSelectCateg] = useState();
   // 물품명
   const [newName, setNewName] = useState("");
@@ -58,6 +61,33 @@ function ItemPost() {
       dataId.current += 1
       console.log("Document written with ID: ", docRef.id);
 
+      if (!file) {
+        alert("Please choose a file first!")
+      }
+
+      const storageRef = ref(storage, `/files/${file.name}`)
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const percent = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+
+          // update progress
+          setPercent(percent);
+        },
+        (err) => console.log(err),
+        () => {
+          // download url
+          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            console.log(url);
+          });
+        }
+      );
+
+
       navigate('/');
       alert("등록이 완료되었습니다.")
     } catch (error) {
@@ -86,6 +116,8 @@ function ItemPost() {
             setPurchase={setPurchase}
             setPMethod={setPMethod}
             setDescript={setDescript}
+            percent={percent}
+            setFile={setFile}
           />
         </Main>
         <Footer>

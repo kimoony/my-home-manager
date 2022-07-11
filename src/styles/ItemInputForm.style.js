@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   width: 50vw;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-around;
   margin: 10px 0px;

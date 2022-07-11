@@ -27,6 +27,8 @@ function ItemInputList({
   setPurchase,
   setPMethod,
   setDescript,
+  percent,
+  setFile,
 }) {
   // 카테고리 
   const [newCateg, setNewCateg] = useState("")
@@ -98,83 +100,79 @@ function ItemInputList({
 
   return (
     <Container>
-      <LeftContainer>
-        <Image>
-          <ItemImage />
-        </Image>
-      </LeftContainer>
-      <RightContainer>
-        <Ctag>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <label>카테고리 </label>
-            {viewInput ?
-              null :
-              <input type="button" value="+" onClick={onClickAdd} />
-            }
-            {
-              viewInput ?
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  <input type="text" onChange={addCateg} />
-                  <button type="button" onClick={addClick}>추가</button>
-                  <button type="button" onClick={() => setViewInput(false)}>취소</button>
-                </div>
-                : null
-            }
-          </div>
-          <select
-            name="category"
-            value={selectCateg}
-            onChange={selectCategory}
-          >
-            {
-              COptions.map((cOption) => (
-                <option key={cOption.key} value={cOption.value} >{cOption.value}</option>
-              ))
-            }
-          </select>
-        </Ctag>
-        <ItemName>
-          <label>물품명 </label>
-          <input type="text" onChange={productName} />
-        </ItemName>
-        <Quantity>
-          <label>수량 </label>
-          <NumInput>
-            <button type="button" onClick={minusQuantity}>-</button>
-            <input
-              type="number"
-              value={quantity}
-              onChange={quantityChange}
-            />
-            <button type="button" onClick={addQuantity}>+</button>
-          </NumInput>
-        </Quantity>
-        <StorageLocation>
-          <label>보관위치 </label>
-          <input type="text" onChange={storageLocation} />
-        </StorageLocation>
-        <Purchase>
-          <label>구매처/구매방법 </label>
-          <input type="text" onChange={purchaseValue} />
-          <select onChange={purchaseMethod}>
-            {
-              POptions.map((pOption) => (
-                <option key={pOption.key} value={pOption.value}>
-                  {pOption.value}
-                </option>
-              ))
-            }
-          </select>
-        </Purchase>
-        <Description>
-          <label>설명 </label>
-          <textarea
-            cols="30"
-            rows="10"
-            onChange={descriptValue}
+      <Image>
+        <ItemImage percent={percent} setFile={setFile} />
+      </Image>
+      <Ctag>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <label>카테고리 </label>
+          {viewInput ?
+            null :
+            <input type="button" value="+" onClick={onClickAdd} />
+          }
+          {
+            viewInput ?
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <input type="text" onChange={addCateg} />
+                <button type="button" onClick={addClick}>추가</button>
+                <button type="button" onClick={() => setViewInput(false)}>취소</button>
+              </div>
+              : null
+          }
+        </div>
+        <select
+          name="category"
+          value={selectCateg}
+          onChange={selectCategory}
+        >
+          {
+            COptions.map((cOption) => (
+              <option key={cOption.key} value={cOption.value} >{cOption.value}</option>
+            ))
+          }
+        </select>
+      </Ctag>
+      <ItemName>
+        <label>물품명 </label>
+        <input type="text" onChange={productName} />
+      </ItemName>
+      <Quantity>
+        <label>수량 </label>
+        <NumInput>
+          <button type="button" onClick={minusQuantity}>-</button>
+          <input
+            type="number"
+            value={quantity}
+            onChange={quantityChange}
           />
-        </Description>
-      </RightContainer>
+          <button type="button" onClick={addQuantity}>+</button>
+        </NumInput>
+      </Quantity>
+      <StorageLocation>
+        <label>보관위치 </label>
+        <input type="text" onChange={storageLocation} />
+      </StorageLocation>
+      <Purchase>
+        <label>구매처/구매방법 </label>
+        <input type="text" onChange={purchaseValue} />
+        <select onChange={purchaseMethod}>
+          {
+            POptions.map((pOption) => (
+              <option key={pOption.key} value={pOption.value}>
+                {pOption.value}
+              </option>
+            ))
+          }
+        </select>
+      </Purchase>
+      <Description>
+        <label>설명 </label>
+        <textarea
+          cols="30"
+          rows="10"
+          onChange={descriptValue}
+        />
+      </Description>
     </Container>
   )
 }
