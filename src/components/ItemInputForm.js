@@ -26,7 +26,7 @@ function ItemInputList({
   setsLocation,
   setPurchase,
   setPMethod,
-  setDescript
+  setDescript,
 }) {
   // 카테고리 
   const [newCateg, setNewCateg] = useState("")
@@ -57,7 +57,7 @@ function ItemInputList({
   const selectCategory = (e) => {
     setSelectCateg(e.target.value)
   }
-  console.log(COptions)
+  // console.log(COptions)
 
   const productName = (e) => {
     setNewName(e.target.value)

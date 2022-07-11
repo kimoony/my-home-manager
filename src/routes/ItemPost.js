@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import { db } from '../firebase';
+import { db, storage } from '../firebase';
 import { collection, addDoc } from 'firebase/firestore'
 import ItemInputForm from 'components/ItemInputForm';
 import { useRecoilState } from 'recoil';
@@ -19,6 +19,8 @@ import {
 
 
 function ItemPost() {
+
+
   const [selectCateg, setSelectCateg] = useState();
   // 물품명
   const [newName, setNewName] = useState("");
@@ -55,6 +57,7 @@ function ItemPost() {
       })
       dataId.current += 1
       console.log("Document written with ID: ", docRef.id);
+
       navigate('/');
       alert("등록이 완료되었습니다.")
     } catch (error) {
