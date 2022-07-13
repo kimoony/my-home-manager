@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
-import { loginState } from '../../atoms';
+import { useRecoilValue } from 'recoil';
+import { loginState, userObjState } from '../../atoms';
 import { db, storage } from '../../firebase';
 import { collection, getDocs } from "firebase/firestore";
 import { ref, uploadBytes } from "firebase/storage";
@@ -10,7 +10,8 @@ import {
 } from '../../styles/list/ItemList.style';
 
 function List() {
-  const [isLogIn, setIsLogIn] = useRecoilState(loginState);
+  const isLogIn = useRecoilValue(loginState);
+  const userObj = useRecoilValue(userObjState);
   const [getItems, setGetItems] = useState([]);
   const [getImages, setGetImages] = useState();
 
@@ -43,15 +44,17 @@ function List() {
         isLogIn ? (
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
             {getItems.map((item) => (
-              <ListContainer>
-                <div key={item.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
-                  <div>{item.name}</div>
-                  <div>{item.quantity}</div>
-                  <div>{item.storageLocation}</div>
-                  <div>{item.descript}</div>
-                  <span>{item.createDate}</span>
-                </div>
-              </ListContainer >
+              userObj.uid === item.creatorId ? (
+                <ListContainer key={item.id}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+                    <div>{item.name}</div>
+                    <div>{item.quantity}</div>
+                    <div>{item.storageLocation}</div>
+                    <div>{item.descript}</div>
+                    <span>{item.createDate}</span>
+                  </div>
+                </ListContainer >
+              ) : null
             ))}
           </div>
         ) : (

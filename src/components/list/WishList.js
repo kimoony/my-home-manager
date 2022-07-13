@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { useRecoilState } from 'recoil';
-import { loginState } from '../../atoms';
+import { useRecoilValue } from 'recoil';
+import { loginState, userObjState } from '../../atoms';
 import { db } from '../../firebase';
 import { collection, getDocs } from "firebase/firestore";
 import {
@@ -9,7 +9,8 @@ import {
 
 
 function WishList() {
-  const [isLogIn, setIsLogIn] = useRecoilState(loginState);
+  const isLogIn = useRecoilValue(loginState);
+  const userObj = useRecoilValue(userObjState);
   const [getWish, setGetWish] = useState([])
 
 
@@ -29,15 +30,17 @@ function WishList() {
       {isLogIn ? (
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
           {getWish.map((item) => (
-            <ListContainer>
-              <div key={item.id}>
-                <div>{item.name}</div>
-                <div>{item.categ}</div>
-                <div>{item.price}</div>
-                <div>{item.descript}</div>
-                <div>{item.createDate}</div>
-              </div>
-            </ListContainer>
+            userObj.uid === item.creatorId ? (
+              <ListContainer key={item.id}>
+                <div >
+                  <div>{item.name}</div>
+                  <div>{item.categ}</div>
+                  <div>{item.price}</div>
+                  <div>{item.descript}</div>
+                  <div>{item.createDate}</div>
+                </div>
+              </ListContainer>
+            ) : null
           ))}
         </div>) : null}
     </div>

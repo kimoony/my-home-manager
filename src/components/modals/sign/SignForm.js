@@ -17,6 +17,8 @@ import {
   ToggleBtn
 } from 'styles/SignForm.style';
 import Auth from './Auth';
+import { useRecoilState } from 'recoil';
+import { userState } from 'atoms';
 
 console.log(authService)
 
@@ -25,7 +27,7 @@ function SignForm({ closeModal, onModal, setIsLogIn }) {
 
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
 
-  const [newAccount, setNewAccount] = useState(true); // 전역관리
+  const [newUser, setNewUser] = useRecoilState(userState);
 
 
   const [errorFromSubmit, setErrorFromSubmit] = useState("");
@@ -33,17 +35,17 @@ function SignForm({ closeModal, onModal, setIsLogIn }) {
   password.current = watch("password");
 
 
-  const toggleAccount = () => setNewAccount(prev => !prev);
+  const toggleSign = () => setNewUser(prev => !prev);
 
   const onSubmit = async (data) => {
-    // console.log(data)
+    console.log(data)
     let user;
     try {
-      if (newAccount) {
+      if (newUser) {
         user = await createUserWithEmailAndPassword(
           authService, data.email, data.password
         )
-        setNewAccount(false)
+        setNewUser(false)
       } else {
         user = await signInWithEmailAndPassword(
           authService, data.email, data.password
@@ -51,7 +53,7 @@ function SignForm({ closeModal, onModal, setIsLogIn }) {
         closeModal();
         setIsLogIn(true);
         alert("로그인 완료!")
-        navigate('edit-profile')
+        // navigate('profile')
       }
       console.log(user)
     } catch (error) {
@@ -72,7 +74,7 @@ function SignForm({ closeModal, onModal, setIsLogIn }) {
               </div>
               <Title>
                 {
-                  newAccount ? "회원가입" : "로그인"
+                  newUser ? "회원가입" : "로그인"
                 }
               </Title>
               <InputBox>
@@ -100,7 +102,7 @@ function SignForm({ closeModal, onModal, setIsLogIn }) {
                 {errors.password && errors.password.type === "minLength" && (
                   <p>비밀번호는 6글자 이상이여야 합니다.</p>
                 )}
-                {newAccount ?
+                {newUser ?
                   (<Input
                     name="passwordConfirm"
                     type="password"
@@ -120,11 +122,11 @@ function SignForm({ closeModal, onModal, setIsLogIn }) {
 
                 {errorFromSubmit && <p>{errorFromSubmit}</p>}
 
-                <Input type="submit" value={newAccount ? "회원가입" : "로그인"} />
+                <Input type="submit" value={newUser ? "회원가입" : "로그인"} />
               </InputBox>
             </Form>
-            <ToggleBtn onClick={toggleAccount}>{newAccount ? "가입했다면? ☛☛ 로그인하기" : "회원가입 하러 가기.."}</ToggleBtn>
-            <Auth />
+            <ToggleBtn onClick={toggleSign}>{newUser ? "가입했다면? ☛☛ 로그인하기" : "회원가입 하러 가기.."}</ToggleBtn>
+            <Auth closeModal={closeModal} setIsLogIn={setIsLogIn} />
           </FormBox>
         </Wrapper>
       ) : null}

@@ -4,8 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { db, storage } from '../firebase';
 import { collection, addDoc } from 'firebase/firestore'
 import ItemInputForm from 'components/ItemInputForm';
-import { useRecoilState } from 'recoil';
-import { nowTime } from '../atoms';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { nowTime, userObjState } from '../atoms';
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import {
   Wrapper,
@@ -38,9 +38,10 @@ function ItemPost() {
   // 설명
   const [descript, setDescript] = useState("");
   // 작성시간
-  const [writeTime, setWriteTime] = useRecoilState(nowTime);
+  const writeTime = useRecoilValue(nowTime);
 
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const userObj = useRecoilValue(userObjState);
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
   const navigate = useNavigate();
   const dataId = useRef(1)
@@ -49,6 +50,7 @@ function ItemPost() {
     try {
       const docRef = await addDoc(collection(db, "items"), {
         id: dataId,
+        creatorId: userObj.uid,
         catag: selectCateg,
         name: newName,
         quantity: quantity,
@@ -86,6 +88,10 @@ function ItemPost() {
           });
         }
       );
+
+      if (percent === 100) {
+        alert("이미지 업로드 완료")
+      }
 
 
       navigate('/');

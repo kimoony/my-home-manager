@@ -14,7 +14,7 @@ function AppRouter() {
         <Route path="item-post" element={<ItemPost />} />
         <Route path="wish-post" element={<WishPost />} />
         <Route path="profile" element={<Profile />} />
-        <Route path="profile/edit-profile" element={<EditProfile />} />
+        <Route path="edit-profile" element={<EditProfile />} />
       </Routes>
     </HashRouter>
   )

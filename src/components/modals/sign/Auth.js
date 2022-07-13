@@ -11,7 +11,7 @@ import { fab } from "@fortawesome/free-brands-svg-icons";
 
 library.add(fab)
 
-function Auth() {
+function Auth({ closeModal, setIsLogIn }) {
 
   const onSocialClicik = async (e) => {
     const {
@@ -23,7 +23,11 @@ function Auth() {
     } else if (name === "facebook") {
       provider = new FacebookAuthProvider();
     }
-    let user = await signInWithPopup(authService, provider);
+    const user = await signInWithPopup(authService, provider);
+    console.log(user)
+    closeModal();
+    setIsLogIn(true);
+    alert("로그인 완료!")
   }
 
   return (

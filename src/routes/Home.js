@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { authService } from '../firebase';
 import { useRecoilState } from 'recoil';
-import { loginState } from '../atoms';
+import { loginState, modalState, userObjState } from '../atoms';
 import {
   Wrapper,
   Header,
@@ -22,30 +22,40 @@ import SignForm from 'components/modals/sign/SignForm';
 import AlarmList from 'components/list/AlarmList';
 import WishList from 'components/list/WishList';
 import ItemList from 'components/list/ItemList';
-import ItemPost from 'routes/ItemPost';
-import WishPost from 'routes/WishPost';
 import { onAuthStateChanged } from 'firebase/auth';
 
 
 
 function Home() {
-
+  const [userObj, setUserObj] = useRecoilState(userObjState);
   const [isLogIn, setIsLogIn] = useRecoilState(loginState);
-  const [onModal, setOnModal] = useState(false);
+  const [onModal, setOnModal] = useRecoilState(modalState);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     onAuthStateChanged(authService, (user) => {
       if (user) {
-        setIsLogIn(true);
+        setUserObj({
+          displayName: user.displayName,
+          uid: user.uid,
+          updateProfile: (args) => user.updateProfile(args),
+        });
+      } else {
+        setUserObj(null);
       }
     })
   }, [])
 
-  useEffect(() => {
+  const refreshUser = () => {
+    const user = authService.currentUser;
+    setUserObj({
+      displayName: user.displayName,
+      uid: user.uid,
+      updateProfile: (args) => user.updateProfile(args),
+    });
+  }
 
-  }, [])
 
   const openModal = () => {
     setOnModal(true);
@@ -83,16 +93,17 @@ function Home() {
         {/* <ThemeMode type="checkbox" text="a" /> */}
       </Header>
       <BtnBox>
-        {isLogIn ? (
+        {isLogIn ?
           <>
+            <span>{userObj.displayName}님, 안녕하세요!</span>
             <SignBtn onClick={SignOut}>로그아웃</SignBtn>
             <Link to='profile'>
               <SignBtn>마이페이지</SignBtn>
             </Link>
           </>
-        ) : (
-          <SignBtn onClick={openModal}>회원가입</SignBtn>
-        )
+          : (
+            <SignBtn onClick={openModal}>로그인</SignBtn>
+          )
         }
         <SignForm onModal={onModal} closeModal={closeModal} setIsLogIn={setIsLogIn} />
       </BtnBox>
@@ -100,18 +111,18 @@ function Home() {
         <LeftBox>
           <h3>전체리스트</h3>
           <AllList>
-            <ItemList />
+            <ItemList userObj={userObj} />
           </AllList>
           <PostBtn onClick={isLogedInPost}>등록하기</PostBtn>
         </LeftBox>
         <RightBox>
           <h3>알림리스트</h3>
           <TopList>
-            <AlarmList />
+            <AlarmList userObj={userObj} />
           </TopList>
           <h3>위시리스트</h3>
           <BottomList>
-            <WishList />
+            <WishList userObj={userObj} />
           </BottomList>
           <PostBtn onClick={isLogedInWish}>등록하기</PostBtn>
         </RightBox>
