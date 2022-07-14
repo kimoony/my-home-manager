@@ -5,7 +5,6 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { useNavigate } from 'react-router-dom';
 import {
   Wrapper,
   FormBox,
@@ -23,7 +22,7 @@ import { userState } from 'atoms';
 console.log(authService)
 
 function SignForm({ closeModal, onModal, setIsLogIn }) {
-  const navigate = useNavigate();
+
 
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
 
@@ -53,7 +52,6 @@ function SignForm({ closeModal, onModal, setIsLogIn }) {
         closeModal();
         setIsLogIn(true);
         alert("로그인 완료!")
-        // navigate('profile')
       }
       console.log(user)
     } catch (error) {

@@ -10,8 +10,8 @@ function AppRouter({ userObj, refreshUser }) {
     <HashRouter>
       <Routes>
         <Route path="/" element={<Home userObj={userObj} />} />
-        <Route path="item-post" element={<ItemPost />} />
-        <Route path="wish-post" element={<WishPost />} />
+        <Route path="item-post" element={<ItemPost userObj={userObj} />} />
+        <Route path="wish-post" element={<WishPost userObj={userObj} />} />
         <Route path="profile" element={<Profile userObj={userObj} refreshUser={refreshUser} />} />
       </Routes>
     </HashRouter>

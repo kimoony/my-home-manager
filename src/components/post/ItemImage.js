@@ -1,6 +1,4 @@
-import { useState, useEffect, useRef } from "react";
-import { storage } from '../../firebase';
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+
 
 function ItemImage({ setFile, percent }) {
 

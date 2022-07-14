@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { nowTime } from '../atoms';
 import { db } from '../firebase';
 import { collection, addDoc } from 'firebase/firestore'
@@ -16,12 +16,12 @@ import {
   PostBtn
 } from 'styles/WishPost.style';
 
-function WishPost() {
+function WishPost({ userObj }) {
   const [wCateg, setWCateg] = useState();
   const [wItemName, setWItemName] = useState("");
   const [price, setPrice] = useState(0);
   const [wDesc, setWDesc] = useState("")
-  const [writeTime, setWriteTime] = useRecoilState(nowTime);
+  const writeTime = useRecoilValue(nowTime);
 
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
 
@@ -37,6 +37,7 @@ function WishPost() {
         price: price.toLocaleString('ko-KR'),
         descript: wDesc,
         createDate: writeTime,
+        creatorId: userObj.uid,
       })
       wDataId.current += 1
       console.log("Document written with ID: ", docRef.id);

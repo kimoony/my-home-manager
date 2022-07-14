@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { db, storage } from '../firebase';
 import { collection, addDoc } from 'firebase/firestore'
 import ItemInputForm from 'components/ItemInputForm';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { nowTime, userObjState } from '../atoms';
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import {
@@ -19,7 +19,7 @@ import {
 
 
 
-function ItemPost() {
+function ItemPost({ userObj }) {
   // 이미지
   const [file, setFile] = useState("");
   const [percent, setPercent] = useState(0);
@@ -40,7 +40,6 @@ function ItemPost() {
   // 작성시간
   const writeTime = useRecoilValue(nowTime);
 
-  const userObj = useRecoilValue(userObjState);
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const navigate = useNavigate();
