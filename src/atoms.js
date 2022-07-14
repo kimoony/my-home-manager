@@ -3,11 +3,6 @@ import moment from 'moment';
 import 'moment/locale/ko';
 
 
-export const userObjState = atom({
-  key: 'userObjState',
-  default: null
-})
-
 export const writeState = atom({
   key: 'writeState',
   default: 0

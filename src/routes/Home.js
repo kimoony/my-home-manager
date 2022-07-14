@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { authService } from '../firebase';
 import { useRecoilState } from 'recoil';
-import { loginState, modalState, userObjState } from '../atoms';
+import { loginState, modalState } from '../atoms';
 import {
   Wrapper,
   Header,
@@ -22,40 +22,14 @@ import SignForm from 'components/modals/sign/SignForm';
 import AlarmList from 'components/list/AlarmList';
 import WishList from 'components/list/WishList';
 import ItemList from 'components/list/ItemList';
-import { onAuthStateChanged } from 'firebase/auth';
 
 
 
-function Home() {
-  const [userObj, setUserObj] = useRecoilState(userObjState);
+function Home({ userObj }) {
   const [isLogIn, setIsLogIn] = useRecoilState(loginState);
   const [onModal, setOnModal] = useRecoilState(modalState);
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    onAuthStateChanged(authService, (user) => {
-      if (user) {
-        setUserObj({
-          displayName: user.displayName,
-          uid: user.uid,
-          updateProfile: (args) => user.updateProfile(args),
-        });
-      } else {
-        setUserObj(null);
-      }
-    })
-  }, [])
-
-  const refreshUser = () => {
-    const user = authService.currentUser;
-    setUserObj({
-      displayName: user.displayName,
-      uid: user.uid,
-      updateProfile: (args) => user.updateProfile(args),
-    });
-  }
-
 
   const openModal = () => {
     setOnModal(true);

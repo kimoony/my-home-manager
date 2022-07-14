@@ -1,5 +1,8 @@
 import AppRouter from "./Router";
 import { createGlobalStyle } from 'styled-components';
+import { useEffect, useState } from "react";
+import { authService } from "../firebase";
+import { onAuthStateChanged, updateProfile } from "firebase/auth";
 
 // const GlobalStyled = createGlobalStyle`
 // /* 글자 폰드 import */
@@ -68,9 +71,34 @@ import { createGlobalStyle } from 'styled-components';
 
 
 function App() {
+  const [userObj, setUserObj] = useState(null);
+
+  useEffect(() => {
+    onAuthStateChanged(authService, (user) => {
+      if (user) {
+        setUserObj({
+          displayName: user.displayName,
+          uid: user.uid,
+          updateProfile: (args) => updateProfile(args),
+        });
+      } else {
+        setUserObj(null);
+      }
+    })
+  }, [])
+
+  const refreshUser = () => {
+    const user = authService.currentUser;
+    setUserObj({
+      displayName: user.displayName,
+      uid: user.uid,
+      updateProfile: (args) => updateProfile(args),
+    });
+  }
+
   return (
     // <GlobalStyled>
-    <AppRouter />
+    <AppRouter userObj={userObj} refreshUser={refreshUser} />
     /* </GlobalStyled> */
   );
 }

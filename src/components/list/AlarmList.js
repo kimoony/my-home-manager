@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil';
-import { loginState, userObjState } from '../../atoms';
+import { loginState } from '../../atoms';
 import { db } from '../../firebase';
 import { collection, getDocs } from "firebase/firestore";
 
 
-function AlarmList() {
+function AlarmList({ userObj }) {
   const isLogIn = useRecoilValue(loginState);
-  const userObj = useRecoilValue(userObjState);
   const [getItems, setGetItems] = useState([])
 
   useEffect(() => {

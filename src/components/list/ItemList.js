@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
-import { loginState, userObjState } from '../../atoms';
+import { loginState } from '../../atoms';
 import { db, storage } from '../../firebase';
 import { collection, getDocs } from "firebase/firestore";
 import { ref, uploadBytes } from "firebase/storage";
@@ -9,9 +9,8 @@ import {
   ListContainer
 } from '../../styles/list/ItemList.style';
 
-function List() {
+function List({ userObj }) {
   const isLogIn = useRecoilValue(loginState);
-  const userObj = useRecoilValue(userObjState);
   const [getItems, setGetItems] = useState([]);
   const [getImages, setGetImages] = useState();
 

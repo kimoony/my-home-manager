@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil';
-import { loginState, userObjState } from '../../atoms';
+import { loginState } from '../../atoms';
 import { db } from '../../firebase';
 import { collection, getDocs } from "firebase/firestore";
 import {
@@ -8,9 +8,8 @@ import {
 } from '../../styles/list/WishList.style';
 
 
-function WishList() {
+function WishList({ userObj }) {
   const isLogIn = useRecoilValue(loginState);
-  const userObj = useRecoilValue(userObjState);
   const [getWish, setGetWish] = useState([])
 
 

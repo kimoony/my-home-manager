@@ -4,17 +4,15 @@ import Home from 'routes/Home';
 import ItemPost from 'routes/ItemPost';
 import WishPost from 'routes/WishPost';
 import Profile from 'routes/Profile';
-import EditProfile from 'routes/EditProfile';
 
-function AppRouter() {
+function AppRouter({ userObj, refreshUser }) {
   return (
     <HashRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home userObj={userObj} />} />
         <Route path="item-post" element={<ItemPost />} />
         <Route path="wish-post" element={<WishPost />} />
-        <Route path="profile" element={<Profile />} />
-        <Route path="edit-profile" element={<EditProfile />} />
+        <Route path="profile" element={<Profile userObj={userObj} refreshUser={refreshUser} />} />
       </Routes>
     </HashRouter>
   )
