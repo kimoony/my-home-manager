@@ -6,7 +6,7 @@ export const ListContainer = styled.div`
   border: 1px solid black;
   border-radius: 10px;
   padding: 10px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 `;
 
 export const LeftBox = styled.div`

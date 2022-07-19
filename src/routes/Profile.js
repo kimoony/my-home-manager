@@ -4,11 +4,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { authService } from '../firebase';
 import { updateProfile } from "firebase/auth";
 
-const user = authService.currentUser;
 
 function Profile({ refreshUser, userObj }) {
+  const user = authService.currentUser;
   const navigate = useNavigate();
-  const [newDisplayName, setNewDisplayName] = useState(user.displayName);
+  const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
 
   const onChange = (e) => {
     setNewDisplayName(e.target.value)
@@ -26,13 +26,12 @@ function Profile({ refreshUser, userObj }) {
       navigate('/')
     }
   }
-  console.log(user)
 
   return (
     <>
       <div>
         <label>아이디: </label>
-        <span>{user.email}</span>
+        <span>{userObj.email}</span>
       </div>
       <form onSubmit={updateSubmit}>
         <label>닉네임: </label>
@@ -42,7 +41,7 @@ function Profile({ refreshUser, userObj }) {
             placeholder="닉네임을 입력하세요!"
             value={newDisplayName}
             onChange={onChange}
-            maxLength="6"
+            maxLength="8"
           />
         </span>
         <button>프로필 업데이트</button>

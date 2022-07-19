@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { authService } from '../firebase';
+import { authService, apikey } from '../firebase';
 import { useRecoilState } from 'recoil';
 import { loginState, modalState } from '../atoms';
 import {
@@ -23,13 +23,26 @@ import AlarmList from 'components/list/AlarmList';
 import WishList from 'components/list/WishList';
 import ItemList from 'components/list/ItemList';
 
+const user = authService.currentUser;
 
-
-function Home({ userObj }) {
+function Home({ userObj, getItems, setGetItems }) {
   const [isLogIn, setIsLogIn] = useRecoilState(loginState);
   const [onModal, setOnModal] = useRecoilState(modalState);
 
+  console.log(`1. ${userObj}`)
+  console.log(`2. ${user}`)
+
   const navigate = useNavigate();
+
+  const sessionKey = `firebase:authUser:${apikey}:[DEFAULT]`
+  const session = sessionStorage.getItem(sessionKey) ? true : false;
+
+  // console.log(session);
+  useEffect(() => {
+    if (session && userObj !== null) {
+      setIsLogIn(true)
+    }
+  }, [userObj, session, setIsLogIn])
 
   const openModal = () => {
     setOnModal(true);
@@ -85,7 +98,7 @@ function Home({ userObj }) {
         <LeftBox>
           <h3>전체리스트</h3>
           <AllList>
-            <ItemList userObj={userObj} />
+            <ItemList userObj={userObj} getItems={getItems} setGetItems={setGetItems} />
           </AllList>
           <PostBtn onClick={isLogedInPost}>등록하기</PostBtn>
         </LeftBox>

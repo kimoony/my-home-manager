@@ -2,7 +2,9 @@ import React, { useState, useRef } from 'react'
 import { useForm } from 'react-hook-form';
 import { authService } from '../../../firebase';
 import {
+  browserSessionPersistence,
   createUserWithEmailAndPassword,
+  setPersistence,
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import {
@@ -46,6 +48,7 @@ function SignForm({ closeModal, onModal, setIsLogIn }) {
         )
         setNewUser(false)
       } else {
+        setPersistence(authService, browserSessionPersistence)
         user = await signInWithEmailAndPassword(
           authService, data.email, data.password
         )

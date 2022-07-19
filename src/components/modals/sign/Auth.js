@@ -1,7 +1,7 @@
 import React from 'react';
 import { authService } from '../../../firebase';
 import {
-  FacebookAuthProvider,
+  GithubAuthProvider,
   GoogleAuthProvider,
   signInWithPopup
 } from "firebase/auth";
@@ -20,9 +20,10 @@ function Auth({ closeModal, setIsLogIn }) {
     let provider;
     if (name === "google") {
       provider = new GoogleAuthProvider();
-    } else if (name === "facebook") {
-      provider = new FacebookAuthProvider();
     }
+    //  else if (name === "github") {
+    //   provider = new GithubAuthProvider();
+    // }
     const user = await signInWithPopup(authService, provider);
     console.log(user)
     closeModal();
@@ -36,9 +37,9 @@ function Auth({ closeModal, setIsLogIn }) {
         <button className='btn google-btn' name="google" onClick={onSocialClicik}>
           <FontAwesomeIcon icon={["fab", "google"]} /> Google 로그인
         </button>
-        <button className='btn facebook-btn' name="facebook" onClick={onSocialClicik}>
-          <FontAwesomeIcon icon={["fab", "facebook"]} /> Facebook 로그인
-        </button>
+        {/* <button className='btn github-btn' name="github" onClick={onSocialClicik}>
+          <FontAwesomeIcon icon={["fab", "github"]} /> GitHub 로그인
+        </button> */}
       </div>
     </div>
   )
