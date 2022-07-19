@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/my-home-manager/static/js/main.100f612f.js",
+    "main.js": "/my-home-manager/static/js/main.c22cde45.js",
     "index.html": "/my-home-manager/index.html",
-    "main.100f612f.js.map": "/my-home-manager/static/js/main.100f612f.js.map"
+    "main.c22cde45.js.map": "/my-home-manager/static/js/main.c22cde45.js.map"
   },
   "entrypoints": [
-    "static/js/main.100f612f.js"
+    "static/js/main.c22cde45.js"
   ]
 }
