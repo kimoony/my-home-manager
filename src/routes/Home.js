@@ -25,19 +25,15 @@ import ItemList from 'components/list/ItemList';
 
 const user = authService.currentUser;
 
-function Home({ userObj, getItems, setGetItems }) {
+function Home({ userObj, getItems, searchId }) {
   const [isLogIn, setIsLogIn] = useRecoilState(loginState);
   const [onModal, setOnModal] = useRecoilState(modalState);
-
-  console.log(`1. ${userObj}`)
-  console.log(`2. ${user}`)
 
   const navigate = useNavigate();
 
   const sessionKey = `firebase:authUser:${apikey}:[DEFAULT]`
   const session = sessionStorage.getItem(sessionKey) ? true : false;
 
-  // console.log(session);
   useEffect(() => {
     if (session && userObj !== null) {
       setIsLogIn(true)
@@ -98,7 +94,7 @@ function Home({ userObj, getItems, setGetItems }) {
         <LeftBox>
           <h3>전체리스트</h3>
           <AllList>
-            <ItemList userObj={userObj} getItems={getItems} setGetItems={setGetItems} />
+            <ItemList userObj={userObj} getItems={getItems} searchId={searchId} />
           </AllList>
           <PostBtn onClick={isLogedInPost}>등록하기</PostBtn>
         </LeftBox>

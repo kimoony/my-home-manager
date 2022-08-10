@@ -72,7 +72,7 @@ import { onAuthStateChanged, updateProfile } from "firebase/auth";
 
 function App() {
   const [userObj, setUserObj] = useState(null);
-  const [getItems, setGetItems] = useState([]);
+
 
   useEffect(() => {
     onAuthStateChanged(authService, (user) => {
@@ -100,7 +100,7 @@ function App() {
 
   return (
     // <GlobalStyled>
-    <AppRouter userObj={userObj} refreshUser={refreshUser} getItems={getItems} setGetItems={setGetItems} />
+    <AppRouter userObj={userObj} refreshUser={refreshUser} />
     /* </GlobalStyled> */
   );
 }

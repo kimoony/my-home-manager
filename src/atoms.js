@@ -28,3 +28,7 @@ export const nowTime = atom({
   default: moment().format('YYYY-MM-DD HH:mm:ss')
 })
 
+export const countQuantity = atom({
+  key: 'countQuantity',
+  default: 0,
+})

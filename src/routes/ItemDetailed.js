@@ -1,46 +1,42 @@
 import React, { useEffect, useState } from 'react'
 import { db, storage } from '../firebase';
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import { ref, uploadBytes } from "firebase/storage";
 import { useParams } from 'react-router-dom';
 
-function ItemDetailed({ userObj, getItems, setGetItems }) {
+function ItemDetailed({ userObj, getItems, searchId }) {
   const [getImages, setGetImages] = useState();
 
-
-  const { id } = useParams();
-
-  useEffect(() => {
-    const getData = async () => {
-      const data = await getDocs(collection(db, "items"));
-      setGetItems(data.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id
-      })))
-    }
-    getData()
-  }, [])
 
   useEffect((file) => {
     const getImg = async () => {
       const storageRef = ref(storage, 'itemImage')
       const data = await uploadBytes(storageRef, file);
-      console.log(data)
+      // console.log(data)
       setGetImages(data);
     }
     getImg();
   }, [])
+
+  const onDelete = () => {
+    const delItem = deleteDoc(doc(db, "items"))
+    alert("삭제완료!")
+    console.log(delItem)
+  }
 
 
   return (
     <div>
       {
         getItems.map((item) => (
-          userObj.uid === item.creatorId ? (
-            <div>
+          userObj.uid === item.creatorId &&
+            searchId.id === item.id ? (
+            <div key={item.id}>
               <h1>상세페이지</h1>
+              <div>{item.id}</div>
               <p>등록시간: {item.createDate}</p>
-              {/* <img src="" alt="" /> */}
+              {/* <h3>`이 게시물은  번째 입니다.`</h3> */}
+              {/* <div>{getImages}</div> */}
               <div>
                 <label>카테고리: </label>
                 <span>{item.categ}</span>
@@ -65,6 +61,7 @@ function ItemDetailed({ userObj, getItems, setGetItems }) {
                 <label>설명: </label>
                 <span>{item.descript}</span>
               </div>
+              <div onClick={onDelete}>삭제</div>
             </div>
           ) : null
         ))

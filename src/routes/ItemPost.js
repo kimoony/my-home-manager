@@ -2,10 +2,10 @@ import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { db, storage } from '../firebase';
-import { collection, addDoc } from 'firebase/firestore'
+import { collection, addDoc, setDoc, doc } from 'firebase/firestore'
 import ItemInputForm from 'components/ItemInputForm';
-import { useRecoilValue } from 'recoil';
-import { nowTime, userObjState } from '../atoms';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { countQuantity, nowTime, userObjState } from '../atoms';
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import {
   Wrapper,
@@ -28,7 +28,7 @@ function ItemPost({ userObj }) {
   // 물품명
   const [newName, setNewName] = useState("");
   // 수량
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useRecoilState(countQuantity);
   // 보관 위치
   const [sLocation, setsLocation] = useState("");
   // 구매처
@@ -43,27 +43,31 @@ function ItemPost({ userObj }) {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const navigate = useNavigate();
-  const dataId = useRef(1)
+  // const dataId = useRef(1)
 
   const onSubmit = async () => {
+    // console.log(dataId);
     try {
       const docRef = await addDoc(collection(db, "items"), {
-        id: dataId,
+        // id: dataId.current,
         creatorId: userObj.uid,
         catag: selectCateg,
         name: newName,
         quantity: quantity,
         storageLocation: sLocation,
         purchase: purchase,
-        pMethod: pMethod,
+        purchaseMethod: pMethod,
         descript: descript,
         createDate: writeTime,
-      })
-      dataId.current += 1
-      console.log("Document written with ID: ", docRef.id);
+      });
+      // dataId.current += 1
+      // console.log(dataId.current);
+      // console.log(dataId);
+      console.log(docRef.id);
 
       if (!file) {
         alert("Please choose a file first!")
+
       }
 
       const storageRef = ref(storage, `/files/${file.name}`)
