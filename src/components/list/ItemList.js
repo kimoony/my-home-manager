@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import { useEffect } from 'react';
+import React from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { countQuantity, loginState } from '../../atoms';
 import { authService, db } from '../../firebase';
@@ -7,9 +6,9 @@ import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import {
   ListContainer
 } from '../../styles/list/ItemList.style';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-function List({ userObj, getItems, searchId }) {
+function List({ userObj, getItems }) {
   const isLogIn = useRecoilValue(loginState);
   const [quantity, setquantity] = useRecoilState(countQuantity);
 
@@ -33,12 +32,6 @@ function List({ userObj, getItems, searchId }) {
     }
   }
 
-  const goDetail = () => {
-    getItems.map((item) => (
-      item.id === searchId.id && console.log(`item-detail/${item.id}`)
-    ))
-  }
-
   return (
     <div style={{ height: "95%", overflow: "auto" }}>
       {
@@ -48,11 +41,8 @@ function List({ userObj, getItems, searchId }) {
               userObj.uid === item.creatorId ? (
                 getItems.length > 0 ? (
                   <ListContainer key={item.id}>
-                    <div
-                      onClick={goDetail}
-                      style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}
-                    >
-                      <div>{item.name}</div>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+                      <div onClick={() => navigate(`item-detail/${item.id}`)}>{item.name}</div>
                       <button onClick={minusQuantity}>-</button>
                       <input value={item.quantity} onChange={quantityChange} />
                       <button onClick={addQuantity}>+</button>

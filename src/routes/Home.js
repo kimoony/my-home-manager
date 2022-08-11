@@ -23,9 +23,7 @@ import AlarmList from 'components/list/AlarmList';
 import WishList from 'components/list/WishList';
 import ItemList from 'components/list/ItemList';
 
-const user = authService.currentUser;
-
-function Home({ userObj, getItems, searchId }) {
+function Home({ userObj, getItems }) {
   const [isLogIn, setIsLogIn] = useRecoilState(loginState);
   const [onModal, setOnModal] = useRecoilState(modalState);
 
@@ -94,7 +92,7 @@ function Home({ userObj, getItems, searchId }) {
         <LeftBox>
           <h3>전체리스트</h3>
           <AllList>
-            <ItemList userObj={userObj} getItems={getItems} searchId={searchId} />
+            <ItemList userObj={userObj} getItems={getItems} />
           </AllList>
           <PostBtn onClick={isLogedInPost}>등록하기</PostBtn>
         </LeftBox>
