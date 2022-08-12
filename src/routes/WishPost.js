@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { useRecoilValue } from 'recoil';
@@ -23,15 +23,13 @@ function WishPost({ userObj }) {
   const [wDesc, setWDesc] = useState("")
   const writeTime = useRecoilValue(nowTime);
 
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
-  const wDataId = useRef(1)
   const navigate = useNavigate();
 
   const onSubmit = async () => {
     try {
       const docRef = await addDoc(collection(db, "wishItems"), {
-        id: wDataId,
         catag: wCateg,
         name: wItemName,
         price: price.toLocaleString('ko-KR'),
@@ -39,7 +37,6 @@ function WishPost({ userObj }) {
         createDate: writeTime,
         creatorId: userObj.uid,
       })
-      wDataId.current += 1
       console.log("Document written with ID: ", docRef.id);
       navigate('/');
       alert("등록이 완료되었습니다.")

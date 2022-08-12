@@ -49,8 +49,8 @@ function List({ userObj, getItems }) {
                       <span>{item.createDate}</span>
                     </div>
                     <div>
+                      <button>삭제</button>
                       <button>수정</button>
-                      <button >삭제</button>
                     </div>
                   </ListContainer >
                 ) : <h3>아이템을 등록하세요!</h3>

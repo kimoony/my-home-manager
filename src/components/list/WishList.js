@@ -6,12 +6,14 @@ import { collection, getDocs } from "firebase/firestore";
 import {
   ListContainer
 } from '../../styles/list/WishList.style';
+import { useNavigate } from 'react-router-dom';
 
 
 function WishList({ userObj }) {
   const isLogIn = useRecoilValue(loginState);
   const [getWish, setGetWish] = useState([])
 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getData = async () => {
@@ -25,23 +27,32 @@ function WishList({ userObj }) {
   }, [])
 
   return (
-    <div style={{ display: "flex", width: "100%", height: "100%" }}>
-      {isLogIn ? (
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
-          {getWish.map((item) => (
-            userObj.uid === item.creatorId ? (
-              <ListContainer key={item.id}>
-                <div >
-                  <div>{item.name}</div>
-                  <div>{item.categ}</div>
-                  <div>{item.price}</div>
-                  <div>{item.descript}</div>
-                  <div>{item.createDate}</div>
-                </div>
-              </ListContainer>
-            ) : null
-          ))}
-        </div>) : null}
+    <div style={{ height: "95%", overflow: "auto" }}>
+      {
+        isLogIn ? (
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", height: "60px" }}>
+            {getWish.length > 0 ? (
+              getWish.map((item) => (
+                userObj.uid === item.creatorId ? (
+                  <ListContainer key={item.id}>
+                    <div
+                      style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}
+                      onClick={() => navigate(`wish-detail/${item.id}`)}
+                    >
+                      <div>{item.name}</div>
+                      <div>{item.price}</div>
+                      <span>{item.createDate}</span>
+                    </div>
+                    <div>
+                      <button style={{ marginLeft: "25px", marginRight: "10px" }}>삭제</button>
+                      <button>수정</button>
+                    </div>
+                  </ListContainer>
+                ) : null)
+              )
+            ) : <h3>Wish 아이템을 등록하세요!</h3>}
+          </div>) : null
+      }
     </div>
   )
 }
