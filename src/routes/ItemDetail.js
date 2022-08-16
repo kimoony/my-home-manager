@@ -3,6 +3,7 @@ import { db, storage } from '../firebase';
 import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import { ref, uploadBytes } from "firebase/storage";
 import { useParams, Link } from 'react-router-dom';
+import CurrentItem from 'components/CurrentItem';
 
 function ItemDetailed({ getItems }) {
   const [getImages, setGetImages] = useState();
@@ -32,9 +33,9 @@ function ItemDetailed({ getItems }) {
   }, [])
 
   const onDelete = () => {
-    const delItem = deleteDoc(doc(db, "items"))
-    alert("삭제완료!")
+    const delItem = deleteDoc(doc(db, "items", `${itemId.id}`))
     console.log(delItem)
+    // alert("삭제완료!")
   }
 
 
@@ -43,38 +44,9 @@ function ItemDetailed({ getItems }) {
       <Link to='/'>
         <button>←</button>
       </Link>
-      <div>
-        <h1>상세페이지</h1>
-        <div>{itemId.id}</div>
-        <p>등록시간: {itemId.createDate}</p>
-        {/* <h3>`이 게시물은  번째 입니다.`</h3> */}
-        {/* <div>{getImages}</div> */}
-        <div>
-          <label>카테고리: </label>
-          <span>{itemId.categ}</span>
-        </div>
-        <div>
-          <label>물품명: </label>
-          <span>{itemId.name}</span>
-        </div>
-        <div>
-          <label>수량: </label>
-          <span>{itemId.quantity}</span>
-        </div>
-        <div>
-          <label>보관위치: </label>
-          <span>{itemId.storageLocation}</span>
-        </div>
-        <div>
-          <label>구매처/구매방법: </label>
-          <span>{itemId.purchase} / {itemId.pMethod}</span>
-        </div>
-        <div>
-          <label>설명: </label>
-          <span>{itemId.descript}</span>
-        </div>
-        <button onClick={onDelete}>삭제</button>
-      </div>
+      <CurrentItem itemId={itemId} />
+      <button>수정</button>
+      <button onClick={onDelete}>삭제</button>
     </div>
   )
 }

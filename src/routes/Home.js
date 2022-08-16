@@ -23,7 +23,7 @@ import AlarmList from 'components/list/AlarmList';
 import WishList from 'components/list/WishList';
 import ItemList from 'components/list/ItemList';
 
-function Home({ userObj, getItems }) {
+function Home({ userObj, getItems, getWish }) {
   const [isLogIn, setIsLogIn] = useRecoilState(loginState);
   const [onModal, setOnModal] = useRecoilState(modalState);
 
@@ -99,11 +99,11 @@ function Home({ userObj, getItems }) {
         <RightBox>
           <h3>알림리스트</h3>
           <TopList>
-            <AlarmList userObj={userObj} />
+            <AlarmList userObj={userObj} getItems={getItems} />
           </TopList>
           <h3>위시리스트</h3>
           <BottomList>
-            <WishList userObj={userObj} />
+            <WishList userObj={userObj} getWish={getWish} />
           </BottomList>
           <PostBtn onClick={isLogedInWish}>등록하기</PostBtn>
         </RightBox>

@@ -9,22 +9,11 @@ import {
 import { useNavigate } from 'react-router-dom';
 
 
-function WishList({ userObj }) {
+function WishList({ userObj, getWish }) {
   const isLogIn = useRecoilValue(loginState);
-  const [getWish, setGetWish] = useState([])
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const getData = async () => {
-      const data = await getDocs(collection(db, "wishItems"));
-      setGetWish(data.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id
-      })))
-    }
-    getData()
-  }, [])
 
   return (
     <div style={{ height: "95%", overflow: "auto" }}>

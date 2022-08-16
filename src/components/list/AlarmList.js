@@ -5,20 +5,8 @@ import { db } from '../../firebase';
 import { collection, getDocs } from "firebase/firestore";
 
 
-function AlarmList({ userObj }) {
+function AlarmList({ userObj, getItems }) {
   const isLogIn = useRecoilValue(loginState);
-  const [getItems, setGetItems] = useState([])
-
-  useEffect(() => {
-    const getData = async () => {
-      const data = await getDocs(collection(db, "items"));
-      setGetItems(data.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id
-      })))
-    }
-    getData()
-  }, [])
 
   return (
     <>

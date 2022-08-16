@@ -4,10 +4,10 @@ import { db } from "../firebase"
 import { collection, getDocs } from "firebase/firestore";
 import Home from 'routes/Home';
 import ItemPost from 'routes/ItemPost';
-import ItemDetailed from 'routes/ItemDetailed';
+import ItemDetailed from 'routes/ItemDetail';
 import WishPost from 'routes/WishPost';
 import Profile from 'routes/Profile';
-import WishDetailed from 'routes/WishDetailed';
+import WishDetailed from 'routes/WishDetail';
 
 function AppRouter({ userObj, refreshUser }) {
   const [getItems, setGetItems] = useState([]);
@@ -39,12 +39,12 @@ function AppRouter({ userObj, refreshUser }) {
   return (
     <HashRouter>
       <Routes>
-        <Route path="/" element={<Home userObj={userObj} getItems={getItems} />} />
+        <Route path="/" element={<Home userObj={userObj} getItems={getItems} getWish={getWish} />} />
         <Route path="item-post" element={<ItemPost userObj={userObj} />} />
         <Route path="item-detail/:id" element={<ItemDetailed getItems={getItems} />} />
         <Route path="wish-post" element={<WishPost userObj={userObj} />} />
         <Route path="wish-detail/:id" element={<WishDetailed getWish={getWish} />} />
-        <Route path="profile" element={<Profile userObj={userObj} refreshUser={refreshUser} />} />
+        <Route path="profile" element={<Profile userObj={userObj} refreshUser={refreshUser} getItems={getItems} getWish={getWish} />} />
       </Routes>
     </HashRouter>
   )
