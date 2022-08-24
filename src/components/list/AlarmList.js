@@ -5,13 +5,25 @@ import { db } from '../../firebase';
 import { collection, getDocs } from "firebase/firestore";
 
 
-function AlarmList({ userObj, getItems }) {
+function AlarmList({ userObj }) {
   const isLogIn = useRecoilValue(loginState);
+  const [currentAlarm, setCureentAlarm] = useState([])
+
+  useEffect(() => {
+    const getCurrentItems = async () => {
+      const data = await getDocs(collection(db, "items"));
+      setCureentAlarm(data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      })))
+    }
+    getCurrentItems();
+  }, [])
 
   return (
     <>
       {isLogIn ? (
-        getItems.map((it) => (
+        currentAlarm.map((it) => (
           userObj.uid === it.creatorId ? (
             <div key={it.id}>
               {

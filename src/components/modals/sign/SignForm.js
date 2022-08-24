@@ -20,8 +20,9 @@ import {
 import Auth from './Auth';
 import { useRecoilState } from 'recoil';
 import { userState } from 'atoms';
+import { useNavigate } from 'react-router-dom';
 
-console.log(authService)
+// console.log(authService)
 
 function SignForm({ closeModal, onModal, setIsLogIn }) {
 
@@ -34,6 +35,8 @@ function SignForm({ closeModal, onModal, setIsLogIn }) {
   const [errorFromSubmit, setErrorFromSubmit] = useState("");
   const password = useRef();
   password.current = watch("password");
+
+  const navigate = useNavigate();
 
 
   const toggleSign = () => setNewUser(prev => !prev);
@@ -54,7 +57,8 @@ function SignForm({ closeModal, onModal, setIsLogIn }) {
         )
         closeModal();
         setIsLogIn(true);
-        alert("로그인 완료!")
+        alert("로그인 완료!");
+        navigate('/');
       }
       console.log(user)
     } catch (error) {

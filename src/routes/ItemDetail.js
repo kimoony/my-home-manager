@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { db, storage } from '../firebase';
 import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import { ref, uploadBytes } from "firebase/storage";
-import { useParams, Link } from 'react-router-dom';
-import CurrentItem from 'components/CurrentItem';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import Item from 'components/Item';
 
 function ItemDetailed({ getItems }) {
   const [getImages, setGetImages] = useState();
   const [itemId, setItemId] = useState({});
 
   const { id } = useParams();
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (getItems.length > 0) {
@@ -32,10 +33,11 @@ function ItemDetailed({ getItems }) {
     getImg();
   }, [])
 
-  const onDelete = () => {
-    const delItem = deleteDoc(doc(db, "items", `${itemId.id}`))
-    console.log(delItem)
-    // alert("삭제완료!")
+  const onDeleteItem = async (id) => {
+    const delItem = doc(db, "items", itemId.id)
+    await deleteDoc(delItem)
+    alert("삭제완료!")
+    navigate('/')
   }
 
 
@@ -44,9 +46,9 @@ function ItemDetailed({ getItems }) {
       <Link to='/'>
         <button>←</button>
       </Link>
-      <CurrentItem itemId={itemId} />
+      <Item itemId={itemId} />
       <button>수정</button>
-      <button onClick={onDelete}>삭제</button>
+      <button onClick={onDeleteItem}>삭제</button>
     </div>
   )
 }

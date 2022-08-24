@@ -92,7 +92,7 @@ function Home({ userObj, getItems, getWish }) {
         <LeftBox>
           <h3>전체리스트</h3>
           <AllList>
-            <ItemList userObj={userObj} getItems={getItems} />
+            <ItemList userObj={userObj} />
           </AllList>
           <PostBtn onClick={isLogedInPost}>등록하기</PostBtn>
         </LeftBox>

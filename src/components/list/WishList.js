@@ -9,10 +9,22 @@ import {
 import { useNavigate } from 'react-router-dom';
 
 
-function WishList({ userObj, getWish }) {
+function WishList({ userObj }) {
   const isLogIn = useRecoilValue(loginState);
+  const [currentWish, setCurrentWish] = useState([])
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const getWishData = async () => {
+      const data = await getDocs(collection(db, "wishItems"));
+      setCurrentWish(data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      })))
+    }
+    getWishData();
+  }, [])
 
 
   return (
@@ -20,8 +32,8 @@ function WishList({ userObj, getWish }) {
       {
         isLogIn ? (
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", height: "60px" }}>
-            {getWish.length > 0 ? (
-              getWish.map((item) => (
+            {currentWish.length > 0 ? (
+              currentWish.map((item) => (
                 userObj.uid === item.creatorId ? (
                   <ListContainer key={item.id}>
                     <div
