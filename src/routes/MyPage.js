@@ -1,32 +1,31 @@
-import React from 'react'
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { authService } from '../firebase';
+import React from "react";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { authService } from "../firebase";
 import { updateProfile } from "firebase/auth";
-import AlarmList from 'components/list/AlarmList';
+import AlarmList from "components/list/AlarmList";
 
-
-function Profile({ refreshUser, userObj, getItems, getWish }) {
+function MyPage({ refreshUser, userObj, getItems, getWish }) {
   const user = authService.currentUser;
   const navigate = useNavigate();
   const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
 
   const onChange = (e) => {
-    setNewDisplayName(e.target.value)
-  }
-  console.log(userObj)
+    setNewDisplayName(e.target.value);
+  };
+  console.log(userObj);
 
   const updateSubmit = async (e) => {
     e.preventDefault();
     if (userObj.displayName !== newDisplayName) {
       await updateProfile(user, {
-        displayName: newDisplayName
-      })
-      refreshUser()
-      alert("수정완료! 홈으로 이동~")
-      navigate('/')
+        displayName: newDisplayName,
+      });
+      refreshUser();
+      alert("수정완료! 홈으로 이동~");
+      navigate("/");
     }
-  }
+  };
 
   return (
     <>
@@ -54,26 +53,22 @@ function Profile({ refreshUser, userObj, getItems, getWish }) {
         <h5>위시: {getWish.length}개</h5>
         <div>
           <h5>알림</h5>
-          {
-            getItems.map((it) => (
-              userObj.uid === it.creatorId ? (
-                <div key={it.id}>
-                  {
-                    it.quantity <= 3 ?
-                      `${it.name}가 ${it.quantity}개 남았습니다. `
-                      : ""
-                  }
-                </div>
-              ) : null
-            ))
-          }
+          {getItems.map((it) =>
+            userObj.uid === it.creatorId ? (
+              <div key={it.id}>
+                {it.quantity <= 3
+                  ? `${it.name}가 ${it.quantity}개 남았습니다. `
+                  : ""}
+              </div>
+            ) : null
+          )}
         </div>
       </div>
-      <Link to='/'>
+      <Link to="/">
         <button>뒤로가기</button>
       </Link>
     </>
-  )
+  );
 }
 
-export default Profile
+export default MyPage;

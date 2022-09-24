@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
-import { useRecoilValue } from 'recoil';
-import { nowTime } from '../atoms';
-import { db } from '../firebase';
-import { collection, addDoc } from 'firebase/firestore'
-import WishInputForm from 'components/WishInputForm'
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { useRecoilValue } from "recoil";
+import { db } from "../firebase";
+import { collection, addDoc } from "firebase/firestore";
+import WishInputForm from "components/form/WishInputForm";
 import {
   Wrapper,
   Form,
@@ -13,17 +12,20 @@ import {
   Main,
   Footer,
   GoBack,
-  PostBtn
-} from 'styles/WishPost.style';
+  PostBtn,
+} from "styles/WishPost.style";
 
 function WishPost({ userObj }) {
   const [wCateg, setWCateg] = useState();
   const [wItemName, setWItemName] = useState("");
   const [price, setPrice] = useState(0);
-  const [wDesc, setWDesc] = useState("")
-  const writeTime = useRecoilValue(nowTime);
+  const [wDesc, setWDesc] = useState("");
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const navigate = useNavigate();
 
@@ -32,26 +34,24 @@ function WishPost({ userObj }) {
       const docRef = await addDoc(collection(db, "wishItems"), {
         catag: wCateg,
         name: wItemName,
-        price: price.toLocaleString('ko-KR'),
+        price: price.toLocaleString("ko-KR"),
         descript: wDesc,
-        createDate: writeTime,
+        // createDate: writeTime,
         creatorId: userObj.uid,
-      })
+      });
       console.log("Document written with ID: ", docRef.id);
-      navigate('/');
-      alert("등록이 완료되었습니다.")
+      navigate("/");
+      alert("등록이 완료되었습니다.");
     } catch (error) {
       console.error(error.message);
     }
-  }
+  };
 
   return (
     <Wrapper>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Header>
-          <h1>
-            위시리스트 등록하기
-          </h1>
+          <h1>위시리스트 등록하기</h1>
         </Header>
         <Main>
           <WishInputForm
@@ -66,14 +66,14 @@ function WishPost({ userObj }) {
           />
         </Main>
         <Footer>
-          <Link to='/'>
+          <Link to="/">
             <GoBack>뒤로가기</GoBack>
           </Link>
           <PostBtn>등록하기</PostBtn>
         </Footer>
       </Form>
-    </Wrapper >
-  )
+    </Wrapper>
+  );
 }
 
-export default WishPost
+export default WishPost;

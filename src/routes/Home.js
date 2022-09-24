@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { authService, apikey } from '../firebase';
-import { useRecoilState } from 'recoil';
-import { loginState, modalState } from '../atoms';
+import React, { useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { authService, apikey } from "../firebase";
+import { useRecoilState } from "recoil";
+import { loginState, modalState } from "../atoms";
 import {
   Wrapper,
   Header,
@@ -16,56 +16,56 @@ import {
   RightBox,
   TopList,
   BottomList,
-  PostBtn
-} from '../styles/Home.style';
-import SignForm from 'components/modals/sign/SignForm';
-import AlarmList from 'components/list/AlarmList';
-import WishList from 'components/list/WishList';
-import ItemList from 'components/list/ItemList';
+  PostBtn,
+} from "../styles/Home.style";
+import SignForm from "components/modals/sign/SignForm";
+import AlarmList from "components/list/AlarmList";
+import WishList from "components/list/WishList";
+import ItemList from "components/list/ItemList";
 
-function Home({ userObj, getItems, getWish }) {
+function Home({ userObj, getItems, getWish, changed, setChanged }) {
   const [isLogIn, setIsLogIn] = useRecoilState(loginState);
   const [onModal, setOnModal] = useRecoilState(modalState);
 
   const navigate = useNavigate();
 
-  const sessionKey = `firebase:authUser:${apikey}:[DEFAULT]`
+  const sessionKey = `firebase:authUser:${apikey}:[DEFAULT]`;
   const session = sessionStorage.getItem(sessionKey) ? true : false;
 
   useEffect(() => {
     if (session && userObj !== null) {
-      setIsLogIn(true)
+      setIsLogIn(true);
     }
-  }, [userObj, session, setIsLogIn])
+  }, [userObj, session, setIsLogIn]);
 
   const openModal = () => {
     setOnModal(true);
-  }
+  };
   const closeModal = () => {
     setOnModal(false);
-  }
+  };
 
   const SignOut = () => {
     setIsLogIn(false);
     // user sign out
     authService.signOut();
-    alert("로그아웃 되었습니다!")
-  }
+    alert("로그아웃 되었습니다!");
+  };
 
   const isLogedInPost = () => {
     if (isLogIn) {
-      navigate('item-post')
+      navigate("item-post");
     } else {
-      openModal()
+      openModal();
     }
-  }
+  };
   const isLogedInWish = () => {
     if (isLogIn) {
-      navigate('wish-post')
+      navigate("wish-post");
     } else {
-      openModal()
+      openModal();
     }
-  }
+  };
 
   return (
     <Wrapper>
@@ -74,19 +74,22 @@ function Home({ userObj, getItems, getWish }) {
         {/* <ThemeMode type="checkbox" text="a" /> */}
       </Header>
       <BtnBox>
-        {isLogIn ?
+        {isLogIn ? (
           <>
             <span>{userObj.displayName}님, 안녕하세요!</span>
             <SignBtn onClick={SignOut}>로그아웃</SignBtn>
-            <Link to='profile'>
+            <Link to="mypage">
               <SignBtn>마이페이지</SignBtn>
             </Link>
           </>
-          : (
-            <SignBtn onClick={openModal}>로그인</SignBtn>
-          )
-        }
-        <SignForm onModal={onModal} closeModal={closeModal} setIsLogIn={setIsLogIn} />
+        ) : (
+          <SignBtn onClick={openModal}>로그인</SignBtn>
+        )}
+        <SignForm
+          onModal={onModal}
+          closeModal={closeModal}
+          setIsLogIn={setIsLogIn}
+        />
       </BtnBox>
       <ListBox>
         <LeftBox>
@@ -103,13 +106,18 @@ function Home({ userObj, getItems, getWish }) {
           </TopList>
           <h3>위시리스트</h3>
           <BottomList>
-            <WishList userObj={userObj} getWish={getWish} />
+            <WishList
+              userObj={userObj}
+              getWish={getWish}
+              changed={changed}
+              setChanged={setChanged}
+            />
           </BottomList>
           <PostBtn onClick={isLogedInWish}>등록하기</PostBtn>
         </RightBox>
       </ListBox>
     </Wrapper>
-  )
+  );
 }
 
-export default Home
+export default Home;

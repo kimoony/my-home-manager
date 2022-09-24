@@ -1,34 +1,40 @@
-import { atom } from 'recoil';
-import moment from 'moment';
-import 'moment/locale/ko';
-
+import { atom } from "recoil";
 
 export const writeState = atom({
-  key: 'writeState',
-  default: 0
-})
+  key: "writeState",
+  default: 0,
+});
 
 export const modalState = atom({
-  key: 'modalState',
-  default: false
-})
+  key: "modalState",
+  default: false,
+});
 
 export const loginState = atom({
-  key: 'loginState',
-  default: false
-})
+  key: "loginState",
+  default: false,
+});
 
 export const userState = atom({
-  key: 'userState',
-  default: true
-})
+  key: "userState",
+  default: true,
+});
 
-export const nowTime = atom({
-  key: 'nowTime',
-  default: moment().format('YYYY-MM-DD HH:mm:ss')
-})
+export const itemPostState = atom({
+  key: "itemPostState",
+  default: {
+    category: "",
+    name: "",
+    quantity: 0,
+    location: "",
+    purchase: "",
+    purchaseMethod: "",
+    descript: "",
+    createdAt: "",
+  },
+});
 
-export const countQuantity = atom({
-  key: 'countQuantity',
-  default: 0,
-})
+export const changedState = atom({
+  key: "changedState",
+  default: false,
+});
