@@ -12,6 +12,7 @@ function WishList({ userObj }) {
   const [targetId, setTargetId] = useState({});
   const [getWish, setGetWish] = useRecoilState(getWishState);
 
+  console.log(getWish);
   const navigate = useNavigate();
 
   const isLogedInWish = () => {
@@ -25,7 +26,6 @@ function WishList({ userObj }) {
   useEffect(() => {
     if (getWish.length > 0) {
       const targetWish = getWish.find((item) => item.id);
-      console.log(targetWish);
       if (targetWish) {
         setTargetId(targetWish);
       }
@@ -51,9 +51,9 @@ function WishList({ userObj }) {
           }}
         >
           {getWish.length > 0 ? (
-            getWish.map((item) =>
-              userObj.uid === item.creatorId ? (
-                <ListContainer key={item.id}>
+            getWish.map((wish) =>
+              userObj.uid === wish.creatorId ? (
+                <ListContainer key={wish.id}>
                   <div
                     style={{
                       display: "flex",
@@ -61,11 +61,11 @@ function WishList({ userObj }) {
                       alignItems: "center",
                       width: "100%",
                     }}
-                    onClick={() => navigate(`wish-detail/${item.id}`)}
+                    onClick={() => navigate(`wish-detail/${wish.id}`)}
                   >
-                    <div>{item.name}</div>
-                    <div>{item.price}</div>
-                    <span>{item.createDate}</span>
+                    <div>{wish.products}</div>
+                    <div>{wish.price}</div>
+                    <span>{wish.createDate}</span>
                   </div>
                   <div>
                     <button
@@ -75,7 +75,7 @@ function WishList({ userObj }) {
                       삭제
                     </button>
                     <button
-                      onClick={() => navigate(`/wish-detail/${item.id}/edit`)}
+                      onClick={() => navigate(`/wish-detail/${wish.id}/edit`)}
                     >
                       수정
                     </button>

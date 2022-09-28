@@ -19,7 +19,7 @@ import {
   SignBtn,
   ListBox,
   LeftBox,
-  AllList,
+  MainList,
   RightBox,
   TopList,
   BottomList,
@@ -131,27 +131,34 @@ function Home({ userObj }) {
       </BtnBox>
       <ListBox>
         <LeftBox>
-          <h3>전체리스트</h3>
-          <AllList>
+          <h3>
+            아이템리스트
+            <span>
+              {getItems.length > 0 ? (
+                <PostBtn onClick={isLogedInPost}>등록하기</PostBtn>
+              ) : null}
+            </span>
+          </h3>
+          <MainList>
             <ItemList userObj={userObj} />
-          </AllList>
-          <PostBtn onClick={isLogedInPost}>등록하기</PostBtn>
+          </MainList>
         </LeftBox>
         <RightBox>
-          <h3>알림리스트</h3>
+          <h3>알림</h3>
           <TopList>
-            <AlarmList userObj={userObj} getItems={getItems} />
+            <AlarmList userObj={userObj} />
           </TopList>
-          <h3>위시리스트</h3>
+          <h3>
+            위시리스트
+            <span>
+              {getWish.length > 0 ? (
+                <PostBtn onClick={isLogedInWish}>등록하기</PostBtn>
+              ) : null}
+            </span>
+          </h3>
           <BottomList>
-            <WishList
-              userObj={userObj}
-              getWish={getWish}
-              changed={changed}
-              setChanged={setChanged}
-            />
+            <WishList userObj={userObj} />
           </BottomList>
-          <PostBtn onClick={isLogedInWish}>등록하기</PostBtn>
         </RightBox>
       </ListBox>
     </Wrapper>

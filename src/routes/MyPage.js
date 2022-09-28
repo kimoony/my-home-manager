@@ -3,17 +3,19 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { authService } from "../firebase";
 import { updateProfile } from "firebase/auth";
-import AlarmList from "components/list/AlarmList";
+import { getItemsState, getWishState } from "atoms";
+import { useRecoilValue } from "recoil";
 
-function MyPage({ refreshUser, userObj, getItems, getWish }) {
+function MyPage({ refreshUser, userObj }) {
   const user = authService.currentUser;
   const navigate = useNavigate();
   const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
+  const getItems = useRecoilValue(getItemsState);
+  const getWish = useRecoilValue(getWishState);
 
   const onChange = (e) => {
     setNewDisplayName(e.target.value);
   };
-  console.log(userObj);
 
   const updateSubmit = async (e) => {
     e.preventDefault();

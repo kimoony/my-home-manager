@@ -1,5 +1,4 @@
-import styled from 'styled-components';
-
+import styled from "styled-components";
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -12,13 +11,9 @@ export const Header = styled.header`
   justify-content: center;
 `;
 
-export const Title = styled.h1`
+export const Title = styled.h1``;
 
-`;
-
-export const ThemeMode = styled.input`
-  
-`;
+export const ThemeMode = styled.input``;
 
 export const BtnBox = styled.div`
   width: 100%;
@@ -49,7 +44,7 @@ export const LeftBox = styled.div`
   }
 `;
 
-export const AllList = styled.div`
+export const MainList = styled.div`
   width: 95%;
   height: 100%;
   border: 1px solid red;
@@ -66,7 +61,6 @@ export const RightBox = styled.div`
     margin-right: -15px;
   }
 `;
-
 
 export const TopList = styled.div`
   width: 100%;
@@ -85,7 +79,7 @@ export const BottomList = styled.div`
 export const PostBtn = styled.button`
   border: none;
   border-radius: 5px;
-  background-color: #2986F5;
+  background-color: #2986f5;
   color: #fff;
   padding: 5px 10px;
   cursor: pointer;

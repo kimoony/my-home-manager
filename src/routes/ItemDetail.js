@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { db, storage } from "../firebase";
-import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
+import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { ref, uploadBytes } from "firebase/storage";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import Item from "components/content/Item";
+import { getItemsState } from "atoms";
+import { useRecoilState } from "recoil";
 
-function ItemDetailed({ getItems }) {
+function ItemDetailed() {
   const [getImages, setGetImages] = useState();
-  const [itemId, setItemId] = useState({});
+  const [targetId, setTargetId] = useState({});
+  const [getItems, setGetItems] = useRecoilState(getItemsState);
+  const [isEdit, setIsEdit] = useState(false);
 
   const { id } = useParams();
   console.log(id);
@@ -18,12 +22,10 @@ function ItemDetailed({ getItems }) {
       const targetItem = getItems.find((item) => item.id === id);
       console.log(targetItem);
       if (targetItem) {
-        setItemId(targetItem);
+        setTargetId(targetItem);
       }
     }
   }, [getItems, id]);
-
-  // console.log(itemId)
 
   useEffect((file) => {
     const getImg = async () => {
@@ -34,9 +36,28 @@ function ItemDetailed({ getItems }) {
     getImg();
   }, []);
 
+  const onUpdateItem = async (e) => {
+    e.preventDefault();
+    const editRef = doc(db, "items", targetId.id);
+    try {
+      await updateDoc(editRef, {
+        ...targetId,
+      });
+      console.log(editRef.id);
+
+      setIsEdit(false);
+      alert("등록이 완료되었습니다.");
+    } catch (error) {
+      console.error(error.message);
+    } finally {
+      console.log("End");
+    }
+  };
+
   const onDeleteItem = async (id) => {
-    const delItem = doc(db, "items", itemId.id);
+    const delItem = doc(db, "items", targetId.id);
     await deleteDoc(delItem);
+    setGetItems(getItems.filter((item) => item.id !== targetId.id));
     alert("삭제완료!");
     navigate("/");
   };
@@ -46,10 +67,18 @@ function ItemDetailed({ getItems }) {
       <Link to="/">
         <button>←</button>
       </Link>
-      <Item itemId={itemId} />
-      <Link to={`/item-detail/${itemId.id}/edit`}>
-        <button>수정</button>
-      </Link>
+      <Item
+        item={targetId}
+        setItem={setTargetId}
+        isEdit={isEdit}
+        setIsEdit={setIsEdit}
+      />
+      {isEdit === false ? (
+        <button onClick={() => setIsEdit(true)}>수정</button>
+      ) : (
+        <button onClick={onUpdateItem}>완료</button>
+      )}
+
       <button onClick={onDeleteItem}>삭제</button>
     </div>
   );

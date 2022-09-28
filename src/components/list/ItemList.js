@@ -66,7 +66,7 @@ function ItemList({ userObj }) {
                     }}
                   >
                     <div onClick={() => navigate(`item-detail/${item.id}`)}>
-                      {item.name}
+                      {item.products}
                     </div>
                     <span>{item.quantity}</span>
                     <span>{item.createDate}</span>

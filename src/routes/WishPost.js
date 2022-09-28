@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
@@ -6,6 +6,8 @@ import { wishPostState } from "atoms";
 import { db } from "../firebase";
 import { collection, addDoc } from "firebase/firestore";
 import WishInputForm from "components/form/WishInputForm";
+import moment from "moment";
+import "moment/locale/ko";
 import {
   Wrapper,
   Form,
@@ -15,7 +17,6 @@ import {
   GoBack,
   PostBtn,
 } from "styles/WishPost.style";
-import { useTransition } from "react";
 
 function WishPost({ userObj }) {
   const wishValue = useRecoilValue(wishPostState);
@@ -36,6 +37,7 @@ function WishPost({ userObj }) {
         price: wishValue.price.toLocaleString("ko-KR"),
         descript: wishValue.descript,
         creatorId: userObj.uid,
+        createDate: moment().format("YYYY-MM-DD HH:mm:ss"),
       });
       console.log("Document written with ID: ", docRef.id);
       navigate("/");
@@ -46,24 +48,22 @@ function WishPost({ userObj }) {
   };
 
   return (
-    <Suspense fallback={<p>로딩중...</p>}>
-      <Wrapper>
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <Header>
-            <h1>위시리스트 등록하기</h1>
-          </Header>
-          <Main>
-            <WishInputForm register={register} errors={errors} />
-          </Main>
-          <Footer>
-            <Link to="/">
-              <GoBack>뒤로가기</GoBack>
-            </Link>
-            <PostBtn>등록하기</PostBtn>
-          </Footer>
-        </Form>
-      </Wrapper>
-    </Suspense>
+    <Wrapper>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Header>
+          <h1>위시리스트 등록하기</h1>
+        </Header>
+        <Main>
+          <WishInputForm register={register} errors={errors} />
+        </Main>
+        <Footer>
+          <Link to="/">
+            <GoBack>뒤로가기</GoBack>
+          </Link>
+          <PostBtn>등록하기</PostBtn>
+        </Footer>
+      </Form>
+    </Wrapper>
   );
 }
 
