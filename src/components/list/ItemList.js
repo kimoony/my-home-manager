@@ -2,21 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { getItemsState, loginState, modalState } from "../../atoms";
 import { db } from "../../firebase";
-import {
-  collection,
-  getDocs,
-  doc,
-  deleteDoc,
-  updateDoc,
-} from "firebase/firestore";
+import { doc, deleteDoc } from "firebase/firestore";
 import { ListContainer } from "../../styles/list/ItemList.style";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function ItemList({ userObj }) {
   const isLogIn = useRecoilValue(loginState);
-  const [onModal, setOnModal] = useRecoilState(modalState);
+  const setOnModal = useRecoilState(modalState);
   const [targetId, setTargetId] = useState({});
-  const [currentItems, setCurrentItems] = useState([]);
   const [getItems, setGetItems] = useRecoilState(getItemsState);
 
   console.log(getItems);
@@ -32,7 +25,7 @@ function ItemList({ userObj }) {
         setTargetId(targetItem);
       }
     }
-  }, [getItems, setCurrentItems, targetId.id]);
+  }, [getItems]);
 
   const onDelete = async () => {
     const delItem = doc(db, "items", targetId.id);

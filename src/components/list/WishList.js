@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilValue, useRecoilState } from "recoil";
-import { loginState, modalState } from "../../atoms";
+import { getWishState, loginState, modalState } from "../../atoms";
 import { ListContainer } from "../../styles/list/WishList.style";
 import { useNavigate } from "react-router-dom";
+import { db } from "../../firebase";
+import { doc, deleteDoc } from "firebase/firestore";
 
-function WishList({ userObj, getWish, changed, setChanged }) {
+function WishList({ userObj }) {
   const isLogIn = useRecoilValue(loginState);
-  const [onModal, setOnModal] = useRecoilState(modalState);
+  const setOnModal = useRecoilState(modalState);
+  const [targetId, setTargetId] = useState({});
+  const [getWish, setGetWish] = useRecoilState(getWishState);
 
   const navigate = useNavigate();
 
@@ -16,6 +20,23 @@ function WishList({ userObj, getWish, changed, setChanged }) {
     } else {
       setOnModal(true);
     }
+  };
+
+  useEffect(() => {
+    if (getWish.length > 0) {
+      const targetWish = getWish.find((item) => item.id);
+      console.log(targetWish);
+      if (targetWish) {
+        setTargetId(targetWish);
+      }
+    }
+  }, [getWish]);
+
+  const onClickDelete = async () => {
+    const delWish = doc(db, "wishItems", targetId.id);
+    await deleteDoc(delWish);
+    setGetWish(getWish.filter((wish) => wish.id !== targetId.id));
+    alert("삭제완료!");
   };
 
   return (
@@ -47,7 +68,10 @@ function WishList({ userObj, getWish, changed, setChanged }) {
                     <span>{item.createDate}</span>
                   </div>
                   <div>
-                    <button style={{ marginLeft: "25px", marginRight: "10px" }}>
+                    <button
+                      onClick={onClickDelete}
+                      style={{ marginLeft: "25px", marginRight: "10px" }}
+                    >
                       삭제
                     </button>
                     <button
