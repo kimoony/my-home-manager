@@ -5,7 +5,7 @@ import { db, storage } from "../firebase";
 import { collection, addDoc } from "firebase/firestore";
 import ItemInputForm from "components/form/ItemInputForm";
 import { useRecoilValue } from "recoil";
-import { itemPostState } from "../atoms";
+import { itemPostState, quantityState } from "../atoms";
 import moment from "moment";
 import "moment/locale/ko";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
@@ -24,10 +24,9 @@ function ItemPost({ userObj }) {
   const [file, setFile] = useState("");
   const [percent, setPercent] = useState(0);
   const itemsValue = useRecoilValue(itemPostState);
-  const [quantity, setQuantity] = useState(Number(itemsValue.quantity));
-  console.log(quantity);
-
+  const quantity = useRecoilValue(quantityState);
   console.log(itemsValue);
+  console.log(quantity);
 
   const {
     register,
@@ -42,7 +41,7 @@ function ItemPost({ userObj }) {
       const docRef = await addDoc(collection(db, "items"), {
         creatorId: userObj.uid,
         catagory: itemsValue.category,
-        name: itemsValue.name,
+        products: itemsValue.products,
         quantity: quantity,
         storageLocation: itemsValue.location,
         purchase: itemsValue.purchase,
@@ -102,8 +101,6 @@ function ItemPost({ userObj }) {
             errors={errors}
             percent={percent}
             setFile={setFile}
-            quantity={quantity}
-            setQuantity={setQuantity}
           />
         </Main>
         <Footer>

@@ -1,38 +1,20 @@
-import React from 'react'
+import { wishPostState } from "atoms";
+import React from "react";
+import { useRecoilState } from "recoil";
 import {
   Container,
   Ctag,
   ItemName,
   Price,
-  Description
-} from 'styles/WishInputForm.style';
+  Description,
+} from "styles/WishInputForm.style";
 
-function WishInputForm({
-  register,
-  errors,
-  wCateg,
-  setWCateg,
-  setWItemName,
-  price,
-  setPrice,
-  setWDesc
-}) {
+function WishInputForm({ register, errors }) {
+  const [wishValue, setWishValue] = useRecoilState(wishPostState);
 
-  const wCategSelect = (e) => {
-    setWCateg(e.target.value)
-  }
-
-  const wNameChange = (e) => {
-    setWItemName(e.target.value)
-  }
-
-  const numChange = (e) => {
-    setPrice(e.target.value).toLocaleString('ko-KR')
-  }
-
-  const descChange = (e) => {
-    setWDesc(e.target.value)
-  }
+  const changeValue = (e) => {
+    setWishValue({ ...wishValue, [e.target.name]: e.target.value });
+  };
 
   const WOptions = [
     { key: 0, value: "선택" },
@@ -41,7 +23,7 @@ function WishInputForm({
     { key: 3, value: "욕실" },
     { key: 4, value: "차량" },
     { key: 5, value: "취미" },
-  ]
+  ];
 
   return (
     <Container>
@@ -49,33 +31,38 @@ function WishInputForm({
         <label>카테고리 </label>
         <select
           name="wCategory"
-          value={wCateg}
-          onChange={wCategSelect}
+          value={wishValue.category}
+          onChange={changeValue}
         >
-          {
-            WOptions.map((wOption) => (
-              <option key={wOption.key} value={wOption.value} >{wOption.value}</option>
-            ))
-          }
+          {WOptions.map((wOption) => (
+            <option key={wOption.key} value={wOption.value}>
+              {wOption.value}
+            </option>
+          ))}
         </select>
       </Ctag>
       <ItemName>
         <label>물품명 </label>
-        <input type="text" onChange={wNameChange} />
+        <input type="text" value={wishValue.products} onChange={changeValue} />
       </ItemName>
       <Price>
         <label>가격 </label>
         <div>
-          <input type="number" value={price} onChange={numChange} />
+          <input type="number" value={wishValue.price} onChange={changeValue} />
           <span> 원</span>
         </div>
       </Price>
       <Description>
         <label>설명 </label>
-        <textarea onChange={descChange} cols="30" rows="10"></textarea>
+        <textarea
+          value={wishValue.descript}
+          onChange={changeValue}
+          cols="30"
+          rows="10"
+        ></textarea>
       </Description>
     </Container>
-  )
+  );
 }
 
-export default WishInputForm
+export default WishInputForm;

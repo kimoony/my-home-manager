@@ -1,10 +1,5 @@
 import { atom } from "recoil";
 
-export const writeState = atom({
-  key: "writeState",
-  default: 0,
-});
-
 export const modalState = atom({
   key: "modalState",
   default: false,
@@ -24,8 +19,7 @@ export const itemPostState = atom({
   key: "itemPostState",
   default: {
     category: "",
-    name: "",
-    quantity: 0,
+    products: "",
     location: "",
     purchase: "",
     purchaseMethod: "",
@@ -34,7 +28,30 @@ export const itemPostState = atom({
   },
 });
 
+export const quantityState = atom({
+  key: "quantityState",
+  default: 0,
+});
+
+export const wishPostState = atom({
+  key: "wishPostState",
+  category: "",
+  products: "",
+  price: 0,
+  descript: "",
+});
+
 export const changedState = atom({
   key: "changedState",
   default: false,
+});
+
+export const getItemsState = atom({
+  key: "getItemsState",
+  default: [],
+});
+
+export const getWishState = atom({
+  key: "getWishState",
+  default: [],
 });

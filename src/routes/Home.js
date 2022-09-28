@@ -1,13 +1,20 @@
 import React, { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { authService, apikey } from "../firebase";
+import { authService, apikey, db } from "../firebase";
 import { useRecoilState } from "recoil";
-import { loginState, modalState } from "../atoms";
+import {
+  getItemsState,
+  getWishState,
+  loginState,
+  modalState,
+  changedState,
+} from "../atoms";
+import { collection, getDocs } from "firebase/firestore";
 import {
   Wrapper,
   Header,
   Title,
-  ThemeMode,
+  // ThemeMode,
   BtnBox,
   SignBtn,
   ListBox,
@@ -23,9 +30,12 @@ import AlarmList from "components/list/AlarmList";
 import WishList from "components/list/WishList";
 import ItemList from "components/list/ItemList";
 
-function Home({ userObj, getItems, getWish, changed, setChanged }) {
+function Home({ userObj }) {
+  const [getItems, setGetItems] = useRecoilState(getItemsState);
+  const [getWish, setGetWish] = useRecoilState(getWishState);
   const [isLogIn, setIsLogIn] = useRecoilState(loginState);
   const [onModal, setOnModal] = useRecoilState(modalState);
+  const [changed, setChanged] = useRecoilState(changedState);
 
   const navigate = useNavigate();
 
@@ -33,7 +43,35 @@ function Home({ userObj, getItems, getWish, changed, setChanged }) {
   const session = sessionStorage.getItem(sessionKey) ? true : false;
 
   useEffect(() => {
-    if (session && userObj !== null) {
+    const getItemData = async () => {
+      const data = await getDocs(collection(db, "items"));
+      setGetItems(
+        data.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }))
+      );
+    };
+    getItemData();
+    setChanged(false);
+  }, [setChanged, setGetItems]);
+
+  useEffect(() => {
+    const getWishData = async () => {
+      const data = await getDocs(collection(db, "wishItems"));
+      setGetWish(
+        data.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }))
+      );
+    };
+    getWishData();
+    setChanged(false);
+  }, [setChanged, setGetWish]);
+
+  useEffect(() => {
+    if (session === true && userObj !== null) {
       setIsLogIn(true);
     }
   }, [userObj, session, setIsLogIn]);
@@ -54,14 +92,14 @@ function Home({ userObj, getItems, getWish, changed, setChanged }) {
 
   const isLogedInPost = () => {
     if (isLogIn) {
-      navigate("item-post");
+      navigate("/item-post");
     } else {
       openModal();
     }
   };
   const isLogedInWish = () => {
     if (isLogIn) {
-      navigate("wish-post");
+      navigate("/wish-post");
     } else {
       openModal();
     }

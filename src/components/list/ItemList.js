@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
-import { loginState } from "../../atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { getItemsState, loginState, modalState } from "../../atoms";
 import { db } from "../../firebase";
 import {
   collection,
@@ -10,60 +10,44 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { ListContainer } from "../../styles/list/ItemList.style";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function ItemList({ userObj }) {
   const isLogIn = useRecoilValue(loginState);
+  const [onModal, setOnModal] = useRecoilState(modalState);
   const [targetId, setTargetId] = useState({});
   const [currentItems, setCurrentItems] = useState([]);
+  const [getItems, setGetItems] = useRecoilState(getItemsState);
+
+  console.log(getItems);
 
   const navigate = useNavigate();
 
-  // getDoc
-  useEffect(() => {
-    const getCurrentItems = async () => {
-      const data = await getDocs(collection(db, "items"));
-      setCurrentItems(
-        data.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }))
-      );
-    };
-    getCurrentItems();
-    navigate("/");
-  }, []);
-
   // id filter
   useEffect(() => {
-    if (currentItems.length > 0) {
-      const targetItem = currentItems.find((item) => item.id);
+    if (getItems.length > 0) {
+      const targetItem = getItems.find((item) => item.id);
       console.log(targetItem);
       if (targetItem) {
         setTargetId(targetItem);
       }
     }
-  }, [currentItems]);
+  }, [getItems, setCurrentItems, targetId.id]);
 
   const onDelete = async () => {
     const delItem = doc(db, "items", targetId.id);
     await deleteDoc(delItem);
+    setGetItems(getItems.filter((item) => item.id !== targetId.id));
     alert("삭제완료!");
-    navigate("/");
   };
 
-  // const quantityChange = (e) => {
-  //   setCurrentItems((quantity = e.target.value));
-  // };
-
-  // const addQuantity = (e) => {
-  //   setquantity((prev) => Number(prev) + 1);
-  // };
-  // const minusQuantity = (e) => {
-  //   if (countQuantity > 0) {
-  //     setquantity((prev) => Number(prev) - 1);
-  //   }
-  // };
+  const isLogedInPost = () => {
+    if (isLogIn) {
+      navigate("/item-post");
+    } else {
+      setOnModal(true);
+    }
+  };
 
   return (
     <div style={{ height: "95%", overflow: "auto" }}>
@@ -76,8 +60,8 @@ function ItemList({ userObj }) {
             height: "300px",
           }}
         >
-          {currentItems.length > 0 ? (
-            currentItems.map((item) =>
+          {getItems.length > 0 ? (
+            getItems.map((item) =>
               userObj.uid === item.creatorId ? (
                 <ListContainer key={item.id}>
                   <div
@@ -91,9 +75,7 @@ function ItemList({ userObj }) {
                     <div onClick={() => navigate(`item-detail/${item.id}`)}>
                       {item.name}
                     </div>
-                    <button>-</button>
-                    <input value={item.quantity} />
-                    <button>+</button>
+                    <span>{item.quantity}</span>
                     <span>{item.createDate}</span>
                   </div>
                   <div>
@@ -108,7 +90,7 @@ function ItemList({ userObj }) {
               ) : null
             )
           ) : (
-            <h3>아이템을 등록하세요!</h3>
+            <button onClick={isLogedInPost}>등록하기</button>
           )}
         </div>
       ) : (

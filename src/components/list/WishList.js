@@ -1,13 +1,22 @@
 import React from "react";
-import { useRecoilValue } from "recoil";
-import { loginState } from "../../atoms";
+import { useRecoilValue, useRecoilState } from "recoil";
+import { loginState, modalState } from "../../atoms";
 import { ListContainer } from "../../styles/list/WishList.style";
 import { useNavigate } from "react-router-dom";
 
 function WishList({ userObj, getWish, changed, setChanged }) {
   const isLogIn = useRecoilValue(loginState);
+  const [onModal, setOnModal] = useRecoilState(modalState);
 
   const navigate = useNavigate();
+
+  const isLogedInWish = () => {
+    if (isLogIn) {
+      navigate("/wish-post");
+    } else {
+      setOnModal(true);
+    }
+  };
 
   return (
     <div style={{ height: "95%", overflow: "auto" }}>
@@ -51,7 +60,7 @@ function WishList({ userObj, getWish, changed, setChanged }) {
               ) : null
             )
           ) : (
-            <h3>Wish 아이템을 등록하세요!</h3>
+            <button onClick={isLogedInWish}>등록하기</button>
           )}
         </div>
       ) : null}

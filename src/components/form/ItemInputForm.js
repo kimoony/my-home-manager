@@ -13,21 +13,15 @@ import {
   Purchase,
   Description,
 } from "styles/ItemInputForm.style";
-import { itemPostState } from "atoms";
+import { itemPostState, quantityState } from "atoms";
 import { useRecoilState } from "recoil";
 
-function ItemInputList({
-  register,
-  errors,
-  percent,
-  setFile,
-  quantity,
-  setQuantity,
-}) {
+function ItemInputList({ register, errors, percent, setFile }) {
   // 카테고리
   const [newCateg, setNewCateg] = useState("");
   const [viewInput, setViewInput] = useState(false);
   const [itemsValue, setItemsValue] = useRecoilState(itemPostState);
+  const [quantity, setQuantity] = useRecoilState(quantityState);
 
   const onClickAdd = () => {
     setViewInput(true);
@@ -104,8 +98,8 @@ function ItemInputList({
         <input
           type="text"
           onChange={changeValue}
-          name="name"
-          value={itemsValue.name}
+          name="products"
+          value={itemsValue.products}
         />
       </ItemName>
       <Quantity>
@@ -116,7 +110,7 @@ function ItemInputList({
           </button>
           <input
             type="number"
-            value={Number(itemsValue.quantity)}
+            value={quantity}
             onChange={changeValue}
             name="quantity"
           />

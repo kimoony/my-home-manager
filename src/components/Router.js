@@ -58,18 +58,7 @@ function AppRouter({ userObj, refreshUser }) {
   return (
     <HashRouter>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <Home
-              userObj={userObj}
-              getItems={getItems}
-              getWish={getWish}
-              changed={changed}
-              setChanged={setChanged}
-            />
-          }
-        />
+        <Route path="/" element={<Home userObj={userObj} />} />
         <Route path="item-post" element={<ItemPost userObj={userObj} />} />
         <Route
           path="item-detail/:id"
