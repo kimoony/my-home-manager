@@ -35,7 +35,6 @@ function Home({ userObj }) {
   const [getWish, setGetWish] = useRecoilState(getWishState);
   const [isLogIn, setIsLogIn] = useRecoilState(loginState);
   const [onModal, setOnModal] = useRecoilState(modalState);
-  const [changed, setChanged] = useRecoilState(changedState);
 
   const navigate = useNavigate();
 
@@ -53,8 +52,7 @@ function Home({ userObj }) {
       );
     };
     getItemData();
-    setChanged(false);
-  }, [setChanged, setGetItems]);
+  }, [getItems]);
 
   useEffect(() => {
     const getWishData = async () => {
@@ -67,8 +65,7 @@ function Home({ userObj }) {
       );
     };
     getWishData();
-    setChanged(false);
-  }, [setChanged, setGetWish]);
+  }, [getWish]);
 
   useEffect(() => {
     if (session === true && userObj !== null) {

@@ -12,7 +12,6 @@ function WishList({ userObj }) {
   const [targetId, setTargetId] = useState({});
   const [getWish, setGetWish] = useRecoilState(getWishState);
 
-  console.log(getWish);
   const navigate = useNavigate();
 
   const isLogedInWish = () => {

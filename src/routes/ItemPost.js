@@ -40,14 +40,14 @@ function ItemPost({ userObj }) {
     try {
       const docRef = await addDoc(collection(db, "items"), {
         creatorId: userObj.uid,
-        catagory: itemsValue.category,
+        category: itemsValue.category,
         products: itemsValue.products,
         quantity: quantity,
         storageLocation: itemsValue.location,
         purchase: itemsValue.purchase,
         purchaseMethod: itemsValue.purchaseMethod,
         descript: itemsValue.descript,
-        createDate: moment().format("YYYY-MM-DD HH:mm:ss"),
+        createDate: moment().format("YYYY-MM-DD"),
       });
       console.log(docRef.id);
 

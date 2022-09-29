@@ -12,15 +12,13 @@ function ItemList({ userObj }) {
   const [targetId, setTargetId] = useState({});
   const [getItems, setGetItems] = useRecoilState(getItemsState);
 
-  console.log(getItems);
-
   const navigate = useNavigate();
 
   // id filter
   useEffect(() => {
     if (getItems.length > 0) {
       const targetItem = getItems.find((item) => item.id);
-      console.log(targetItem);
+
       if (targetItem) {
         setTargetId(targetItem);
       }

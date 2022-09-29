@@ -15,7 +15,7 @@ function CurrentItem({ item, setItem, isEdit, setIsEdit }) {
           <p>등록시간: {item.createDate}</p>
           <div>
             <label>카테고리: </label>
-            <span>{item.categ}</span>
+            <span>{item.category}</span>
           </div>
           <div>
             <label>수량: </label>
@@ -28,7 +28,7 @@ function CurrentItem({ item, setItem, isEdit, setIsEdit }) {
           <div>
             <label>구매처/구매방법: </label>
             <span>
-              {item.purchase} / {item.pMethod}
+              {item.purchase} / {item.purchaseMethod}
             </span>
           </div>
           <div>
@@ -48,10 +48,10 @@ function CurrentItem({ item, setItem, isEdit, setIsEdit }) {
           </div>
           <div>
             <label>카테고리: </label>
-            <select name="catagory">
+            <select name="category">
               <option
-                name="catagory"
-                value={item.catagory}
+                name="category"
+                value={item.category}
                 onChange={changeValue}
               ></option>
             </select>
