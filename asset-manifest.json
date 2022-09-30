@@ -1,10 +1,28 @@
 {
   "files": {
-    "main.js": "/my-home-manager/static/js/main.905dbaf5.js",
+    "main.js": "/my-home-manager/static/js/main.318c818b.js",
+    "static/js/317.7a0c262a.chunk.js": "/my-home-manager/static/js/317.7a0c262a.chunk.js",
+    "static/js/634.cb60f8cf.chunk.js": "/my-home-manager/static/js/634.cb60f8cf.chunk.js",
+    "static/js/367.cee82940.chunk.js": "/my-home-manager/static/js/367.cee82940.chunk.js",
+    "static/js/286.82d0c089.chunk.js": "/my-home-manager/static/js/286.82d0c089.chunk.js",
+    "static/js/418.f30c9e0e.chunk.js": "/my-home-manager/static/js/418.f30c9e0e.chunk.js",
+    "static/js/94.0fb672c7.chunk.js": "/my-home-manager/static/js/94.0fb672c7.chunk.js",
+    "static/js/281.0400c281.chunk.js": "/my-home-manager/static/js/281.0400c281.chunk.js",
+    "static/js/15.f0713ed8.chunk.js": "/my-home-manager/static/js/15.f0713ed8.chunk.js",
+    "static/js/803.2468950d.chunk.js": "/my-home-manager/static/js/803.2468950d.chunk.js",
     "index.html": "/my-home-manager/index.html",
-    "main.905dbaf5.js.map": "/my-home-manager/static/js/main.905dbaf5.js.map"
+    "main.318c818b.js.map": "/my-home-manager/static/js/main.318c818b.js.map",
+    "317.7a0c262a.chunk.js.map": "/my-home-manager/static/js/317.7a0c262a.chunk.js.map",
+    "634.cb60f8cf.chunk.js.map": "/my-home-manager/static/js/634.cb60f8cf.chunk.js.map",
+    "367.cee82940.chunk.js.map": "/my-home-manager/static/js/367.cee82940.chunk.js.map",
+    "286.82d0c089.chunk.js.map": "/my-home-manager/static/js/286.82d0c089.chunk.js.map",
+    "418.f30c9e0e.chunk.js.map": "/my-home-manager/static/js/418.f30c9e0e.chunk.js.map",
+    "94.0fb672c7.chunk.js.map": "/my-home-manager/static/js/94.0fb672c7.chunk.js.map",
+    "281.0400c281.chunk.js.map": "/my-home-manager/static/js/281.0400c281.chunk.js.map",
+    "15.f0713ed8.chunk.js.map": "/my-home-manager/static/js/15.f0713ed8.chunk.js.map",
+    "803.2468950d.chunk.js.map": "/my-home-manager/static/js/803.2468950d.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/main.905dbaf5.js"
+    "static/js/main.318c818b.js"
   ]
 }
