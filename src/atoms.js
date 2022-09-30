@@ -35,10 +35,12 @@ export const quantityState = atom({
 
 export const wishPostState = atom({
   key: "wishPostState",
-  category: "",
-  products: "",
-  price: 0,
-  descript: "",
+  default: {
+    category: "",
+    products: "",
+    price: 0,
+    descript: "",
+  },
 });
 
 export const changedState = atom({
