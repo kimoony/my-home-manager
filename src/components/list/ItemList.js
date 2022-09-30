@@ -13,6 +13,7 @@ function ItemList({ userObj }) {
   const [getItems, setGetItems] = useRecoilState(getItemsState);
 
   const navigate = useNavigate();
+  // console.log(getItems);
 
   // id filter
   useEffect(() => {
@@ -71,17 +72,12 @@ function ItemList({ userObj }) {
                   </div>
                   <div>
                     <button onClick={onDelete}>삭제</button>
-                    <button
-                      onClick={() => navigate(`/item-detail/${item.id}/edit`)}
-                    >
-                      수정
-                    </button>
                   </div>
                 </ListContainer>
               ) : null
             )
           ) : (
-            <button onClick={isLogedInPost}>등록하기</button>
+            <p>아이템을 등록해 보세요!</p>
           )}
         </div>
       ) : (

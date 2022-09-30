@@ -30,7 +30,7 @@ function WishInputForm({ register, errors }) {
       <Ctag>
         <label>카테고리 </label>
         <select
-          name="wCategory"
+          name="category"
           value={wishValue.category}
           onChange={changeValue}
         >
@@ -43,18 +43,29 @@ function WishInputForm({ register, errors }) {
       </Ctag>
       <ItemName>
         <label>물품명 </label>
-        <input type="text" value={wishValue.products} onChange={changeValue} />
+        <input
+          name="products"
+          type="text"
+          value={wishValue.products}
+          onChange={changeValue}
+        />
       </ItemName>
       <Price>
         <label>가격 </label>
         <div>
-          <input type="number" value={wishValue.price} onChange={changeValue} />
+          <input
+            name="price"
+            type="number"
+            value={wishValue.price}
+            onChange={changeValue}
+          />
           <span> 원</span>
         </div>
       </Price>
       <Description>
         <label>설명 </label>
         <textarea
+          name="descript"
           value={wishValue.descript}
           onChange={changeValue}
           cols="30"

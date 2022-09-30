@@ -8,19 +8,21 @@ import { doc, deleteDoc } from "firebase/firestore";
 
 function WishList({ userObj }) {
   const isLogIn = useRecoilValue(loginState);
-  const setOnModal = useRecoilState(modalState);
+  // const setOnModal = useRecoilState(modalState);
   const [targetId, setTargetId] = useState({});
   const [getWish, setGetWish] = useRecoilState(getWishState);
 
+  // console.log(getWish);
+
   const navigate = useNavigate();
 
-  const isLogedInWish = () => {
-    if (isLogIn) {
-      navigate("/wish-post");
-    } else {
-      setOnModal(true);
-    }
-  };
+  // const isLogedInWish = () => {
+  //   if (isLogIn) {
+  //     navigate("/wish-post");
+  //   } else {
+  //     setOnModal(true);
+  //   }
+  // };
 
   useEffect(() => {
     if (getWish.length > 0) {
@@ -49,42 +51,35 @@ function WishList({ userObj }) {
             height: "60px",
           }}
         >
-          {getWish.length > 0 ? (
-            getWish.map((wish) =>
-              userObj.uid === wish.creatorId ? (
-                <ListContainer key={wish.id}>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      width: "100%",
-                    }}
-                    onClick={() => navigate(`wish-detail/${wish.id}`)}
-                  >
-                    <div>{wish.products}</div>
-                    <div>{wish.price}</div>
-                    <span>{wish.createDate}</span>
-                  </div>
-                  <div>
-                    <button
-                      onClick={onClickDelete}
-                      style={{ marginLeft: "25px", marginRight: "10px" }}
+          {getWish.length > 0
+            ? getWish.map((wish) =>
+                userObj.uid === wish.creatorId ? (
+                  <ListContainer key={wish.id}>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        width: "100%",
+                      }}
+                      onClick={() => navigate(`wish-detail/${wish.id}`)}
                     >
-                      삭제
-                    </button>
-                    <button
-                      onClick={() => navigate(`/wish-detail/${wish.id}/edit`)}
-                    >
-                      수정
-                    </button>
-                  </div>
-                </ListContainer>
-              ) : null
-            )
-          ) : (
-            <button onClick={isLogedInWish}>등록하기</button>
-          )}
+                      <div>{wish.products}</div>
+                      <div>{wish.price}</div>
+                      <span>{wish.createDate}</span>
+                    </div>
+                    <div>
+                      <button
+                        onClick={onClickDelete}
+                        style={{ marginLeft: "25px", marginRight: "10px" }}
+                      >
+                        삭제
+                      </button>
+                    </div>
+                  </ListContainer>
+                ) : null
+              )
+            : null}
         </div>
       ) : null}
     </div>

@@ -35,6 +35,7 @@ function Home({ userObj }) {
   const [getWish, setGetWish] = useRecoilState(getWishState);
   const [isLogIn, setIsLogIn] = useRecoilState(loginState);
   const [onModal, setOnModal] = useRecoilState(modalState);
+  const [change, setChange] = useRecoilState(changedState);
 
   const navigate = useNavigate();
 
@@ -52,7 +53,8 @@ function Home({ userObj }) {
       );
     };
     getItemData();
-  }, [getItems]);
+    setChange(false);
+  }, [change, getItems]);
 
   useEffect(() => {
     const getWishData = async () => {
@@ -65,7 +67,8 @@ function Home({ userObj }) {
       );
     };
     getWishData();
-  }, [getWish]);
+    setChange(false);
+  }, [change, getWish]);
 
   useEffect(() => {
     if (session === true && userObj !== null) {
@@ -131,9 +134,7 @@ function Home({ userObj }) {
           <h3>
             아이템리스트
             <span>
-              {getItems.length > 0 ? (
-                <PostBtn onClick={isLogedInPost}>등록하기</PostBtn>
-              ) : null}
+              <PostBtn onClick={isLogedInPost}>등록하기</PostBtn>
             </span>
           </h3>
           <MainList>
@@ -148,9 +149,7 @@ function Home({ userObj }) {
           <h3>
             위시리스트
             <span>
-              {getWish.length > 0 ? (
-                <PostBtn onClick={isLogedInWish}>등록하기</PostBtn>
-              ) : null}
+              <PostBtn onClick={isLogedInWish}>등록하기</PostBtn>
             </span>
           </h3>
           <BottomList>

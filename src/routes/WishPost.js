@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
@@ -32,12 +32,12 @@ function WishPost({ userObj }) {
   const onSubmit = async () => {
     try {
       const docRef = await addDoc(collection(db, "wishItems"), {
-        catag: wishValue.category,
+        category: wishValue.category,
         products: wishValue.products,
         price: wishValue.price.toLocaleString("ko-KR"),
         descript: wishValue.descript,
         creatorId: userObj.uid,
-        createDate: moment().format("YYYY-MM-DD HH:mm:ss"),
+        createDate: moment().format("YYYY-MM-DD"),
       });
       console.log("Document written with ID: ", docRef.id);
       navigate("/");

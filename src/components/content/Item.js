@@ -1,6 +1,6 @@
 import React from "react";
 
-function CurrentItem({ item, setItem, isEdit, setIsEdit }) {
+function CurrentItem({ item, setItem, isEdit }) {
   const changeValue = (e) => {
     setItem({
       ...item,
@@ -38,6 +38,7 @@ function CurrentItem({ item, setItem, isEdit, setIsEdit }) {
         </>
       ) : (
         <>
+          <h1>수정페이지</h1>
           <div>
             <label>물품명: </label>
             <input
