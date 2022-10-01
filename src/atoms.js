@@ -18,11 +18,9 @@ export const userState = atom({
 export const itemPostState = atom({
   key: "itemPostState",
   default: {
-    category: "",
     products: "",
     location: "",
     purchase: "",
-    purchaseMethod: "",
     descript: "",
     createdAt: "",
   },
@@ -36,7 +34,6 @@ export const quantityState = atom({
 export const wishPostState = atom({
   key: "wishPostState",
   default: {
-    category: "",
     products: "",
     price: 0,
     descript: "",
@@ -55,5 +52,20 @@ export const getItemsState = atom({
 
 export const getWishState = atom({
   key: "getWishState",
+  default: [],
+});
+
+export const itemCategoryState = atom({
+  key: "itemCategoryState",
+  default: [],
+});
+
+export const methodCategoryState = atom({
+  key: "methodCategoryState",
+  default: ["온라인", "오프라인", "기타"],
+});
+
+export const wishCategoryState = atom({
+  key: "itemCategoryState",
   default: [],
 });

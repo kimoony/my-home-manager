@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import ItemImage from "../post/ItemImage";
+import AddNewCateg from "../AddNewCateg";
 import {
   Container,
   LeftContainer,
@@ -13,32 +14,56 @@ import {
   Purchase,
   Description,
 } from "styles/ItemInputForm.style";
-import { itemPostState, quantityState } from "atoms";
-import { useRecoilState } from "recoil";
+import {
+  itemPostState,
+  quantityState,
+  itemCategoryState,
+  methodCategoryState,
+} from "atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
+import { db } from "../../firebase";
+import { useEffect } from "react";
 
-function ItemInputList({ register, errors, percent, setFile }) {
-  // 카테고리
-  const [newCateg, setNewCateg] = useState("");
-  const [viewInput, setViewInput] = useState(false);
+function ItemInputList({ register, errors, percent, setFile, userObj }) {
   const [itemsValue, setItemsValue] = useRecoilState(itemPostState);
   const [quantity, setQuantity] = useRecoilState(quantityState);
 
-  const onClickAdd = () => {
-    setViewInput(true);
-  };
-  const COptions = [
-    { key: 0, value: "선택" },
-    { key: 1, value: "생활용품" },
-    { key: 2, value: "주방용품" },
-    { key: 3, value: "욕실용품" },
-    { key: 4, value: "차량용품" },
-  ];
+  const [viewInput, setViewInput] = useState(false);
+  const [newCateg, setNewCateg] = useState("");
+  const [itemCategory, setItemCategory] = useRecoilState(itemCategoryState);
+  const [targetCateg, setTargetCateg] = useState({});
 
-  const POptions = [
-    { key: 0, value: "선택" },
-    { key: 1, value: "온라인" },
-    { key: 2, value: "오프라인" },
-  ];
+  const methodCategory = useRecoilValue(methodCategoryState);
+
+  useEffect(() => {
+    const getItemCategData = async () => {
+      const data = await getDocs(collection(db, "itemCateg"));
+      setItemCategory(
+        data.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }))
+      );
+    };
+    getItemCategData();
+  }, [setItemCategory]);
+
+  useEffect(() => {
+    if (itemCategory.length > 0) {
+      const targetC = itemCategory.find((item) => item.id);
+
+      if (targetC) {
+        setTargetCateg(targetC);
+      }
+    }
+  }, [itemCategory]);
 
   const changeValue = (e) => {
     setItemsValue({
@@ -47,8 +72,28 @@ function ItemInputList({ register, errors, percent, setFile }) {
     });
   };
 
-  const addCateg = (e) => {
-    setNewCateg(e.target.value);
+  const addCateg = async () => {
+    try {
+      const categRef = await addDoc(collection(db, "itemCateg"), {
+        category: newCateg,
+        creatorId: userObj.uid,
+      });
+      console.log(categRef.id);
+      // setItemCategory([...itemCategory, newCateg]);
+      setViewInput(false);
+      alert("추가 완료!");
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  const removeCateg = async () => {
+    const delItemCateg = doc(db, "itemCateg", targetCateg.id);
+    await deleteDoc(delItemCateg);
+    setItemCategory(
+      itemCategory.filter((categ) => categ.id !== targetCateg.id)
+    );
+    alert("삭제");
   };
 
   const addQuantity = () => {
@@ -66,29 +111,22 @@ function ItemInputList({ register, errors, percent, setFile }) {
         <ItemImage percent={percent} setFile={setFile} />
       </Image>
       <Ctag>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <label>카테고리 </label>
-          {viewInput ? null : (
-            <input type="button" value="+" onClick={onClickAdd} />
-          )}
-          {viewInput ? (
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <input type="text" onChange={changeValue} name="newCategory" />
-              <button type="button">추가</button>
-              <button type="button" onClick={() => setViewInput(false)}>
-                취소
-              </button>
-            </div>
-          ) : null}
-        </div>
+        <AddNewCateg
+          viewInput={viewInput}
+          setViewInput={setViewInput}
+          itemCategory={itemCategory}
+          addCateg={addCateg}
+          removeCateg={removeCateg}
+          setNewCateg={setNewCateg}
+        />
         <select
           name="category"
           value={itemsValue.category}
           onChange={changeValue}
         >
-          {COptions.map((cOption) => (
-            <option key={cOption.key} value={cOption.value}>
-              {cOption.value}
+          {itemCategory.map((option) => (
+            <option key={option.id} value={option.category}>
+              {option.category}
             </option>
           ))}
         </select>
@@ -137,9 +175,9 @@ function ItemInputList({ register, errors, percent, setFile }) {
           name="purchase"
         />
         <select onChange={changeValue} name="purchaseMethod">
-          {POptions.map((pOption) => (
-            <option key={pOption.key} value={pOption.value}>
-              {pOption.value}
+          {methodCategory.map((option, idx) => (
+            <option key={idx} value={option}>
+              {option}
             </option>
           ))}
         </select>
