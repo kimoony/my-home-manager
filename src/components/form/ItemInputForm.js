@@ -31,7 +31,18 @@ import {
 import { db } from "../../firebase";
 import { useEffect } from "react";
 
-function ItemInputList({ register, errors, percent, setFile, userObj }) {
+function ItemInputList({
+  register,
+  errors,
+  percent,
+  setFile,
+  userObj,
+  imgUpload,
+  categoryValue,
+  setCatagoryValue,
+  methodValue,
+  setMethodValue,
+}) {
   const [itemsValue, setItemsValue] = useRecoilState(itemPostState);
   const [quantity, setQuantity] = useRecoilState(quantityState);
 
@@ -72,6 +83,15 @@ function ItemInputList({ register, errors, percent, setFile, userObj }) {
     });
   };
 
+  const categChange = (e) => {
+    setCatagoryValue(e.target.value);
+  };
+  console.log(categoryValue);
+
+  const methodChange = (e) => {
+    setMethodValue(e.target.value);
+  };
+
   const addCateg = async () => {
     try {
       const categRef = await addDoc(collection(db, "itemCateg"), {
@@ -79,7 +99,6 @@ function ItemInputList({ register, errors, percent, setFile, userObj }) {
         creatorId: userObj.uid,
       });
       console.log(categRef.id);
-      // setItemCategory([...itemCategory, newCateg]);
       setViewInput(false);
       alert("추가 완료!");
     } catch (error) {
@@ -108,7 +127,7 @@ function ItemInputList({ register, errors, percent, setFile, userObj }) {
   return (
     <Container>
       <Image>
-        <ItemImage percent={percent} setFile={setFile} />
+        <ItemImage percent={percent} setFile={setFile} imgUpload={imgUpload} />
       </Image>
       <Ctag>
         <AddNewCateg
@@ -119,11 +138,7 @@ function ItemInputList({ register, errors, percent, setFile, userObj }) {
           removeCateg={removeCateg}
           setNewCateg={setNewCateg}
         />
-        <select
-          name="category"
-          value={itemsValue.category}
-          onChange={changeValue}
-        >
+        <select value={categoryValue} onChange={categChange}>
           {itemCategory.map((option) => (
             <option key={option.id} value={option.category}>
               {option.category}
@@ -174,10 +189,10 @@ function ItemInputList({ register, errors, percent, setFile, userObj }) {
           value={itemsValue.purchase}
           name="purchase"
         />
-        <select onChange={changeValue} name="purchaseMethod">
-          {methodCategory.map((option, idx) => (
-            <option key={idx} value={option}>
-              {option}
+        <select onChange={methodChange} value={methodValue}>
+          {methodCategory.map((option) => (
+            <option key={option.key} value={option.value}>
+              {option.value}
             </option>
           ))}
         </select>

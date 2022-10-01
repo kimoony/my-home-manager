@@ -11,6 +11,7 @@ function CurrentItem({ item, setItem, isEdit }) {
     <div>
       {isEdit === false ? (
         <>
+          <img src={item.productsImg} alt="" />
           <h1>{item.products}</h1>
           <p>등록시간: {item.createDate}</p>
           <div>

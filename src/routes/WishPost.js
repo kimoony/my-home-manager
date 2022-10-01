@@ -32,7 +32,6 @@ function WishPost({ userObj }) {
   const onSubmit = async () => {
     try {
       const docRef = await addDoc(collection(db, "wishItems"), {
-        category: wishValue.category,
         products: wishValue.products,
         price: wishValue.price.toLocaleString("ko-KR"),
         descript: wishValue.descript,

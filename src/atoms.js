@@ -62,7 +62,20 @@ export const itemCategoryState = atom({
 
 export const methodCategoryState = atom({
   key: "methodCategoryState",
-  default: ["온라인", "오프라인", "기타"],
+  default: [
+    {
+      key: 0,
+      value: "온라인",
+    },
+    {
+      key: 1,
+      value: "오프라인",
+    },
+    {
+      key: 2,
+      value: "기타",
+    },
+  ],
 });
 
 export const wishCategoryState = atom({

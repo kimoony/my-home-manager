@@ -16,31 +16,8 @@ function WishInputForm({ register, errors }) {
     setWishValue({ ...wishValue, [e.target.name]: e.target.value });
   };
 
-  const WOptions = [
-    { key: 0, value: "선택" },
-    { key: 1, value: "생활" },
-    { key: 2, value: "주방" },
-    { key: 3, value: "욕실" },
-    { key: 4, value: "차량" },
-    { key: 5, value: "취미" },
-  ];
-
   return (
     <Container>
-      <Ctag>
-        <label>카테고리 </label>
-        <select
-          name="category"
-          value={wishValue.category}
-          onChange={changeValue}
-        >
-          {WOptions.map((wOption) => (
-            <option key={wOption.key} value={wOption.value}>
-              {wOption.value}
-            </option>
-          ))}
-        </select>
-      </Ctag>
       <ItemName>
         <label>물품명 </label>
         <input

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { db, storage } from "../firebase";
@@ -27,14 +27,15 @@ import {
 function ItemPost({ userObj }) {
   // 이미지
   const [file, setFile] = useState("");
+  const [imgUrl, setImgUrl] = useState("");
   const [percent, setPercent] = useState(0);
   const itemsValue = useRecoilValue(itemPostState);
   const quantity = useRecoilValue(quantityState);
   const itemCategory = useRecoilValue(itemCategoryState);
   const methodCategory = useRecoilValue(methodCategoryState);
 
-  console.log(itemCategory);
-  console.log(methodCategory);
+  const [categoryValue, setCatagoryValue] = useState("");
+  const [methodValue, setMethodValue] = useState("온라인");
 
   const {
     register,
@@ -44,51 +45,55 @@ function ItemPost({ userObj }) {
 
   const navigate = useNavigate();
 
+  const imgUpload = () => {
+    if (!file) {
+      alert("Please choose a file first!");
+      return;
+    }
+
+    const storageRef = ref(storage, `/files/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const percent = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+
+        // update progress
+        setPercent(percent);
+      },
+      (err) => console.log(err),
+      () => {
+        // download url
+        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+          setImgUrl(url);
+        });
+      }
+    );
+
+    if (percent === 100) {
+      alert("이미지 업로드 완료");
+    }
+  };
+
   const onSubmit = async () => {
+    imgUpload();
     try {
       const docRef = await addDoc(collection(db, "items"), {
         creatorId: userObj.uid,
-        category: itemCategory,
+        category: categoryValue,
         products: itemsValue.products,
         quantity: quantity,
         storageLocation: itemsValue.location,
         purchase: itemsValue.purchase,
-        purchaseMethod: methodCategory,
+        purchaseMethod: methodValue,
         descript: itemsValue.descript,
         createDate: moment().format("YYYY-MM-DD"),
+        productsImg: imgUrl,
       });
       console.log(docRef.id);
-
-      if (!file) {
-        alert("Please choose a file first!");
-        // return;
-      }
-
-      const storageRef = ref(storage, `/files/${file.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, file);
-
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const percent = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          );
-
-          // update progress
-          setPercent(percent);
-        },
-        (err) => console.log(err),
-        () => {
-          // download url
-          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-            console.log(url);
-          });
-        }
-      );
-
-      if (percent === 100) {
-        alert("이미지 업로드 완료");
-      }
 
       navigate("/");
       alert("등록이 완료되었습니다.");
@@ -110,6 +115,11 @@ function ItemPost({ userObj }) {
             percent={percent}
             setFile={setFile}
             userObj={userObj}
+            // imgUpload={imgUpload}
+            categoryValue={categoryValue}
+            setCatagoryValue={setCatagoryValue}
+            methodValue={methodValue}
+            setMethodValue={setMethodValue}
           />
         </Main>
         <Footer>
