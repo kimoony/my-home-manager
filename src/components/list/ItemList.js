@@ -8,12 +8,10 @@ import { useNavigate } from "react-router-dom";
 
 function ItemList({ userObj }) {
   const isLogIn = useRecoilValue(loginState);
-  const setOnModal = useRecoilState(modalState);
   const [targetId, setTargetId] = useState({});
   const [getItems, setGetItems] = useRecoilState(getItemsState);
 
   const navigate = useNavigate();
-  // console.log(getItems);
 
   // id filter
   useEffect(() => {
@@ -31,14 +29,6 @@ function ItemList({ userObj }) {
     await deleteDoc(delItem);
     setGetItems(getItems.filter((item) => item.id !== targetId.id));
     alert("삭제완료!");
-  };
-
-  const isLogedInPost = () => {
-    if (isLogIn) {
-      navigate("/item-post");
-    } else {
-      setOnModal(true);
-    }
   };
 
   return (

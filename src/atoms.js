@@ -77,8 +77,3 @@ export const methodCategoryState = atom({
     },
   ],
 });
-
-export const wishCategoryState = atom({
-  key: "itemCategoryState",
-  default: [],
-});

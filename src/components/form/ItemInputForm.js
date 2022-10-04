@@ -1,10 +1,8 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import ItemImage from "../post/ItemImage";
 import AddNewCateg from "../AddNewCateg";
 import {
   Container,
-  LeftContainer,
-  RightContainer,
   Image,
   Ctag,
   ItemName,
@@ -37,7 +35,6 @@ function ItemInputList({
   percent,
   setFile,
   userObj,
-  imgUpload,
   categoryValue,
   setCatagoryValue,
   methodValue,
@@ -64,7 +61,7 @@ function ItemInputList({
       );
     };
     getItemCategData();
-  }, [setItemCategory]);
+  }, [setItemCategory, itemCategory]);
 
   useEffect(() => {
     if (itemCategory.length > 0) {
@@ -86,7 +83,7 @@ function ItemInputList({
   const categChange = (e) => {
     setCatagoryValue(e.target.value);
   };
-  console.log(categoryValue);
+  console.log(newCateg);
 
   const methodChange = (e) => {
     setMethodValue(e.target.value);
@@ -99,6 +96,7 @@ function ItemInputList({
         creatorId: userObj.uid,
       });
       console.log(categRef.id);
+      setItemCategory([...itemCategory, newCateg]);
       setViewInput(false);
       alert("추가 완료!");
     } catch (error) {
@@ -127,7 +125,7 @@ function ItemInputList({
   return (
     <Container>
       <Image>
-        <ItemImage percent={percent} setFile={setFile} imgUpload={imgUpload} />
+        <ItemImage percent={percent} setFile={setFile} />
       </Image>
       <Ctag>
         <AddNewCateg
@@ -139,9 +137,10 @@ function ItemInputList({
           setNewCateg={setNewCateg}
         />
         <select value={categoryValue} onChange={categChange}>
-          {itemCategory.map((option) => (
-            <option key={option.id} value={option.category}>
-              {option.category}
+          <option value="none">=== 선택 ===</option>
+          {itemCategory.map((categ) => (
+            <option key={categ.id} value={categ.category}>
+              {categ.category}
             </option>
           ))}
         </select>
@@ -190,9 +189,9 @@ function ItemInputList({
           name="purchase"
         />
         <select onChange={methodChange} value={methodValue}>
-          {methodCategory.map((option) => (
-            <option key={option.key} value={option.value}>
-              {option.value}
+          {methodCategory.map((method) => (
+            <option key={method.key} value={method.value}>
+              {method.value}
             </option>
           ))}
         </select>

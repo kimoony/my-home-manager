@@ -78,7 +78,6 @@ function ItemDetailed() {
       ) : (
         <button onClick={onUpdateItem}>완료</button>
       )}
-
       <button onClick={onDeleteItem}>삭제</button>
     </div>
   );
