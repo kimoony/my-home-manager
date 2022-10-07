@@ -83,7 +83,6 @@ function ItemInputList({
   const categChange = (e) => {
     setCatagoryValue(e.target.value);
   };
-  console.log(newCateg);
 
   const methodChange = (e) => {
     setMethodValue(e.target.value);

@@ -1,20 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { db, storage } from "../firebase";
+import { db } from "../firebase";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";
-import { ref, uploadBytes } from "firebase/storage";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import Item from "components/content/Item";
 import { getItemsState } from "atoms";
 import { useRecoilState } from "recoil";
 
 function ItemDetailed() {
-  const [getImages, setGetImages] = useState();
   const [targetId, setTargetId] = useState({});
   const [getItems, setGetItems] = useRecoilState(getItemsState);
   const [isEdit, setIsEdit] = useState(false);
 
+  const [itemCategValue, setItemCategValue] = useState(targetId.category);
+  const [methodCategValue, setMethodCategValue] = useState(
+    targetId.purchaseMethod
+  );
+
+  const onChangeICateg = (e) => {
+    setItemCategValue(e.target.value);
+  };
+  const onChangeMCateg = (e) => {
+    setMethodCategValue(e.target.value);
+  };
+
   const { id } = useParams();
-  console.log(id);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,26 +36,19 @@ function ItemDetailed() {
     }
   }, [getItems, id]);
 
-  useEffect((file) => {
-    const getImg = async () => {
-      const storageRef = ref(storage, "itemImage");
-      const data = await uploadBytes(storageRef, file);
-      setGetImages(data);
-    };
-    getImg();
-  }, []);
-
   const onUpdateItem = async (e) => {
     e.preventDefault();
     const editRef = doc(db, "items", targetId.id);
     try {
       await updateDoc(editRef, {
         ...targetId,
+        category: itemCategValue,
+        purchaseMethod: methodCategValue,
       });
       console.log(editRef.id);
 
       setIsEdit(false);
-      alert("등록이 완료되었습니다.");
+      alert("수정이 완료되었습니다.");
     } catch (error) {
       console.error(error.message);
     } finally {
@@ -72,6 +74,10 @@ function ItemDetailed() {
         setItem={setTargetId}
         isEdit={isEdit}
         setIsEdit={setIsEdit}
+        itemCategValue={itemCategValue}
+        methodCategValue={methodCategValue}
+        onChangeICateg={onChangeICateg}
+        onChangeMCateg={onChangeMCateg}
       />
       {isEdit === false ? (
         <button onClick={() => setIsEdit(true)}>수정</button>

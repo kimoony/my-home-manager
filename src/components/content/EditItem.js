@@ -1,7 +1,38 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { itemCategoryState, methodCategoryState } from "atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../firebase";
 
-function EditItem({ item, setItem }) {
-  const changeValue = (e) => {
+function EditItem({
+  item,
+  setItem,
+  itemCategValue,
+  onChangeICateg,
+  methodCategValu,
+  onChangeMCateg,
+}) {
+  const [itemCategory, setItemCategory] = useRecoilState(itemCategoryState);
+  const methodCategory = useRecoilValue(methodCategoryState);
+
+  console.log(methodCategory);
+
+  useEffect(() => {
+    const getItemCategData = async () => {
+      const data = await getDocs(collection(db, "itemCateg"));
+      setItemCategory(
+        data.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }))
+      );
+    };
+    getItemCategData();
+  }, [setItemCategory, itemCategory]);
+
+  console.log(itemCategory);
+
+  const onChangeValue = (e) => {
     setItem({
       ...item,
       [e.target.name]: e.target.value,
@@ -13,20 +44,14 @@ function EditItem({ item, setItem }) {
       <h1>수정페이지</h1>
       <div>
         <label>물품명: </label>
-        <input
-          name="products"
-          value={item.products}
-          onChange={changeValue}
-        ></input>
+        <input name="products" value={item.products} onChange={onChangeValue} />
       </div>
       <div>
         <label>카테고리: </label>
-        <select name="category">
-          <option
-            name="category"
-            value={item.category}
-            onChange={changeValue}
-          ></option>
+        <select value={itemCategValue} onChange={onChangeICateg}>
+          {itemCategory.map((categ) => (
+            <option value={categ.category}>{categ.category}</option>
+          ))}
         </select>
       </div>
       <div>
@@ -35,33 +60,27 @@ function EditItem({ item, setItem }) {
           type="number"
           name="quantity"
           value={item.quantity}
-          onChange={changeValue}
-        ></input>
+          onChange={onChangeValue}
+        />
       </div>
       <div>
         <label>보관위치: </label>
         <input
           name="storageLocation"
           value={item.storageLocation}
-          onChange={changeValue}
-        ></input>
+          onChange={onChangeValue}
+        />
       </div>
       <div>
         <label>구매처: </label>
-        <input
-          name="purchase"
-          value={item.purchase}
-          onChange={changeValue}
-        ></input>
+        <input name="purchase" value={item.purchase} onChange={onChangeValue} />
       </div>
       <div>
-        <label>구매처/구매방법: </label>
-        <select name="purchaseMethod">
-          <option
-            name="purchaseMethod"
-            value={item.purchaseMethod}
-            onChange={changeValue}
-          ></option>
+        <label>구매방법: </label>
+        <select value={methodCategValu} onChange={onChangeMCateg}>
+          {methodCategory.map((method) => (
+            <option value={method.value}>{method.value}</option>
+          ))}
         </select>
       </div>
       <div>
@@ -69,8 +88,8 @@ function EditItem({ item, setItem }) {
         <textarea
           name="descript"
           value={item.descript}
-          onChange={changeValue}
-        ></textarea>
+          onChange={onChangeValue}
+        />
       </div>
     </>
   );

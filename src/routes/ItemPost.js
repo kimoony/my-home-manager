@@ -68,33 +68,33 @@ function ItemPost({ userObj }) {
       );
 
       if (percent === 100) {
-        alert("이미지 업로드 완료");
+        setTimeout(async () => {
+          const docRef = await addDoc(collection(db, "items"), {
+            creatorId: userObj.uid,
+            category: categoryValue,
+            products: itemsValue.products,
+            quantity: quantity,
+            storageLocation: itemsValue.location,
+            purchase: itemsValue.purchase,
+            purchaseMethod: methodValue,
+            descript: itemsValue.descript,
+            createDate: moment().format("YYYY-MM-DD"),
+            productsImg: imgUrl,
+          });
+          console.log(docRef.id);
+
+          setItemsValue({
+            products: "",
+            location: "",
+            purchase: "",
+            descript: "",
+            createdAt: "",
+          });
+          setQuantity(0);
+          navigate("/");
+          alert("등록이 완료되었습니다.");
+        }, 1000);
       }
-
-      const docRef = await addDoc(collection(db, "items"), {
-        creatorId: userObj.uid,
-        category: categoryValue,
-        products: itemsValue.products,
-        quantity: quantity,
-        storageLocation: itemsValue.location,
-        purchase: itemsValue.purchase,
-        purchaseMethod: methodValue,
-        descript: itemsValue.descript,
-        createDate: moment().format("YYYY-MM-DD"),
-        productsImg: imgUrl,
-      });
-      console.log(docRef.id);
-
-      setItemsValue({
-        products: "",
-        location: "",
-        purchase: "",
-        descript: "",
-        createdAt: "",
-      });
-      setQuantity(0);
-      navigate("/");
-      alert("등록이 완료되었습니다.");
     } catch (error) {
       console.error(error.message);
     }

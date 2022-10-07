@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import EditItem from "./EditItem";
 
-function CurrentItem({ item, setItem, isEdit }) {
+function CurrentItem({
+  item,
+  setItem,
+  isEdit,
+  itemCategValue,
+  methodCategValue,
+  onChangeICateg,
+  onChangeMCateg,
+}) {
   return (
     <div>
       {isEdit === false ? (
@@ -33,7 +41,14 @@ function CurrentItem({ item, setItem, isEdit }) {
           </div>
         </>
       ) : (
-        <EditItem item={item} setItem={setItem} />
+        <EditItem
+          item={item}
+          setItem={setItem}
+          itemCategValue={itemCategValue}
+          onChangeICateg={onChangeICateg}
+          methodCategValue={methodCategValue}
+          onChangeMCateg={onChangeMCateg}
+        />
       )}
     </div>
   );
