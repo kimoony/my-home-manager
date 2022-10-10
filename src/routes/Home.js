@@ -6,7 +6,6 @@ import {
   getItemsState,
   getWishState,
   loginState,
-  modalState,
   changedState,
 } from "../atoms";
 import { collection, getDocs } from "firebase/firestore";
@@ -25,7 +24,6 @@ import {
   BottomList,
   PostBtn,
 } from "../styles/Home.style";
-import SignForm from "components/modals/sign/SignForm";
 import AlarmList from "components/list/AlarmList";
 import WishList from "components/list/WishList";
 import ItemList from "components/list/ItemList";
@@ -34,7 +32,6 @@ function Home({ userObj }) {
   const [getItems, setGetItems] = useRecoilState(getItemsState);
   const [getWish, setGetWish] = useRecoilState(getWishState);
   const [isLogIn, setIsLogIn] = useRecoilState(loginState);
-  const [onModal, setOnModal] = useRecoilState(modalState);
   const [change, setChange] = useRecoilState(changedState);
 
   const navigate = useNavigate();
@@ -76,13 +73,6 @@ function Home({ userObj }) {
     }
   }, [userObj, session, setIsLogIn]);
 
-  const openModal = () => {
-    setOnModal(true);
-  };
-  const closeModal = () => {
-    setOnModal(false);
-  };
-
   const SignOut = () => {
     setIsLogIn(false);
     // user sign out
@@ -94,14 +84,14 @@ function Home({ userObj }) {
     if (isLogIn) {
       navigate("/item-post");
     } else {
-      openModal();
+      navigate("/sign");
     }
   };
   const isLogedInWish = () => {
     if (isLogIn) {
       navigate("/wish-post");
     } else {
-      openModal();
+      navigate("/sign");
     }
   };
 
@@ -121,13 +111,8 @@ function Home({ userObj }) {
             </Link>
           </>
         ) : (
-          <SignBtn onClick={openModal}>로그인</SignBtn>
+          <SignBtn onClick={() => navigate("/sign")}>로그인</SignBtn>
         )}
-        <SignForm
-          onModal={onModal}
-          closeModal={closeModal}
-          setIsLogIn={setIsLogIn}
-        />
       </BtnBox>
       <ListBox>
         <LeftBox>

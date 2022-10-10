@@ -12,7 +12,7 @@ export const loginState = atom({
 
 export const userState = atom({
   key: "userState",
-  default: true,
+  default: false,
 });
 
 export const itemPostState = atom({

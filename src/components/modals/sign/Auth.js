@@ -1,18 +1,34 @@
-import React from 'react';
-import { authService } from '../../../firebase';
-import {
-  GithubAuthProvider,
-  GoogleAuthProvider,
-  signInWithPopup
-} from "firebase/auth";
+import React from "react";
+import { authService } from "../../../firebase";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
+import styled from "styled-components";
 
-library.add(fab)
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const Google = styled.button`
+  background-color: #d04f4b;
+  color: #fff;
+  font-size: 1.2rem;
+  height: 2rem;
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  cursor: pointer;
+
+  :hover {
+    background-color: #ee555b;
+  }
+`;
+
+library.add(fab);
 
 function Auth({ closeModal, setIsLogIn }) {
-
   const onSocialClicik = async (e) => {
     const {
       target: { name },
@@ -25,24 +41,21 @@ function Auth({ closeModal, setIsLogIn }) {
     //   provider = new GithubAuthProvider();
     // }
     const user = await signInWithPopup(authService, provider);
-    console.log(user)
+    console.log(user);
     closeModal();
     setIsLogIn(true);
-    alert("로그인 완료!")
-  }
+    alert("로그인 완료!");
+  };
 
   return (
-    <div className="auth-container">
-      <div className='social_login-box'>
-        <button className='btn google-btn' name="google" onClick={onSocialClicik}>
+    <Wrapper>
+      <Google>
+        <buttGoogleon name="google" onClick={onSocialClicik}>
           <FontAwesomeIcon icon={["fab", "google"]} /> Google 로그인
-        </button>
-        {/* <button className='btn github-btn' name="github" onClick={onSocialClicik}>
-          <FontAwesomeIcon icon={["fab", "github"]} /> GitHub 로그인
-        </button> */}
-      </div>
-    </div>
-  )
+        </buttGoogleon>
+      </Google>
+    </Wrapper>
+  );
 }
 
-export default Auth
+export default Auth;

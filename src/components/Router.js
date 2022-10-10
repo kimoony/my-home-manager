@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 const Home = lazy(() => import("routes/Home"));
+const Sign = lazy(() => import("routes/Sign"));
 const WishPost = lazy(() => import("routes/WishPost"));
 const ItemPost = lazy(() => import("routes/ItemPost"));
 const ItemDetailed = lazy(() => import("routes/ItemDetail"));
@@ -19,6 +20,7 @@ function AppRouter({ userObj, refreshUser }) {
           path="mypage"
           element={<MyPage userObj={userObj} refreshUser={refreshUser} />}
         />
+        <Route path="sign" element={<Sign userObj={userObj} />} />
         <Route path="/" element={<Home userObj={userObj} />} />
       </Routes>
     </Suspense>
