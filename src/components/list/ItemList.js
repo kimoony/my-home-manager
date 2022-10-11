@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { getItemsState, loginState, modalState } from "../../atoms";
+import { getItemsState, loginState } from "../../atoms";
 import { db } from "../../firebase";
 import { doc, deleteDoc } from "firebase/firestore";
-import { ListContainer } from "../../styles/list/ItemList.style";
-import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import GetItem from "./GetItem";
 
 function ItemList({ userObj }) {
   const isLogIn = useRecoilValue(loginState);
   const [targetId, setTargetId] = useState({});
   const [getItems, setGetItems] = useRecoilState(getItemsState);
-
-  const navigate = useNavigate();
 
   // id filter
   useEffect(() => {
@@ -32,59 +30,46 @@ function ItemList({ userObj }) {
   };
 
   return (
-    <div style={{ height: "95%", overflow: "auto" }}>
+    <Container>
       {isLogIn ? (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            height: "300px",
-          }}
-        >
+        <ListBox>
           {getItems.length > 0 ? (
             getItems.map((item) =>
               userObj.uid === item.creatorId ? (
-                <ListContainer key={item.id}>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      width: "100%",
-                    }}
-                  >
-                    <div onClick={() => navigate(`item-detail/${item.id}`)}>
-                      {item.products}
-                    </div>
-                    <span>{item.quantity}</span>
-                    <span>{item.createDate}</span>
-                  </div>
-                  <div>
-                    <button onClick={onDelete}>삭제</button>
-                  </div>
-                </ListContainer>
+                <GetItem key={item.id} item={item} onDelete={onDelete} />
               ) : null
             )
           ) : (
-            <p>아이템을 등록해 보세요!</p>
+            <p>아이템을 등록해 주세요!</p>
           )}
-        </div>
+        </ListBox>
       ) : (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            width: "100%",
-            height: "100%",
-          }}
-        >
+        <SignGo>
           <h3>로그인 또는 회원가입 해주세요!</h3>
-        </div>
+        </SignGo>
       )}
-    </div>
+    </Container>
   );
 }
 
 export default ItemList;
+
+const Container = styled.section`
+  height: 95%;
+  overflow: auto;
+`;
+
+const ListBox = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 300px;
+`;
+
+const SignGo = styled.section`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;

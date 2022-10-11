@@ -9,24 +9,11 @@ import {
   changedState,
 } from "../atoms";
 import { collection, getDocs } from "firebase/firestore";
-import {
-  Wrapper,
-  Header,
-  Title,
-  // ThemeMode,
-  BtnBox,
-  SignBtn,
-  ListBox,
-  LeftBox,
-  MainList,
-  RightBox,
-  TopList,
-  BottomList,
-  PostBtn,
-} from "../styles/Home.style";
 import AlarmList from "components/list/AlarmList";
 import WishList from "components/list/WishList";
 import ItemList from "components/list/ItemList";
+import styled from "styled-components";
+import Nav from "components/Nav";
 
 function Home({ userObj }) {
   const [getItems, setGetItems] = useRecoilState(getItemsState);
@@ -101,49 +88,139 @@ function Home({ userObj }) {
         <Title>Home Manager</Title>
         {/* <ThemeMode type="checkbox" text="a" /> */}
       </Header>
-      <BtnBox>
-        {isLogIn ? (
-          <>
-            <span>{userObj.displayName}님, 안녕하세요!</span>
-            <SignBtn onClick={SignOut}>로그아웃</SignBtn>
-            <Link to="mypage">
-              <SignBtn>마이페이지</SignBtn>
-            </Link>
-          </>
-        ) : (
-          <SignBtn onClick={() => navigate("/sign")}>로그인</SignBtn>
-        )}
-      </BtnBox>
-      <ListBox>
+      <NavBox>
+        <Nav isLogIn={isLogIn} SignOut={SignOut} userObj={userObj} />
+      </NavBox>
+      <ListContainer>
         <LeftBox>
-          <h3>
+          <Subtitle>
             아이템리스트
-            <span>
+            <div>
               <PostBtn onClick={isLogedInPost}>등록하기</PostBtn>
-            </span>
-          </h3>
+            </div>
+          </Subtitle>
           <MainList>
             <ItemList userObj={userObj} />
           </MainList>
         </LeftBox>
         <RightBox>
-          <h3>알림</h3>
+          <Subtitle>알림</Subtitle>
           <TopList>
             <AlarmList userObj={userObj} />
           </TopList>
-          <h3>
+          <Subtitle>
             위시리스트
             <span>
               <PostBtn onClick={isLogedInWish}>등록하기</PostBtn>
             </span>
-          </h3>
+          </Subtitle>
           <BottomList>
             <WishList userObj={userObj} />
           </BottomList>
         </RightBox>
-      </ListBox>
+      </ListContainer>
     </Wrapper>
   );
 }
 
 export default Home;
+
+// styled-components
+
+const Wrapper = styled.section`
+  width: 100%;
+`;
+
+const Header = styled.header`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Title = styled.h1`
+  font-size: 3rem;
+`;
+
+// const ThemeMode = styled.input``;
+
+const NavBox = styled.section`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+  padding-left: 20px;
+`;
+
+const ListContainer = styled.section`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-left: 20px;
+`;
+
+const Subtitle = styled.h3`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const LeftBox = styled.section`
+  width: 100%;
+  height: 505px;
+  margin-right: 10px;
+  button {
+    margin-top: 5px;
+    float: right;
+    margin-right: 10px;
+  }
+`;
+
+const MainList = styled.section`
+  width: 95%;
+  height: 100%;
+  border: 1px solid red;
+  padding: 10px 15px;
+  border-radius: 10px;
+`;
+
+const RightBox = styled.section`
+  width: 70vw;
+  height: 400px;
+  margin-right: 50px;
+  margin-top: 7px;
+
+  button {
+    margin-top: 5px;
+    float: right;
+    margin-right: -15px;
+  }
+`;
+
+const TopList = styled.section`
+  width: 100%;
+  height: 40%;
+  padding: 10px;
+  margin-top: 25px;
+  border: 1px solid blue;
+  border-radius: 10px;
+`;
+
+const BottomList = styled.section`
+  width: 100%;
+  height: 62.3%;
+  padding: 10px;
+  border: 1px solid green;
+  border-radius: 10px;
+`;
+
+const PostBtn = styled.button`
+  border: none;
+  border-radius: 5px;
+  background-color: #2986f5;
+  color: #fff;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-bottom: 5px;
+`;

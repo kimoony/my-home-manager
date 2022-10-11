@@ -7,18 +7,12 @@ import {
   setPersistence,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import {
-  FormBox,
-  Form,
-  BackBtn,
-  InputBox,
-  Input,
-  ToggleBtn,
-} from "styles/SignForm.style";
 import Auth from "./Auth";
 import { useRecoilState } from "recoil";
 import { loginState, userState } from "atoms";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { BiArrowBack } from "react-icons/bi";
 
 // console.log(authService)
 
@@ -30,7 +24,7 @@ function SignForm() {
     formState: { errors },
   } = useForm();
 
-  const [isLogIn, setIsLogIn] = useRecoilState(loginState);
+  const setIsLogIn = useRecoilState(loginState);
   const [newUser, setNewUser] = useRecoilState(userState);
 
   const [errorFromSubmit, setErrorFromSubmit] = useState("");
@@ -71,7 +65,6 @@ function SignForm() {
       console.log(user);
     } catch (error) {
       setErrorFromSubmit(error.message);
-      // console.error(error.message);
     }
   };
 
@@ -80,7 +73,7 @@ function SignForm() {
       <FormBox>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <BackBtn type="button" onClick={goBack}>
-            ←
+            <BiArrowBack />
           </BackBtn>
           <h1>{newUser ? "회원가입" : "로그인"}</h1>
           <InputBox>
@@ -131,9 +124,7 @@ function SignForm() {
               errors.passwordConfirm.type === "validate" && (
                 <p>비밀번호가 일치하지 않습니다.</p>
               )}
-
             {errorFromSubmit && <p>{errorFromSubmit}</p>}
-
             <Input type="submit" value={newUser ? "회원가입" : "로그인"} />
           </InputBox>
         </Form>
@@ -147,3 +138,78 @@ function SignForm() {
 }
 
 export default SignForm;
+
+const FormBox = styled.div`
+  position: fixed;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  max-height: 80%;
+  width: 20rem;
+  padding: 16px;
+  text-align: center;
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+`;
+
+const BackBtn = styled.button`
+  border: none;
+  background-color: #fff;
+  border-radius: 5px;
+  align-self: flex-start;
+  font-size: 18px;
+  cursor: pointer;
+
+  :hover {
+    font-weight: bold;
+    color: #616365;
+  }
+`;
+
+const InputBox = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  span {
+    align-self: flex-start;
+    color: red;
+    margin: 5px 0px;
+  }
+`;
+
+const Input = styled.input`
+  margin-bottom: 10px;
+  padding: 0 5px;
+  height: 1.5rem;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  border: 1px solid #616365;
+
+  :last-child {
+    border: none;
+    border-radius: 5px;
+    padding: 5px 0;
+    height: 2rem;
+    background-color: #616365;
+    color: #fff;
+    cursor: pointer;
+    margin-top: 5px;
+
+    :hover {
+      background-color: #667078;
+    }
+  }
+`;
+
+const ToggleBtn = styled.div`
+  margin: 10px 0;
+  color: #667078;
+  cursor: pointer;
+
+  :hover {
+    font-weight: bold;
+  }
+`;
