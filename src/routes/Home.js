@@ -146,7 +146,7 @@ const Title = styled.h1`
 
 const NavBox = styled.section`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   width: 100%;
   margin-bottom: 20px;

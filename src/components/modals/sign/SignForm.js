@@ -24,7 +24,7 @@ function SignForm() {
     formState: { errors },
   } = useForm();
 
-  const setIsLogIn = useRecoilState(loginState);
+  const [isLogIn, setIsLogIn] = useRecoilState(loginState);
   const [newUser, setNewUser] = useRecoilState(userState);
 
   const [errorFromSubmit, setErrorFromSubmit] = useState("");

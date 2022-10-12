@@ -5,6 +5,7 @@ import styled from "styled-components";
 const Nickname = styled.div`
   font-size: 1.2rem;
   font-weight: bold;
+  margin-right: 20px;
 `;
 
 const SignBtn = styled.button`
@@ -50,7 +51,12 @@ function Nav({ isLogIn, userObj, SignOut }) {
           </div>
         </>
       ) : (
-        <SignBtn onClick={() => navigate("/sign")}>로그인</SignBtn>
+        <SignBtn
+          style={{ marginRight: "30px" }}
+          onClick={() => navigate("/sign")}
+        >
+          로그인
+        </SignBtn>
       )}
     </>
   );

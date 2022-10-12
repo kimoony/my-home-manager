@@ -26,7 +26,7 @@ function ItemList({ userObj }) {
     const delItem = doc(db, "items", targetId.id);
     await deleteDoc(delItem);
     setGetItems(getItems.filter((item) => item.id !== targetId.id));
-    alert("삭제완료!");
+    alert(`${targetId.products} 삭제완료!`);
   };
 
   return (
