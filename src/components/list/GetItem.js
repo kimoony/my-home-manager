@@ -8,7 +8,7 @@ function GetItem({ item, onDelete }) {
   return (
     <>
       <ListContainer key={item.id}>
-        <Item style={{}}>
+        <Item>
           <img src={item.productsImg} alt="" />
           <div onClick={() => navigate(`item-detail/${item.id}`)}>
             {item.products}

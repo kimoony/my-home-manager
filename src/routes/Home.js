@@ -103,6 +103,7 @@ function Home({ userObj }) {
             <ItemList userObj={userObj} />
           </MainList>
         </LeftBox>
+        <VaerticalLine />
         <RightBox>
           <Subtitle>알림</Subtitle>
           <TopList>
@@ -164,6 +165,10 @@ const Subtitle = styled.h3`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  div {
+    margin-right: 20px;
+  }
 `;
 
 const LeftBox = styled.section`
@@ -180,9 +185,15 @@ const LeftBox = styled.section`
 const MainList = styled.section`
   width: 95%;
   height: 100%;
-  border: 1px solid red;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
   padding: 10px 15px;
-  border-radius: 10px;
+`;
+
+const VaerticalLine = styled.div`
+  height: 510px;
+  border-left: 2px solid #cbcdd4;
+  margin: 80px 10px 0 -20px;
 `;
 
 const RightBox = styled.section`
@@ -203,16 +214,16 @@ const TopList = styled.section`
   height: 40%;
   padding: 10px;
   margin-top: 25px;
-  border: 1px solid blue;
-  border-radius: 10px;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
 `;
 
 const BottomList = styled.section`
   width: 100%;
   height: 62.3%;
   padding: 10px;
-  border: 1px solid green;
-  border-radius: 10px;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
 `;
 
 const PostBtn = styled.button`
@@ -223,4 +234,5 @@ const PostBtn = styled.button`
   padding: 5px 10px;
   cursor: pointer;
   margin-bottom: 5px;
+  font-size: 1rem;
 `;

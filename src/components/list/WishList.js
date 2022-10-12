@@ -5,6 +5,7 @@ import { ListContainer } from "../../styles/list/WishList.style";
 import { useNavigate } from "react-router-dom";
 import { db } from "../../firebase";
 import { doc, deleteDoc } from "firebase/firestore";
+import GetWish from "./GetWish";
 
 function WishList({ userObj }) {
   const isLogIn = useRecoilValue(loginState);
@@ -13,8 +14,6 @@ function WishList({ userObj }) {
   const [getWish, setGetWish] = useRecoilState(getWishState);
 
   // console.log(getWish);
-
-  const navigate = useNavigate();
 
   // const isLogedInWish = () => {
   //   if (isLogIn) {
@@ -54,29 +53,11 @@ function WishList({ userObj }) {
           {getWish.length > 0
             ? getWish.map((wish) =>
                 userObj.uid === wish.creatorId ? (
-                  <ListContainer key={wish.id}>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        width: "100%",
-                      }}
-                      onClick={() => navigate(`wish-detail/${wish.id}`)}
-                    >
-                      <div>{wish.products}</div>
-                      <div>{wish.price}</div>
-                      <span>{wish.createDate}</span>
-                    </div>
-                    <div>
-                      <button
-                        onClick={onClickDelete}
-                        style={{ marginLeft: "25px", marginRight: "10px" }}
-                      >
-                        삭제
-                      </button>
-                    </div>
-                  </ListContainer>
+                  <GetWish
+                    key={wish.id}
+                    wish={wish}
+                    onClickDelete={onClickDelete}
+                  />
                 ) : null
               )
             : null}
