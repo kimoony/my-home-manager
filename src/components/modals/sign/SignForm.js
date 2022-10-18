@@ -11,8 +11,8 @@ import Auth from "./Auth";
 import { useRecoilState } from "recoil";
 import { loginState, userState } from "atoms";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 import { BiArrowBack } from "react-icons/bi";
+import styled from "styled-components";
 
 // console.log(authService)
 
@@ -155,7 +155,7 @@ const Form = styled.form`
   flex-direction: column;
 `;
 
-const BackBtn = styled.button`
+export const BackBtn = styled.button`
   border: none;
   background-color: #fff;
   border-radius: 5px;
