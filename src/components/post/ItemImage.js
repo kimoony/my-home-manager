@@ -1,5 +1,8 @@
-function ItemImage({ setFile, percent }) {
-  // Handles input change event and updates state
+import React from "react";
+
+function ItemImage({ setFile, percent, image }) {
+  // const [isEdit, setIsEdit] = useRecoilState(editState);
+
   const handleChange = (event) => {
     setFile(event.target.files[0]);
   };
@@ -7,6 +10,7 @@ function ItemImage({ setFile, percent }) {
   return (
     <div>
       <input type="file" accept="image/*" onChange={handleChange} />
+
       <span>{percent} "% 완료"</span>
     </div>
   );

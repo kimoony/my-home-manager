@@ -1,21 +1,27 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { itemCategoryState, methodCategoryState } from "atoms";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../firebase";
+import { db } from "../../../firebase";
+import { useNavigate } from "react-router-dom";
+import { GoBack } from "styles/ItemPost.style";
+import ItemImage from "components/post/ItemImage";
 
-function EditItem({
+function ItemEditForm({
   item,
   setItem,
   itemCategValue,
   onChangeICateg,
   methodCategValu,
   onChangeMCateg,
+  setFile,
 }) {
   const [itemCategory, setItemCategory] = useRecoilState(itemCategoryState);
   const methodCategory = useRecoilValue(methodCategoryState);
 
   console.log(methodCategory);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getItemCategData = async () => {
@@ -42,6 +48,8 @@ function EditItem({
   return (
     <>
       <h1>수정페이지</h1>
+      <img src={item.productsImg} alt="" />
+      <ItemImage setFile={setFile} />
       <div>
         <label>물품명: </label>
         <input name="products" value={item.products} onChange={onChangeValue} />
@@ -91,8 +99,12 @@ function EditItem({
           onChange={onChangeValue}
         />
       </div>
+      <div>
+        <button type="submit">Update</button>
+        <GoBack onClick={() => navigate(-1)}>뒤로가기</GoBack>
+      </div>
     </>
   );
 }
 
-export default EditItem;
+export default ItemEditForm;

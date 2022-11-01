@@ -1,14 +1,12 @@
 import React from "react";
-import EditItem from "./EditItem";
 import styled from "styled-components";
 import { BiArrowBack } from "react-icons/bi";
-import { BackBtn } from "components/modals/sign/SignForm";
+import { BackBtn } from "components/form/sign/SignForm";
 import { useNavigate } from "react-router-dom";
 
 function CurrentItem({
   item,
   setItem,
-  isEdit,
   itemCategValue,
   methodCategValue,
   onChangeICateg,
@@ -18,54 +16,41 @@ function CurrentItem({
 
   return (
     <>
-      {isEdit === false ? (
-        <>
-          <TopBox>
-            <BackBtn type="button" onClick={() => navigate("/")}>
-              <BiArrowBack />
-            </BackBtn>
-            <span>{item.createDate}</span>
-          </TopBox>
-          <Image src={item.productsImg} alt="" />
-          <BottomLine />
-          <ContentBox>
-            <ProductName>{item.products}</ProductName>
-            <ContentAlign>
-              <label>카테고리: </label>
-              <span>{item.category}</span>
-            </ContentAlign>
-            <ContentAlign>
-              <label>현재수량: </label>
-              <span>{item.quantity}</span>
-            </ContentAlign>
-            <ContentAlign>
-              <label>보관위치: </label>
-              <span>{item.storageLocation}</span>
-            </ContentAlign>
-            <ContentAlign>
-              <label>구매처: </label>
-              <span>{item.purchase}</span>
-            </ContentAlign>
-            <ContentAlign>
-              <label>구매방법: </label>
-              <span>{item.purchaseMethod}</span>
-            </ContentAlign>
-            <ContentAlign>
-              <label>설명: </label>
-              <span>{item.descript}</span>
-            </ContentAlign>
-          </ContentBox>
-        </>
-      ) : (
-        <EditItem
-          item={item}
-          setItem={setItem}
-          itemCategValue={itemCategValue}
-          onChangeICateg={onChangeICateg}
-          methodCategValue={methodCategValue}
-          onChangeMCateg={onChangeMCateg}
-        />
-      )}
+      <TopBox>
+        <BackBtn type="button" onClick={() => navigate("/")}>
+          <BiArrowBack />
+        </BackBtn>
+        <span>{item.createDate}</span>
+      </TopBox>
+      <Image src={item.productsImg} alt="" />
+      <BottomLine />
+      <ContentBox>
+        <ProductName>{item.products}</ProductName>
+        <ContentAlign>
+          <label>카테고리: </label>
+          <span>{item.category}</span>
+        </ContentAlign>
+        <ContentAlign>
+          <label>현재수량: </label>
+          <span>{item.quantity}</span>
+        </ContentAlign>
+        <ContentAlign>
+          <label>보관위치: </label>
+          <span>{item.storageLocation}</span>
+        </ContentAlign>
+        <ContentAlign>
+          <label>구매처: </label>
+          <span>{item.purchase}</span>
+        </ContentAlign>
+        <ContentAlign>
+          <label>구매방법: </label>
+          <span>{item.purchaseMethod}</span>
+        </ContentAlign>
+        <ContentAlign>
+          <label>설명: </label>
+          <span>{item.descript}</span>
+        </ContentAlign>
+      </ContentBox>
     </>
   );
 }

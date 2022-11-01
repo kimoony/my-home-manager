@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import ItemImage from "../post/ItemImage";
-import AddNewCateg from "../AddNewCateg";
+import ItemImage from "../../post/ItemImage";
+import AddNewCateg from "../../AddNewCateg";
 import {
   Container,
   Image,
@@ -26,7 +26,7 @@ import {
   deleteDoc,
   doc,
 } from "firebase/firestore";
-import { db } from "../../firebase";
+import { db } from "../../../firebase";
 import { useEffect } from "react";
 
 function ItemInputList({

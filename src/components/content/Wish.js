@@ -1,5 +1,5 @@
 import React from "react";
-import EditWish from "./EditWish";
+import EditWish from "../form/editInput/EditWish";
 
 function CurrentWish({ wish, setWish, isEdit }) {
   return (

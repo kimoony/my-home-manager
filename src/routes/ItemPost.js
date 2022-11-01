@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { db, storage } from "../firebase";
 import { collection, addDoc } from "firebase/firestore";
-import ItemInputForm from "components/form/ItemInputForm";
+import ItemInputForm from "components/form/postInput/ItemInputForm";
 import { useRecoilState } from "recoil";
 import { itemPostState, quantityState } from "../atoms";
 import moment from "moment";
@@ -41,7 +41,7 @@ function ItemPost({ userObj }) {
   const onSubmit = async () => {
     try {
       if (!file) {
-        alert("Please choose a file first!");
+        alert("이미지를 선택하세요!");
         return;
       }
 
@@ -55,7 +55,6 @@ function ItemPost({ userObj }) {
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100
           );
 
-          // update progress
           setPercent(percent);
         },
         (err) => console.log(err),

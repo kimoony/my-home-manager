@@ -2,24 +2,22 @@ import React, { useEffect, useState } from "react";
 import Item from "components/content/Item";
 import styled from "styled-components";
 import { db } from "../firebase";
-import { doc, deleteDoc, updateDoc } from "firebase/firestore";
+import { doc, deleteDoc } from "firebase/firestore";
 import { useParams, useNavigate } from "react-router-dom";
-import { getItemsState } from "atoms";
+import { editState, getItemsState } from "atoms";
 import { useRecoilState } from "recoil";
-import { BackBtn } from "components/modals/sign/SignForm";
-
 import { FiEdit } from "react-icons/fi";
-import { MdDeleteForever, MdDone } from "react-icons/md";
+import { MdDeleteForever } from "react-icons/md";
 
 function ItemDetailed() {
   const [targetId, setTargetId] = useState({});
   const [getItems, setGetItems] = useRecoilState(getItemsState);
-  const [isEdit, setIsEdit] = useState(false);
 
   const [itemCategValue, setItemCategValue] = useState(targetId.category);
   const [methodCategValue, setMethodCategValue] = useState(
     targetId.purchaseMethod
   );
+  const [isEdit, setIsEdit] = useRecoilState(editState);
 
   const onChangeICateg = (e) => {
     setItemCategValue(e.target.value);
@@ -41,26 +39,6 @@ function ItemDetailed() {
     }
   }, [getItems, id]);
 
-  const onUpdateItem = async (e) => {
-    e.preventDefault();
-    const editRef = doc(db, "items", targetId.id);
-    try {
-      await updateDoc(editRef, {
-        ...targetId,
-        category: itemCategValue,
-        purchaseMethod: methodCategValue,
-      });
-      console.log(editRef.id);
-
-      setIsEdit(false);
-      alert("수정이 완료되었습니다.");
-    } catch (error) {
-      console.error(error.message);
-    } finally {
-      console.log("End");
-    }
-  };
-
   const onDeleteItem = async (id) => {
     const delItem = doc(db, "items", targetId.id);
     await deleteDoc(delItem);
@@ -69,14 +47,17 @@ function ItemDetailed() {
     navigate("/");
   };
 
+  const onClickEdit = () => {
+    navigate(`/item-detail/${targetId.id}/edit`);
+    setIsEdit(!isEdit);
+  };
+
   return (
     <DetailContainer>
       <MainContent>
         <Item
           item={targetId}
           setItem={setTargetId}
-          isEdit={isEdit}
-          setIsEdit={setIsEdit}
           itemCategValue={itemCategValue}
           methodCategValue={methodCategValue}
           onChangeICateg={onChangeICateg}
@@ -84,15 +65,9 @@ function ItemDetailed() {
         />
       </MainContent>
       <BottomBtn>
-        {isEdit === false ? (
-          <EditBtn onClick={() => setIsEdit(true)}>
-            <FiEdit />
-          </EditBtn>
-        ) : (
-          <button onClick={onUpdateItem}>
-            <MdDone />
-          </button>
-        )}
+        <EditBtn onClick={onClickEdit}>
+          <FiEdit />
+        </EditBtn>
         <DelBtn onClick={onDeleteItem}>
           <MdDeleteForever />
         </DelBtn>

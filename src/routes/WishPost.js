@@ -1,11 +1,11 @@
-import React, { Suspense } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
 import { wishPostState } from "atoms";
 import { db } from "../firebase";
 import { collection, addDoc } from "firebase/firestore";
-import WishInputForm from "components/form/WishInputForm";
+import WishInputForm from "components/form/postInput/WishInputForm";
 import moment from "moment";
 import "moment/locale/ko";
 import {

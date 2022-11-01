@@ -1,4 +1,4 @@
-import SignForm from "components/modals/sign/SignForm";
+import SignForm from "components/form/sign/SignForm";
 import React from "react";
 
 function Sign() {
