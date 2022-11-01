@@ -9,15 +9,7 @@ import { itemPostState, quantityState } from "../atoms";
 import moment from "moment";
 import "moment/locale/ko";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import {
-  Wrapper,
-  Form,
-  Header,
-  GoBack,
-  Main,
-  Footer,
-  PostBtn,
-} from "styles/ItemPost.style";
+import styled from "styled-components";
 
 function ItemPost({ userObj }) {
   // 이미지
@@ -129,3 +121,58 @@ function ItemPost({ userObj }) {
 }
 
 export default ItemPost;
+
+const Wrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Form = styled.form`
+  width: 90vw;
+  height: 90vh;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Header = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Main = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Footer = styled.div`
+  display: flex;
+`;
+
+const PostBtn = styled.input`
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #2986f5;
+  color: #fff;
+  cursor: pointer;
+`;
+
+export const GoBack = styled.button`
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f9567a;
+  color: #fff;
+  margin-right: 20px;
+  cursor: pointer;
+`;

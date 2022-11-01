@@ -1,17 +1,7 @@
 import React, { useState } from "react";
 import ItemImage from "../../post/ItemImage";
 import AddNewCateg from "../../AddNewCateg";
-import {
-  Container,
-  Image,
-  Ctag,
-  ItemName,
-  Quantity,
-  NumInput,
-  StorageLocation,
-  Purchase,
-  Description,
-} from "styles/ItemInputForm.style";
+import styled from "styled-components";
 import {
   itemPostState,
   quantityState,
@@ -136,7 +126,7 @@ function ItemInputList({
           setNewCateg={setNewCateg}
         />
         <select value={categoryValue} onChange={categChange}>
-          <option value="none">=== 선택 ===</option>
+          <option value="none"> 선택 </option>
           {itemCategory.map((categ) => (
             <option key={categ.id} value={categ.category}>
               {categ.category}
@@ -210,3 +200,132 @@ function ItemInputList({
 }
 
 export default ItemInputList;
+
+const Container = styled.div`
+  width: 50vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  margin: 10px 0px;
+
+  label {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 5px 0px;
+  }
+
+  input {
+    border-radius: 10px;
+  }
+`;
+
+const Image = styled.div`
+  display: flex;
+  margin-bottom: 10px;
+`;
+
+const Ctag = styled.div`
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  select {
+    margin-top: 10px;
+    text-align: center;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 5px 0px;
+  }
+  label {
+    margin-right: 10px;
+  }
+`;
+
+const ItemName = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  width: 320px;
+
+  input {
+    padding: 5px 0;
+  }
+`;
+
+const Quantity = styled.div`
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+
+  input {
+    padding: 5px 0;
+  }
+
+  button {
+    border: none;
+    border-radius: 50%;
+    background-color: #616365;
+    font-weight: bold;
+    color: #fff;
+    padding: 0px 10px;
+
+    :hover {
+      background-color: #667078;
+    }
+  }
+`;
+
+const NumInput = styled.div`
+  width: 320px;
+  display: flex;
+
+  input {
+    width: 290px;
+    text-align: center;
+    margin: 0px 10px;
+  }
+`;
+
+const StorageLocation = styled.div`
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+
+  input {
+    padding: 5px 0;
+  }
+`;
+const Purchase = styled.div`
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+
+  input {
+    padding: 5px 0;
+    margin-bottom: 5px;
+  }
+
+  select {
+    margin-top: 10px;
+    text-align: center;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 5px 0px;
+  }
+`;
+const Description = styled.div`
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+
+  textarea {
+    border-radius: 10px;
+  }
+`;

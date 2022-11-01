@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import styled from "styled-components";
 
 function AddNewCateg({
   viewInput,
@@ -19,12 +20,12 @@ function AddNewCateg({
   };
 
   return (
-    <div style={{ display: "flex", alignItems: "center" }}>
+    <Wrapper>
       <label>카테고리 </label>
       {viewInput ? null : (
         <>
-          <input type="button" value="+" onClick={onClickAdd} />
-          <input
+          <Btn type="button" value="+" onClick={onClickAdd} />
+          <Btn
             type="button"
             value="-"
             onClick={() => setShowCateg(!showCateg)}
@@ -48,8 +49,32 @@ function AddNewCateg({
           </div>
         ))
       ) : null}
-    </div>
+    </Wrapper>
   );
 }
 
 export default AddNewCateg;
+
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Btn = styled.input`
+  font-size: 18px;
+  border-radius: 50%;
+  background-color: #667078;
+  color: #fff;
+  border: none;
+  margin-top: 5px;
+  width: 20px;
+  height: 20px;
+  padding: 0px;
+
+  :hover {
+    background-color: #616365;
+  }
+  :last-child {
+    margin-left: 2px;
+  }
+`;

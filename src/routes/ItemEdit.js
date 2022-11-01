@@ -1,11 +1,10 @@
 import { getItemsState } from "atoms";
-import { db, storage } from "../firebase";
+import { db } from "../firebase";
 import { doc, updateDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import ItemEditForm from "components/form/editInput/ItemEditForm";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 function ItemEdit() {
   const [targetId, setTargetId] = useState({});
@@ -15,10 +14,6 @@ function ItemEdit() {
   const [methodCategValue, setMethodCategValue] = useState(
     targetId.purchaseMethod
   );
-
-  const [file, setFile] = useState("");
-  const [imgUrl, setImgUrl] = useState("");
-  const [percent, setPercent] = useState(0);
 
   const onChangeICateg = (e) => {
     setItemCategValue(e.target.value);
@@ -44,39 +39,15 @@ function ItemEdit() {
     e.preventDefault();
     const editRef = doc(db, "items", targetId.id);
     try {
-      const storageRef = ref(storage, `/files/${file.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, file);
+      await updateDoc(editRef, {
+        ...targetId,
+        category: itemCategValue,
+        purchaseMethod: methodCategValue,
+      });
+      console.log(editRef.id);
 
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const percent = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          );
-
-          setPercent(percent);
-        },
-        (err) => console.log(err),
-        () => {
-          // download url
-          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-            setImgUrl(url);
-          });
-        }
-      );
-
-      if (percent === 100) {
-        await updateDoc(editRef, {
-          ...targetId,
-          category: itemCategValue,
-          purchaseMethod: methodCategValue,
-          productsImg: imgUrl,
-        });
-        console.log(editRef.id);
-
-        alert("수정이 완료되었습니다.");
-        navigate(`/item-detail/${targetId.id}`);
-      }
+      alert("수정이 완료되었습니다.");
+      navigate(`/item-detail/${targetId.id}`);
     } catch (error) {
       console.error(error.message);
     } finally {
@@ -94,7 +65,6 @@ function ItemEdit() {
           methodCategValue={methodCategValue}
           onChangeICateg={onChangeICateg}
           onChangeMCateg={onChangeMCateg}
-          setFile={setFile}
         />
       </form>
     </div>

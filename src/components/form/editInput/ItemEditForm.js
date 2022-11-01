@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { itemCategoryState, methodCategoryState } from "atoms";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../firebase";
 import { useNavigate } from "react-router-dom";
-import { GoBack } from "styles/ItemPost.style";
-import ItemImage from "components/post/ItemImage";
+import { GoBack } from "routes/ItemPost";
 
 function ItemEditForm({
   item,
@@ -14,7 +13,6 @@ function ItemEditForm({
   onChangeICateg,
   methodCategValu,
   onChangeMCateg,
-  setFile,
 }) {
   const [itemCategory, setItemCategory] = useRecoilState(itemCategoryState);
   const methodCategory = useRecoilValue(methodCategoryState);
@@ -48,8 +46,6 @@ function ItemEditForm({
   return (
     <>
       <h1>수정페이지</h1>
-      <img src={item.productsImg} alt="" />
-      <ItemImage setFile={setFile} />
       <div>
         <label>물품명: </label>
         <input name="products" value={item.products} onChange={onChangeValue} />
