@@ -29,6 +29,7 @@ function ItemInputList({
   setCatagoryValue,
   methodValue,
   setMethodValue,
+  uploadImage,
 }) {
   const [itemsValue, setItemsValue] = useRecoilState(itemPostState);
   const [quantity, setQuantity] = useRecoilState(quantityState);
@@ -114,7 +115,11 @@ function ItemInputList({
   return (
     <Container>
       <Image>
-        <ItemImage percent={percent} setFile={setFile} />
+        <ItemImage
+          percent={percent}
+          setFile={setFile}
+          uploadImage={uploadImage}
+        />
       </Image>
       <Ctag>
         <AddNewCateg
@@ -214,10 +219,6 @@ const Container = styled.div`
     font-weight: bold;
     margin: 5px 0px;
   }
-
-  input {
-    border-radius: 10px;
-  }
 `;
 
 const Image = styled.div`
@@ -251,6 +252,8 @@ const ItemName = styled.div`
 
   input {
     padding: 5px 0;
+    padding-left: 10px;
+    border-radius: 10px;
   }
 `;
 
@@ -262,6 +265,7 @@ const Quantity = styled.div`
 
   input {
     padding: 5px 0;
+    border-radius: 10px;
   }
 
   button {
@@ -286,6 +290,8 @@ const NumInput = styled.div`
     width: 290px;
     text-align: center;
     margin: 0px 10px;
+    padding-left: 10px;
+    border-radius: 10px;
   }
 `;
 
@@ -297,6 +303,8 @@ const StorageLocation = styled.div`
 
   input {
     padding: 5px 0;
+    padding-left: 10px;
+    border-radius: 10px;
   }
 `;
 const Purchase = styled.div`
@@ -308,6 +316,8 @@ const Purchase = styled.div`
   input {
     padding: 5px 0;
     margin-bottom: 5px;
+    padding-left: 10px;
+    border-radius: 10px;
   }
 
   select {
@@ -327,5 +337,6 @@ const Description = styled.div`
 
   textarea {
     border-radius: 10px;
+    padding-left: 10px;
   }
 `;

@@ -30,34 +30,41 @@ function ItemPost({ userObj }) {
 
   const navigate = useNavigate();
 
+  const uploadImage = () => {
+    if (!file) {
+      alert("이미지를 선택하세요!");
+      return;
+    }
+
+    const storageRef = ref(storage, `/files/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const percent = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+
+        setPercent(percent);
+      },
+      (err) => console.log(err),
+      () => {
+        // download url
+        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+          setImgUrl(url);
+        });
+      }
+    );
+
+    if (percent === 100) {
+      alert("이미 업로드 완료");
+      console.log(imgUrl);
+    }
+  };
+
   const onSubmit = async () => {
     try {
-      if (!file) {
-        alert("이미지를 선택하세요!");
-        return;
-      }
-
-      const storageRef = ref(storage, `/files/${file.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, file);
-
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const percent = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          );
-
-          setPercent(percent);
-        },
-        (err) => console.log(err),
-        () => {
-          // download url
-          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-            setImgUrl(url);
-          });
-        }
-      );
-
       if (percent === 100) {
         const docRef = await addDoc(collection(db, "items"), {
           creatorId: userObj.uid,
@@ -82,8 +89,10 @@ function ItemPost({ userObj }) {
         });
         setQuantity(0);
         navigate("/");
-        alert("이미 업로드 완료");
         alert("등록이 완료되었습니다.");
+      } else {
+        alert("사진을 업로드 하세요");
+        return;
       }
     } catch (error) {
       console.error(error.message);
@@ -107,6 +116,7 @@ function ItemPost({ userObj }) {
             setCatagoryValue={setCatagoryValue}
             methodValue={methodValue}
             setMethodValue={setMethodValue}
+            uploadImage={uploadImage}
           />
         </Main>
         <Footer>

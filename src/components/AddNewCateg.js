@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { MdDeleteForever } from "react-icons/md";
 
 function AddNewCateg({
   viewInput,
@@ -45,7 +46,10 @@ function AddNewCateg({
       ) : showCateg ? (
         itemCategory.map((categ) => (
           <div key={categ.id}>
-            {categ.category} <span onClick={removeCateg}>x</span>
+            <div>{categ.category}</div>
+            <span onClick={removeCateg}>
+              <MdDeleteForever />
+            </span>
           </div>
         ))
       ) : null}
